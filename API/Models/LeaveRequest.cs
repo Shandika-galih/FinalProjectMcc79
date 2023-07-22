@@ -1,18 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using API.Utilities.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
-    [Table("tr_m_leave_request")]
-    public class LeaveRequest
+    [Table("tb_tr_leave_request")]
+    public class LeaveRequest : BaseEntity
     {
         [Column("status")]
-        public Enum Status { get; set; }
-       
+        public StatusEnum Status { get; set; }
+
         [Column("start_date")]
-        public DateOnly Startdate  { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Column("end_date")]
-        public DateOnly Enddate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Column("submit_date")]
         public DateTime SubmitDate { get; set; }
@@ -20,17 +21,22 @@ namespace API.Models
         [Column("remarks", TypeName = "varchar(max)")]
         public string Remarks { get; set; }
 
-
         [Column("eligible_leave")]
-        public int EligibleLeave {get; set; }
+        public int EligibleLeave { get; set; }
 
         [Column("total_leave")]
         public int TotalLeave { get; set; }
 
-        [Column("leave_types")]
-        public Guid LeaveTypes { get; set; }
+        [Column("leave_types_guid")]
+        public Guid LeaveTypesGuid { get; set; }
 
-        [Column("Employees")]
-        public Guid Employees { get; set; }
+        [Column("employees_guid")]
+        public Guid EmployeesGuid { get; set; }
+
+
+        //cardinality
+        public ICollection<LeaveHistory>? LeaveHistories { get; set; }
+        public LeaveType? LeaveType { get; set; }
+        public Employee? Employee { get; set; }
     }
 }

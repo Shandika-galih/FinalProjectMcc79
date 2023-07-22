@@ -4,7 +4,7 @@ using System.Data;
 namespace API.Models;
 
 [Table("tb_tr_account_roles")]
-public class AccountRole
+public class AccountRole : BaseEntity
 {
     [Column("account_guid")]
     public Guid AccountGuid { get; set; }
