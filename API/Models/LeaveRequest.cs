@@ -1,5 +1,7 @@
 ﻿using API.Utilities.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
+using System.Reflection.Metadata;
 
 namespace API.Models
 {
@@ -26,6 +28,9 @@ namespace API.Models
 
         [Column("total_leave")]
         public int TotalLeave { get; set; }
+
+        [Column("attachment")]
+        public byte[]? Attachment { get; set; }
 
         [Column("leave_types_guid")]
         public Guid LeaveTypesGuid { get; set; }
