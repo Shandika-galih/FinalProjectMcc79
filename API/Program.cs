@@ -1,4 +1,7 @@
+using API.Contracts;
 using API.Data;
+using API.Repositories;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,20 @@ builder.Services.AddControllers();
 // Add DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(connectionString));
+
+// Add Repository to the container
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+
+
+// Add Service to the container
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<AccountRoleService>();
+
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

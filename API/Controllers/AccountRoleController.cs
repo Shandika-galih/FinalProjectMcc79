@@ -1,4 +1,4 @@
-﻿using API.DTOs.Accounts;
+﻿using API.DTOs.AccountRoles;
 using API.Services;
 using API.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -7,24 +7,23 @@ using System.Net;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/account")]
-public class AccountController : ControllerBase
+[Route("api/account-roles")]
+public class AccountRoleController : ControllerBase
 {
-    private readonly AccountService _service;
+    private readonly AccountRoleService _service;
 
-    public AccountController(AccountService service)
+    public AccountRoleController(AccountRoleService service)
     {
         _service = service;
     }
-
     [HttpGet]
     public IActionResult GetAll()
     {
-        var entities = _service.GetAccount();
+        var entities = _service.GetAccountRole();
 
         if (entities == null)
         {
-            return NotFound(new ResponseHandler<GetAccountDto>
+            return NotFound(new ResponseHandler<GetAccountRoleDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -32,10 +31,10 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<IEnumerable<GetAccountDto>>
+        return Ok(new ResponseHandler<IEnumerable<GetAccountRoleDto>>
         {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
+            Code = StatusCodes.Status201Created,
+            Status = HttpStatusCode.Created.ToString(),
             Message = "Data found",
             Data = entities
         });
@@ -44,10 +43,10 @@ public class AccountController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult GetByGuid(Guid guid)
     {
-        var account = _service.GetAccount(guid);
-        if (account is null)
+        var accountRole = _service.GetAccountRole(guid);
+        if (accountRole is null)
         {
-            return NotFound(new ResponseHandler<GetAccountDto>
+            return NotFound(new ResponseHandler<GetAccountRoleDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -55,22 +54,22 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<GetAccountDto>
+        return Ok(new ResponseHandler<GetAccountRoleDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "Data found",
-            Data = account
+            Data = accountRole
         });
     }
 
     [HttpPost]
-    public IActionResult Create(NewAccountDto newAccountDto)
+    public IActionResult Create(NewAccountRoleDto newAccountRoleDto)
     {
-        var createAccount = _service.CreateAccount(newAccountDto);
-        if (createAccount is null)
+        var createAccountRole = _service.CreateAccountRole(newAccountRoleDto);
+        if (createAccountRole is null)
         {
-            return BadRequest(new ResponseHandler<GetAccountDto>
+            return BadRequest(new ResponseHandler<GetAccountRoleDto>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
@@ -78,22 +77,22 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<GetAccountDto>
+        return Ok(new ResponseHandler<GetAccountRoleDto>
         {
-            Code = StatusCodes.Status201Created,
-            Status = HttpStatusCode.Created.ToString(),
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
             Message = "Successfully created",
-            Data = createAccount
+            Data = createAccountRole
         });
     }
 
     [HttpPut]
-    public IActionResult Update(UpdateAccountDto updateAccountDto)
+    public IActionResult Update(UpdateAccountRoleDto updateAccountRoleDto)
     {
-        var update = _service.UpdateAccount(updateAccountDto);
+        var update = _service.UpdateAccountRole(updateAccountRoleDto);
         if (update is -1)
         {
-            return NotFound(new ResponseHandler<UpdateAccountDto>
+            return NotFound(new ResponseHandler<UpdateAccountRoleDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -102,14 +101,14 @@ public class AccountController : ControllerBase
         }
         if (update is 0)
         {
-            return BadRequest(new ResponseHandler<UpdateAccountDto>
+            return BadRequest(new ResponseHandler<UpdateAccountRoleDto>
             {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
                 Message = "Check your data"
             });
         }
-        return Ok(new ResponseHandler<UpdateAccountDto>
+        return Ok(new ResponseHandler<UpdateAccountRoleDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
@@ -120,11 +119,11 @@ public class AccountController : ControllerBase
     [HttpDelete]
     public IActionResult Delete(Guid guid)
     {
-        var delete = _service.DeleteAccount(guid);
+        var delete = _service.DeleteAccountRole(guid);
 
         if (delete is -1)
         {
-            return NotFound(new ResponseHandler<GetAccountDto>
+            return NotFound(new ResponseHandler<GetAccountRoleDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -133,7 +132,7 @@ public class AccountController : ControllerBase
         }
         if (delete is 0)
         {
-            return BadRequest(new ResponseHandler<GetAccountDto>
+            return BadRequest(new ResponseHandler<GetAccountRoleDto>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
@@ -141,7 +140,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<GetAccountDto>
+        return Ok(new ResponseHandler<GetAccountRoleDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
@@ -149,3 +148,4 @@ public class AccountController : ControllerBase
         });
     }
 }
+
