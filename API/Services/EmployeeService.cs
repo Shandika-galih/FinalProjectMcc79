@@ -159,13 +159,7 @@ public class EmployeeService
 
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
     {
-        var role = _roleRepository.GetByName("User");
-
-        if (role is null)
-        {
-            return null;
-        }
-
+       
         if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
         {
             return null;
@@ -197,6 +191,13 @@ public class EmployeeService
         };
         var createdAccount = _accountRepository.Create(account);
         if (createdAccount is null)
+        {
+            return null;
+        }
+
+        var role = _roleRepository.GetByName("User");
+
+        if (role is null)
         {
             return null;
         }
