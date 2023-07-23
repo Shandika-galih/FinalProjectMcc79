@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.DTOs.Employees;
 using API.Models;
+using API.Repositories;
 using API.Utilities;
 
 namespace API.Services;
@@ -9,11 +10,13 @@ public class EmployeeService
 {
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IAccountRepository _accountRepository;
+    private readonly IRoleRepository _roleRepository;
 
-    public EmployeeService(IEmployeeRepository employeeRepository, IAccountRepository accountRepository)
+    public EmployeeService(IEmployeeRepository employeeRepository, IAccountRepository accountRepository, IRoleRepository roleRepository)
     {
         _employeeRepository = employeeRepository;
         _accountRepository = accountRepository;
+        _roleRepository = roleRepository;
     }
 
     public IEnumerable<GetEmployeeDto>? GetEmployee()
@@ -61,6 +64,8 @@ public class EmployeeService
 
     public GetEmployeeDto? CreateEmployee(NewEmployeeDto newEmployeeDto)
     {
+       
+
         var employee = new Employee
         {
             Guid = new Guid(),
@@ -154,6 +159,13 @@ public class EmployeeService
 
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
     {
+        var role = _roleRepository.GetByName("User");
+
+        if (role is null)
+        {
+            return null;
+        }
+
         if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
         {
             return null;
