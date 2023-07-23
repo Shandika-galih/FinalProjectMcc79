@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Models
 {
     [Table("tb_m_employees")]
-    public class Employee
+    public class Employee : BaseEntity
     {
         [Column("nik")]
         public int NIK { get; set; }
@@ -13,7 +13,7 @@ namespace API.Models
         public string FirstName { get; set; }
 
         [Column("last_name", TypeName = "nvarchar(50)")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [Column("gender")]
         public GenderEnum Gender { get; set; }
@@ -21,10 +21,13 @@ namespace API.Models
         [Column("phone_number", TypeName = "nvarchar(20)")]
         public string PhoneNumber { get; set; }
 
-        [Column("email", TypeName = "nvarchar(50)")]
-        public string Email { get; set; }
-
         [Column("manager_id")]
-        public int ManagerId { get; set; }
+        public int? ManagerId { get; set; }
+
+        //Cardinality 
+        public Employee? Manager { get; set; }
+        public ICollection<Employee>? Employees { get; set; } = new List<Employee>();
+        public Account? Account { get; set; }    
+        public ICollection<LeaveRequest>? LeaveRequests { get; set; }
     }
 }
