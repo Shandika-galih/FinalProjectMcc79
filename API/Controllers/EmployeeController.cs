@@ -65,7 +65,9 @@ namespace API.Controllers
             });
         }
 
-        [HttpPost]
+
+
+     /*   [HttpPost]
         public IActionResult Create(NewEmployeeDto newEmployeeDto)
         {
             var createEmployee = _service.CreateEmployee(newEmployeeDto);
@@ -80,6 +82,29 @@ namespace API.Controllers
             }
 
             return Ok(new ResponseHandler<GetEmployeeDto>
+            {
+                Code = StatusCodes.Status201Created,
+                Status = HttpStatusCode.Created.ToString(),
+                Message = "Successfully created",
+                Data = createEmployee
+            });
+        }*/
+
+        [HttpPost]
+        public IActionResult Create(AddEmployeeDto addEmployeeDto)
+        {
+            var createEmployee = _service.AddEmployee(addEmployeeDto);
+            if (createEmployee is null)
+            {
+                return BadRequest(new ResponseHandler<AddEmployeeDto>
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Message = "Data not created"
+                });
+            }
+
+            return Ok(new ResponseHandler<AddEmployeeDto>
             {
                 Code = StatusCodes.Status201Created,
                 Status = HttpStatusCode.Created.ToString(),

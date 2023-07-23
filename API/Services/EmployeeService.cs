@@ -1,16 +1,19 @@
 ﻿using API.Contracts;
 using API.DTOs.Employees;
 using API.Models;
+using API.Utilities;
 
 namespace API.Services;
 
 public class EmployeeService
 {
     private readonly IEmployeeRepository _employeeRepository;
+    private readonly IAccountRepository _accountRepository;
 
-    public EmployeeService(IEmployeeRepository employeeRepository)
+    public EmployeeService(IEmployeeRepository employeeRepository, IAccountRepository accountRepository)
     {
         _employeeRepository = employeeRepository;
+        _accountRepository = accountRepository;
     }
 
     public IEnumerable<GetEmployeeDto>? GetEmployee()
@@ -67,7 +70,6 @@ public class EmployeeService
             Gender = newEmployeeDto.Gender,
             PhoneNumber = newEmployeeDto.PhoneNumber,
             ManagerId = newEmployeeDto.ManagerId
-
         };
 
         var createdEmployee = _employeeRepository.Create(employee);
@@ -141,7 +143,7 @@ public class EmployeeService
         var employeeData = GetEmployee();
         if (employeeData is null)
         {
-            return 11111;
+            return 111111;
         }
 
         GetEmployeeDto lastEmployee = employeeData.LastOrDefault();
@@ -150,6 +152,56 @@ public class EmployeeService
         return newNik;
     }
 
+    public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
+    {
+        if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
+        {
+            return null;
+        }
+    
+        Employee employee = new Employee
+        {
+            Guid = new Guid(),
+            NIK = GenerateNik(),
+            FirstName = addEmployeeDto.FirstName,
+            LastName = addEmployeeDto.LastName,
+            Gender = addEmployeeDto.Gender,
+            PhoneNumber = addEmployeeDto.PhoneNumber,
+            ManagerId = addEmployeeDto.ManagerId,
+
+        };
+
+        var createdEmployee = _employeeRepository.Create(employee);
+        if (createdEmployee is null)
+        {
+            return null; // employee not created
+        }
+
+        Account account = new Account
+        {
+            Guid = employee.Guid,
+            Email = addEmployeeDto.Email,
+            Password = Hashing.HashPassword(addEmployeeDto.Password),
+        };
+        var createdAccount = _accountRepository.Create(account);
+        if (createdAccount is null)
+        {
+            return null;
+        }
+
+        var toDto = new AddEmployeeDto
+        {
+            FirstName = createdEmployee.FirstName,
+            LastName = createdEmployee.LastName,
+            Gender = createdEmployee.Gender,
+            PhoneNumber = createdEmployee.PhoneNumber,
+            ManagerId = createdEmployee.ManagerId,
+            Email = createdAccount.Email,
+            Password = createdAccount.Password
+        };
+
+        return toDto; // employee created
+    }
 
 
 }

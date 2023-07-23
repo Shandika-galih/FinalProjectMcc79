@@ -2,6 +2,6 @@
 
 namespace API.Contracts;
 
-public interface ILeaveRequest : IGeneralRepository<LeaveRequest>
+public interface ILeaveRequestRepository : IGeneralRepository<LeaveRequest>
 {
 }
