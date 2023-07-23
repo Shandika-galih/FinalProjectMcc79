@@ -2,7 +2,7 @@
 
 namespace API.DTOs.AccountRoles
 {
-    public class UpdateAccountRoleDto
+    public class UpdateLeaveHsitoryDto
     {
         [Required]
         public Guid Guid { get; set; }
