@@ -18,12 +18,16 @@ builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(conne
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 
 
 // Add Service to the container
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<LeaveRequestService>();
 
 
 

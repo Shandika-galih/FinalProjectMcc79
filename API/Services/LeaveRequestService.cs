@@ -6,8 +6,8 @@ namespace API.Services;
 
 public class LeaveRequestService
 {
-    private readonly ILeaveRequest _leaveRequestRepository;
-    public LeaveRequestService(ILeaveRequest leaveRequestRepository)
+    private readonly ILeaveRequestRepository _leaveRequestRepository;
+    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
     { 
         _leaveRequestRepository = leaveRequestRepository;
     }
