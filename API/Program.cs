@@ -20,7 +20,8 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
-
+builder.Services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
+builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 // Add Service to the container
 builder.Services.AddScoped<EmployeeService>();
@@ -28,6 +29,8 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<LeaveRequestService>();
+builder.Services.AddScoped<LeaveHistoryRepository>();
+builder.Services.AddScoped<LeaveTypeRepository>();
 
 
 
