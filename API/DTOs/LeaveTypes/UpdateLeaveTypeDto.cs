@@ -9,6 +9,8 @@ namespace API.DTOs.LeaveType
         [Required]
         public string? LeaveName { get; set; }
         [Required]
+        public int LeaveDay { get; set; }
+        [Required]
         public string? LeaveDescription { get; set; }
     }
 }

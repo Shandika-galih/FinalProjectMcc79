@@ -5,8 +5,10 @@ namespace API.DTOs.LeaveType
     public class NewLeaveTypeDto
     {
         [Required]
-        public string? LeaveName { get; set; }
+        public string LeaveName { get; set; }
         [Required]
-        public string? LeaveDescription { get; set; }
+        public int LeaveDay { get; set; }
+        [Required]
+        public string LeaveDescription { get; set; }
     }
 }

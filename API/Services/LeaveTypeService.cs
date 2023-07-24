@@ -28,6 +28,7 @@ public class LeaveTypeService
                                             {
                                                 Guid = leaveType.Guid,
                                                LeaveName = leaveType.LeaveName,
+                                               LeaveDay = leaveType.LeaveDay,
                                                LeaveDescription = leaveType.LeaveDescription
                                             }).ToList();
 
@@ -44,7 +45,10 @@ public class LeaveTypeService
 
         var toDto = new GetLeaveTypeDto
         {
-            Guid = leaveType.Guid
+            Guid = leaveType.Guid,
+            LeaveName = leaveType.LeaveName,
+            LeaveDay = leaveType.LeaveDay,
+            LeaveDescription = leaveType.LeaveDescription
         };
 
         return toDto; // Universities found
@@ -56,6 +60,7 @@ public class LeaveTypeService
         {
             Guid = new Guid(),
             LeaveName = newLeaveTypeDto.LeaveName,
+            LeaveDay = newLeaveTypeDto.LeaveDay,
             LeaveDescription= newLeaveTypeDto.LeaveDescription,
         };
 
@@ -69,7 +74,8 @@ public class LeaveTypeService
         {
             Guid = leaveType.Guid,
             LeaveName = leaveType.LeaveName,
-            LeaveDescription = newLeaveTypeDto.LeaveDescription,
+            LeaveDay = leaveType.LeaveDay,
+            LeaveDescription = leaveType.LeaveDescription,
 
         };
 
@@ -91,6 +97,7 @@ public class LeaveTypeService
         {
             Guid = updateleaveType.Guid,
             LeaveName = updateleaveType.LeaveName,
+            LeaveDay = updateleaveType.LeaveDay,
             LeaveDescription = updateleaveType.LeaveDescription
 
         };
