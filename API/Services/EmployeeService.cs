@@ -168,9 +168,8 @@ public class EmployeeService
         return newNik;
     }
 
-    public IEnumerable<GetDataEmployeeDto>? GetDataEmployee()
+    public IEnumerable<GetDataEmployeeDto> GetDataEmployee()
     {
-
         var master = (from employee in _employeeRepository.GetAll()
                       join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
                       select new GetDataEmployeeDto
@@ -182,16 +181,25 @@ public class EmployeeService
                           PhoneNumber = employee.PhoneNumber,
                           Gender = employee.Gender,
                           EligibleLeave = employee.EligibleLeave,
-                          ManagerGuid = employee.ManagerGuid
+                          ManagerGuid = employee.ManagerGuid,
                       }).ToList();
 
-        if (!master.Any())
+        foreach (var getDataEmployee in master)
         {
-            return null;
+            if (getDataEmployee.ManagerGuid != Guid.Empty)
+            {
+                // Cari data manager berdasarkan ManagerGuid
+                var manager = master.FirstOrDefault(e => e.Guid == getDataEmployee.ManagerGuid);
+                if (manager != null)
+                {
+                    getDataEmployee.Manager = $"{manager.NIK} - {manager.FullName}";
+                }
+            }
         }
 
         return master;
     }
+
 
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
     {
