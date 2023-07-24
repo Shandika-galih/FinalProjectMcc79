@@ -24,8 +24,8 @@ namespace API.Models
         [Column("eligible_leave")]
         public int EligibleLeave { get; set; }
 
-        [Column("manager_id")]
-        public int? ManagerId { get; set; }
+        [Column("manager_guid")]
+        public Guid? ManagerGuid { get; set; }
 
         //Cardinality 
         public Employee? Manager { get; set; }

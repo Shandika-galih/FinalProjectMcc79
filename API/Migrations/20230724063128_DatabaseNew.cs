@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class NewDatabase : Migration
+    public partial class DatabaseNew : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,17 +20,16 @@ namespace API.Migrations
                     gender = table.Column<int>(type: "int", nullable: false),
                     phone_number = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     eligible_leave = table.Column<int>(type: "int", nullable: false),
-                    manager_id = table.Column<int>(type: "int", nullable: true)
+                    manager_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tb_m_employees", x => x.guid);
-                    table.UniqueConstraint("AK_tb_m_employees_nik", x => x.nik);
                     table.ForeignKey(
-                        name: "FK_tb_m_employees_tb_m_employees_manager_id",
-                        column: x => x.manager_id,
+                        name: "FK_tb_m_employees_tb_m_employees_manager_guid",
+                        column: x => x.manager_guid,
                         principalTable: "tb_m_employees",
-                        principalColumn: "nik");
+                        principalColumn: "guid");
                 });
 
             migrationBuilder.CreateTable(
@@ -159,9 +158,9 @@ namespace API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tb_m_employees_manager_id",
+                name: "IX_tb_m_employees_manager_guid",
                 table: "tb_m_employees",
-                column: "manager_id");
+                column: "manager_guid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tb_m_employees_nik_phone_number",

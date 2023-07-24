@@ -21,7 +21,7 @@ namespace API.DTOs.Employees
         
         public int EligibleLeave { get; set; }
 
-        public int? ManagerId { get; set; }
+        public Guid? ManagerGuid { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }

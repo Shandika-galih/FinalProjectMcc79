@@ -36,7 +36,7 @@ public class EmployeeService
                                                Gender = employee.Gender,
                                                PhoneNumber = employee.PhoneNumber,
                                                EligibleLeave = employee.EligibleLeave,
-                                               ManagerId = employee.ManagerId
+                                               ManagerGuid = employee.ManagerGuid
                                            }).ToList();
         return toDto; // employee found
     }
@@ -58,7 +58,7 @@ public class EmployeeService
             Gender = employee.Gender,
             PhoneNumber = employee.PhoneNumber,
             EligibleLeave = employee.EligibleLeave,
-            ManagerId = employee.ManagerId
+            ManagerGuid = employee.ManagerGuid
         };
 
         return toDto; // employees found
@@ -77,7 +77,7 @@ public class EmployeeService
             Gender = newEmployeeDto.Gender,
             PhoneNumber = newEmployeeDto.PhoneNumber,
             EligibleLeave = newEmployeeDto.EligibleLeave,
-            ManagerId = newEmployeeDto.ManagerId
+            ManagerGuid = newEmployeeDto.ManagerGuid
         };
 
         var createdEmployee = _employeeRepository.Create(employee);
@@ -95,7 +95,7 @@ public class EmployeeService
             Gender = employee.Gender,
             PhoneNumber = employee.PhoneNumber,
             EligibleLeave = employee.EligibleLeave,
-            ManagerId = employee.ManagerId
+            ManagerGuid = employee.ManagerGuid
         };
 
         return toDto; // employee created
@@ -120,7 +120,7 @@ public class EmployeeService
             Gender = updateEmployeeDto.Gender,
             PhoneNumber = updateEmployeeDto.PhoneNumber,
             EligibleLeave = updateEmployeeDto.EligibleLeave,
-            ManagerId = updateEmployeeDto.ManagerId
+            ManagerGuid = updateEmployeeDto.ManagerGuid
         };
 
         var isUpdate = _employeeRepository.Update(employee);
@@ -179,7 +179,7 @@ public class EmployeeService
             Gender = addEmployeeDto.Gender,
             PhoneNumber = addEmployeeDto.PhoneNumber,
             EligibleLeave = addEmployeeDto.EligibleLeave,
-            ManagerId = addEmployeeDto.ManagerId,
+            ManagerGuid = addEmployeeDto.ManagerGuid,
 
         };
 
@@ -215,7 +215,7 @@ public class EmployeeService
             Gender = createdEmployee.Gender,
             PhoneNumber = createdEmployee.PhoneNumber,
             EligibleLeave = createdEmployee.EligibleLeave,
-            ManagerId = createdEmployee.ManagerId,
+            ManagerGuid = createdEmployee.ManagerGuid,
             Email = createdAccount.Email,
             Password = createdAccount.Password
         };

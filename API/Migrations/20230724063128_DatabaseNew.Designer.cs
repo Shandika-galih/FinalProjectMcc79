@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230724033715_NewDatabase")]
-    partial class NewDatabase
+    [Migration("20230724063128_DatabaseNew")]
+    partial class DatabaseNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,9 +96,9 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("last_name");
 
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("int")
-                        .HasColumnName("manager_id");
+                    b.Property<Guid?>("ManagerGuid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("manager_guid");
 
                     b.Property<int>("NIK")
                         .HasColumnType("int")
@@ -111,7 +111,7 @@ namespace API.Migrations
 
                     b.HasKey("Guid");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ManagerGuid");
 
                     b.HasIndex("NIK", "PhoneNumber")
                         .IsUnique();
@@ -264,8 +264,7 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Models.Employee", "Manager")
                         .WithMany("Employees")
-                        .HasForeignKey("ManagerId")
-                        .HasPrincipalKey("NIK");
+                        .HasForeignKey("ManagerGuid");
 
                     b.Navigation("Manager");
                 });

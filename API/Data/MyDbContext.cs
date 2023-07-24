@@ -74,8 +74,7 @@ namespace API.Data
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Manager)
                 .WithMany(e => e.Employees)
-                .HasForeignKey(e => e.ManagerId)
-                .HasPrincipalKey(e => e.NIK);
+                .HasForeignKey(e => e.ManagerGuid);
         }
     }
 }
