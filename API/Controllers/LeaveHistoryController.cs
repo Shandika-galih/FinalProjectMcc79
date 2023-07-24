@@ -1,4 +1,5 @@
 ﻿using API.DTOs.LeaveHistory;
+using API.DTOs.LeaveRequest;
 using API.Services;
 using API.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -147,6 +148,27 @@ public class LeaveHistoryController : ControllerBase
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "Successfully deleted"
+        });
+    }
+    [HttpGet("GetAllLeaveHistory")]
+    public IActionResult GetAllEmployee()
+    {
+        var entities = _service.GetLeaveHistroyEmployees();
+        if (entities == null)
+        {
+            return NotFound(new ResponseHandler<GetLeaveHistroyEmployeeDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+        return Ok(new ResponseHandler<IEnumerable<GetLeaveHistroyEmployeeDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Data found",
+            Data = entities
         });
     }
 }
