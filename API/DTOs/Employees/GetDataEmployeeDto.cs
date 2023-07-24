@@ -12,5 +12,6 @@ namespace API.DTOs.Employees
         public string PhoneNumber { get; set; }
         public int EligibleLeave { get; set; }
         public Guid? ManagerGuid { get; set; }
+        public string Manager { get; set; }
     }
 }
