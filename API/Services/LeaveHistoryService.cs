@@ -155,4 +155,35 @@ public class LeaveHistoryService
         return data.Any() ? data : null;
     }
 
+    public IEnumerable<GetLeaveHistroyEmployeeDto> GetLeaveHistroyEmployee(Guid employeeGuid)
+    {
+        var data = (from leaveHistorie in _leaveHistoryRepository.GetAll()
+                    join leaveRequest in _leaveRequestRepository.GetAll() on leaveHistorie.LeaveRequestGuid equals leaveRequest.Guid
+                    join leaveTypes in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveTypes.Guid
+                    join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid
+                    join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
+                    where employee.Guid == employeeGuid
+                    select new GetLeaveHistroyEmployeeDto
+                    {
+                        // Properti lainnya
+                        Guid = employee.Guid,
+                        Status = leaveRequest.Status,
+                        StartDate = leaveRequest.StartDate,
+                        EndDate = leaveRequest.EndDate,
+                        SubmitDate = leaveRequest.SubmitDate,
+                        Remarks = leaveRequest.Remarks,
+                        Attachment = leaveRequest.Attachment,
+                        FullName = employee.FirstName + " " + employee.LastName,
+                        NIK = employee.NIK,
+                        Email = account.Email,
+                        PhoneNumber = employee.PhoneNumber,
+                        Gender = employee.Gender,
+                        EligibleLeave = employee.EligibleLeave,
+                        LeaveName = leaveTypes.LeaveName
+                    }).ToList();
+
+        return data; // Akan mengembalikan IEnumerable<GetLeaveHistroyEmployeeDto>.
+    }
+
+
 }
