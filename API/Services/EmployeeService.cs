@@ -35,6 +35,7 @@ public class EmployeeService
                                                LastName = employee.LastName,
                                                Gender = employee.Gender,
                                                PhoneNumber = employee.PhoneNumber,
+                                               EligibleLeave = employee.EligibleLeave,
                                                ManagerId = employee.ManagerId
                                            }).ToList();
         return toDto; // employee found
@@ -56,6 +57,7 @@ public class EmployeeService
             LastName = employee.LastName ?? "",
             Gender = employee.Gender,
             PhoneNumber = employee.PhoneNumber,
+            EligibleLeave = employee.EligibleLeave,
             ManagerId = employee.ManagerId
         };
 
@@ -74,6 +76,7 @@ public class EmployeeService
             LastName = newEmployeeDto.LastName,
             Gender = newEmployeeDto.Gender,
             PhoneNumber = newEmployeeDto.PhoneNumber,
+            EligibleLeave = newEmployeeDto.EligibleLeave,
             ManagerId = newEmployeeDto.ManagerId
         };
 
@@ -91,6 +94,7 @@ public class EmployeeService
             LastName = employee.LastName,
             Gender = employee.Gender,
             PhoneNumber = employee.PhoneNumber,
+            EligibleLeave = employee.EligibleLeave,
             ManagerId = employee.ManagerId
         };
 
@@ -115,6 +119,7 @@ public class EmployeeService
             LastName = updateEmployeeDto.LastName,
             Gender = updateEmployeeDto.Gender,
             PhoneNumber = updateEmployeeDto.PhoneNumber,
+            EligibleLeave = updateEmployeeDto.EligibleLeave,
             ManagerId = updateEmployeeDto.ManagerId
         };
 
@@ -173,6 +178,7 @@ public class EmployeeService
             LastName = addEmployeeDto.LastName,
             Gender = addEmployeeDto.Gender,
             PhoneNumber = addEmployeeDto.PhoneNumber,
+            EligibleLeave = addEmployeeDto.EligibleLeave,
             ManagerId = addEmployeeDto.ManagerId,
 
         };
@@ -208,6 +214,7 @@ public class EmployeeService
             LastName = createdEmployee.LastName,
             Gender = createdEmployee.Gender,
             PhoneNumber = createdEmployee.PhoneNumber,
+            EligibleLeave = createdEmployee.EligibleLeave,
             ManagerId = createdEmployee.ManagerId,
             Email = createdAccount.Email,
             Password = createdAccount.Password
