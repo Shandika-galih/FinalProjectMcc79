@@ -1,15 +1,21 @@
 ﻿using API.Contracts;
+using API.DTOs.Employees;
 using API.DTOs.LeaveRequest;
 using API.Models;
+using API.Repositories;
 
 namespace API.Services;
 
 public class LeaveRequestService
 {
     private readonly ILeaveRequestRepository _leaveRequestRepository;
-    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly ILeaveTypeRepository _leaveTypeRepository;
+    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveTypeRepository)
     { 
         _leaveRequestRepository = leaveRequestRepository;
+        _employeeRepository = employeeRepository;
+        _leaveTypeRepository = leaveTypeRepository;
     }
     public IEnumerable<GetLeaveRequestDto>? GetLeaveRequest()
     {
@@ -135,4 +141,28 @@ public class LeaveRequestService
 
         return 1;
     }
+
+    public IEnumerable<GetEmployeeRequestDto> GetEmployeeRequest()
+    {
+        var data = (from leaveRequest in _leaveRequestRepository.GetAll()
+                      join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
+                      select new GetEmployeeRequestDto
+                      {
+                          Guid = employee.Guid,
+                          NIK = employee.NIK,
+                          FullName = employee.FirstName + " " + employee.LastName,
+                          LeaveName = leaveType.LeaveName,
+                          Remarks = leaveRequest.Remarks,
+                          SubmitDate = DateTime.Now,
+                          StartDate = leaveRequest.StartDate,
+                          EndDate = leaveRequest.EndDate,
+                          Status = leaveRequest.Status
+                      }).ToList();
+        if (!data.Any())
+        {
+            return null;
+        }
+        return data;
+    }
 }
+

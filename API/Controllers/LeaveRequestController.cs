@@ -147,6 +147,30 @@ public class LeaveRequestController : ControllerBase
             Message = "Successfully deleted"
         });
     }
+
+    [HttpGet("get-employee-requests")]
+    public IActionResult GetEmployeeRequest()
+    {
+        var entities = _service.GetEmployeeRequest();
+
+        if (entities == null)
+        {
+            return NotFound(new ResponseHandler<GetEmployeeRequestDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Data found",
+            Data = entities
+        });
+    }
 }
 
 
