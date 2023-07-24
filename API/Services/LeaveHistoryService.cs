@@ -3,16 +3,26 @@ using API.DTOs.Employees;
 using API.DTOs.LeaveHistory;
 using API.Models;
 using API.Repositories;
+using System.Diagnostics.Metrics;
+using System.Net.Mail;
 
 namespace API.Services;
 
 public class LeaveHistoryService
 {
     private readonly ILeaveHistoryRepository _leaveHistoryRepository;
+    private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IAccountRepository _accountRepository;
+    private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-    public LeaveHistoryService(ILeaveHistoryRepository leaveHistoryRepository)
+    public LeaveHistoryService(ILeaveHistoryRepository leaveHistoryRepository, ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, IAccountRepository accountRepository, ILeaveTypeRepository leaveTypeRepository)
     {
         _leaveHistoryRepository = leaveHistoryRepository;
+        _leaveRequestRepository = leaveRequestRepository;
+        _employeeRepository = employeeRepository;
+        _accountRepository = accountRepository;
+        _leaveTypeRepository = leaveTypeRepository;
     }
 
     public IEnumerable<GetLeaveHistoryDto>? GetLeaveHistory()
@@ -116,4 +126,33 @@ public class LeaveHistoryService
 
         return 1;
     }
+
+    public IEnumerable<GetLeaveHistroyEmployeeDto> GetLeaveHistroyEmployees()
+    {
+        var data = (from leaveHistorie in _leaveHistoryRepository.GetAll()
+                      join leaveRequest in _leaveRequestRepository.GetAll() on leaveHistorie.LeaveRequestGuid equals leaveRequest.Guid
+                      join leaveTypes in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveTypes.Guid
+                      join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid  equals employee.Guid
+                      join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
+                      select new GetLeaveHistroyEmployeeDto
+                      {
+                          Guid = leaveHistorie.Guid,
+                          Status = leaveRequest.Status,
+                          StartDate = leaveRequest.StartDate,
+                          EndDate = leaveRequest.EndDate,
+                          SubmitDate = leaveRequest.SubmitDate,
+                          Remarks = leaveRequest.Remarks,
+                          Attachment = leaveRequest.Attachment,
+                          FullName = employee.FirstName + " " + employee.LastName,
+                          NIK = employee.NIK,
+                          Email = account.Email,
+                          PhoneNumber = employee.PhoneNumber,
+                          Gender = employee.Gender,
+                          EligibleLeave = employee.EligibleLeave,
+                          LeaveName = leaveTypes.LeaveName
+                      }).ToList();
+
+        return data.Any() ? data : null;
+    }
+
 }
