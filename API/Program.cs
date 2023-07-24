@@ -29,8 +29,8 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<LeaveRequestService>();
-builder.Services.AddScoped<LeaveHistoryRepository>();
-builder.Services.AddScoped<LeaveTypeRepository>();
+builder.Services.AddScoped<LeaveHistoryService>();
+builder.Services.AddScoped<LeaveTypeService>();
 
 
 
