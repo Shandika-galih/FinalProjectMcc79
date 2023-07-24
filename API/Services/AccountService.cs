@@ -136,20 +136,18 @@ public class AccountService
             return "0";
         }
 
-        var password = _accountRepository.GetByGuid(emailEmp.Guid);
-        var isValid = Hashing.ValidatePassword(login.Password, password!.Password);
+        //var password = _accountRepository.GetByGuid(emailEmp.Guid);
+        var isValid = Hashing.ValidatePassword(login.Password, emailEmp!.Password);
         if (!isValid)
         {
             return "-1";
         }
         var employee = _employeeRepository.GetByGuid(emailEmp.Guid);
 
-
-
         try
         {
             var claims = new List<Claim>() {
-                new Claim("nik", Convert.ToString(employee.NIK)),
+                new Claim("NIK", employee.NIK.ToString()),
                 new Claim("FullName", $"{ employee.FirstName} {employee.LastName}"),
                 new Claim("Email", login.Email)
             };
