@@ -23,12 +23,6 @@ namespace API.Models
         [Column("remarks", TypeName = "varchar(max)")]
         public string Remarks { get; set; }
 
-        [Column("eligible_leave")]
-        public int EligibleLeave { get; set; }
-
-        [Column("total_leave")]
-        public int TotalLeave { get; set; }
-
         [Column("attachment")]
         public byte[]? Attachment { get; set; }
 

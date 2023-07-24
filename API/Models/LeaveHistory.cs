@@ -9,6 +9,5 @@ public class LeaveHistory : BaseEntity
     public Guid LeaveRequestGuid { get; set; }
 
     //cardinality
-
     public LeaveRequest? LeaveRequest { get; set; }
 }
