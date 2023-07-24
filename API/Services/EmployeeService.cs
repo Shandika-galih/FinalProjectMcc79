@@ -1,4 +1,6 @@
 ﻿using API.Contracts;
+using API.Data;
+using API.DTOs.AccountRoles;
 using API.DTOs.Employees;
 using API.Models;
 using API.Repositories;
@@ -11,12 +13,16 @@ public class EmployeeService
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IAccountRepository _accountRepository;
     private readonly IRoleRepository _roleRepository;
+    private readonly IAccountRoleRepository _accountRoleRepository;
+    private readonly MyDbContext _myDbContext;
 
-    public EmployeeService(IEmployeeRepository employeeRepository, IAccountRepository accountRepository, IRoleRepository roleRepository)
+    public EmployeeService(IEmployeeRepository employeeRepository, IAccountRepository accountRepository, IRoleRepository roleRepository, MyDbContext myDbContext, IAccountRoleRepository accountRoleRepository)
     {
         _employeeRepository = employeeRepository;
         _accountRepository = accountRepository;
         _roleRepository = roleRepository;
+        _myDbContext = myDbContext;
+        _accountRoleRepository = accountRoleRepository;
     }
 
     public IEnumerable<GetEmployeeDto>? GetEmployee()
@@ -162,65 +168,141 @@ public class EmployeeService
         return newNik;
     }
 
+    public IEnumerable<GetDataEmployeeDto>? GetDataEmployee()
+    {
+
+        var master = (from employee in _employeeRepository.GetAll()
+                      join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
+                      select new GetDataEmployeeDto
+                      {
+                          Guid = employee.Guid,
+                          FullName = employee.FirstName + " " + employee.LastName,
+                          NIK = employee.NIK,
+                          Email = account.Email,
+                          PhoneNumber = employee.PhoneNumber,
+                          Gender = employee.Gender,
+                          EligibleLeave = employee.EligibleLeave,
+                          ManagerGuid = employee.ManagerGuid
+                      }).ToList();
+
+        if (!master.Any())
+        {
+            return null;
+        }
+
+        return master;
+    }
+
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
     {
-       
-        if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
+       var transaction = _myDbContext.Database.BeginTransaction();
+
+        try
         {
+            /*if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
+            {
+                return null;
+            }*/
+
+            Employee employee = new Employee
+            {
+                Guid = new Guid(),
+                NIK = GenerateNik(),
+                FirstName = addEmployeeDto.FirstName,
+                LastName = addEmployeeDto.LastName,
+                Gender = addEmployeeDto.Gender,
+                PhoneNumber = addEmployeeDto.PhoneNumber,
+                EligibleLeave = addEmployeeDto.EligibleLeave,
+                ManagerGuid = addEmployeeDto.ManagerGuid ?? null,
+
+            };
+
+            var createdEmployee = _employeeRepository.Create(employee);
+            if (createdEmployee is null)
+            {
+                return null; // employee not created
+            }
+
+            Account account = new Account
+            {
+                Guid = employee.Guid,
+                Email = addEmployeeDto.Email,
+                Password = Hashing.HashPassword(addEmployeeDto.Password),
+            };
+            var createdAccount = _accountRepository.Create(account);
+            if (createdAccount is null)
+            {
+                return null;
+            }
+
+            var role = _roleRepository.GetByName("User");
+
+            if (role is null)
+            {
+                var dto = new
+                {
+                    Name = "User"
+                };
+                var createdRole = new Role
+                {
+                    Guid = Guid.NewGuid(),
+                    Name = dto.Name,
+                };
+                var created = _roleRepository.Create(createdRole);
+                if (created == null)
+                {
+                    return null;
+                }
+
+                var accountRole = new AccountRole
+                {
+                    Guid = Guid.NewGuid(),
+                    AccountGuid = account.Guid,
+                    RoleGuid = createdRole.Guid
+                };
+
+                var createdAccountRole = _accountRoleRepository.Create(accountRole);
+                if (createdAccountRole == null)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                var accountRole = new AccountRole
+                {
+                    Guid = Guid.NewGuid(),
+                    AccountGuid = account.Guid,
+                    RoleGuid = role.Guid
+                };
+
+                var createdAccountRole = _accountRoleRepository.Create(accountRole);
+                if (createdAccountRole == null)
+                {
+                    return null;
+                }
+
+            }
+            var toDto = new AddEmployeeDto
+            {
+                FirstName = createdEmployee.FirstName,
+                LastName = createdEmployee.LastName,
+                Gender = createdEmployee.Gender,
+                PhoneNumber = createdEmployee.PhoneNumber,
+                EligibleLeave = createdEmployee.EligibleLeave,
+                ManagerGuid = createdEmployee.ManagerGuid ?? null,
+                Email = createdAccount.Email,
+                Password = createdAccount.Password
+            };
+            transaction.Commit();
+            return toDto; // employee created
+        }
+        catch
+        {
+            transaction.Rollback();
             return null;
         }
-    
-        Employee employee = new Employee
-        {
-            Guid = new Guid(),
-            NIK = GenerateNik(),
-            FirstName = addEmployeeDto.FirstName,
-            LastName = addEmployeeDto.LastName,
-            Gender = addEmployeeDto.Gender,
-            PhoneNumber = addEmployeeDto.PhoneNumber,
-            EligibleLeave = addEmployeeDto.EligibleLeave,
-            ManagerGuid = addEmployeeDto.ManagerGuid,
-
-        };
-
-        var createdEmployee = _employeeRepository.Create(employee);
-        if (createdEmployee is null)
-        {
-            return null; // employee not created
-        }
-
-        Account account = new Account
-        {
-            Guid = employee.Guid,
-            Email = addEmployeeDto.Email,
-            Password = Hashing.HashPassword(addEmployeeDto.Password),
-        };
-        var createdAccount = _accountRepository.Create(account);
-        if (createdAccount is null)
-        {
-            return null;
-        }
-
-        var role = _roleRepository.GetByName("User");
-
-        if (role is null)
-        {
-            return null;
-        }
-
-        var toDto = new AddEmployeeDto
-        {
-            FirstName = createdEmployee.FirstName,
-            LastName = createdEmployee.LastName,
-            Gender = createdEmployee.Gender,
-            PhoneNumber = createdEmployee.PhoneNumber,
-            EligibleLeave = createdEmployee.EligibleLeave,
-            ManagerGuid = createdEmployee.ManagerGuid,
-            Email = createdAccount.Email,
-            Password = createdAccount.Password
-        };
-
-        return toDto; // employee created
+      
     }
 
 

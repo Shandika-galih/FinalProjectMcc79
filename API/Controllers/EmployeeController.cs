@@ -41,6 +41,29 @@ namespace API.Controllers
                 Data = entities
             });
         }
+        [HttpGet("get-data-employee")]
+        public IActionResult GetDataEmployee()
+        {
+            var entities = _service.GetDataEmployee();
+
+            if (entities == null)
+            {
+                return NotFound(new ResponseHandler<GetDataEmployeeDto>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Data not found"
+                });
+            }
+
+            return Ok(new ResponseHandler<IEnumerable<GetDataEmployeeDto>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Data found",
+                Data = entities
+            });
+        }
 
         [HttpGet("{guid}")]
         public IActionResult GetByGuid(Guid guid)
