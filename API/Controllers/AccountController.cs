@@ -1,6 +1,7 @@
 ﻿using API.DTOs.Accounts;
 using API.Services;
 using API.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -150,4 +151,48 @@ public class AccountController : ControllerBase
     }
 
     // to do: login 
+    [AllowAnonymous]
+    [HttpPost("Login")]
+    public IActionResult Login(LoginDto login)
+    {
+        var entities = _service.Login(login);
+        if (entities is "-1")
+        {
+            return NotFound(new ResponseHandler<LoginDto>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Password not match"
+            });
+        }
+
+        if (entities is "0")
+        {
+            return BadRequest(new ResponseHandler<LoginDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Email not found"
+            });
+        }
+
+        if (entities is "-2")
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<LoginDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error to database"
+            });
+        }
+
+        return Ok(new ResponseHandler<string>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Login success",
+            Data = entities
+        });
+    }
+
 }

@@ -8,6 +8,14 @@ namespace API.Repositories
     {
         public AccountRepository(MyDbContext context) : base(context)
         {
+
+        }
+
+        public Account? GetEmail(string email)
+        {
+            return _context.Set<Account>().SingleOrDefault(e => e.Email == email);
         }
     }
+
+
 }

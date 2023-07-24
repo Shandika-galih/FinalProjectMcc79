@@ -4,5 +4,4 @@ namespace API.Contracts;
 
 public interface IEmployeeRepository : IGeneralRepository<Employee>
 {
-
 }
