@@ -26,6 +26,7 @@ namespace API.DTOs.Employees
         public string Email { get; set; }
 
         [Required]
+        [PasswordPolicy]
         public string Password { get; set; }
 
         [Required]
