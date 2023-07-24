@@ -1,5 +1,7 @@
-﻿using API.DTOs.LeaveHistory;
+﻿using API.DTOs.Employees;
+using API.DTOs.LeaveHistory;
 using API.DTOs.LeaveRequest;
+using API.DTOs.LeaveType;
 using API.Services;
 using API.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -150,6 +152,7 @@ public class LeaveHistoryController : ControllerBase
             Message = "Successfully deleted"
         });
     }
+
     [HttpGet("GetAllLeaveHistory")]
     public IActionResult GetAllEmployee()
     {
@@ -171,4 +174,29 @@ public class LeaveHistoryController : ControllerBase
             Data = entities
         });
     }
+
+    [HttpGet("history/{guid_employee}")]
+    public IActionResult GetByGuidEmployee(Guid guid_employee)
+    {
+        var employees = _service.GetLeaveHistroyEmployee(guid_employee); // Ubah variabel 'employee' menjadi 'employees'
+        if (employees == null || !employees.Any()) // Periksa apakah data ada atau tidak
+        {
+            return NotFound(new ResponseHandler<GetLeaveHistroyEmployeeDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<GetLeaveHistroyEmployeeDto>> // Ubah tipe respons menjadi IEnumerable<GetLeaveHistroyEmployeeDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Data found",
+            Data = employees // Ubah variabel 'employee' menjadi 'employees'
+        });
+    }
+
+
 }
