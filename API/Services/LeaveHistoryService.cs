@@ -56,6 +56,7 @@ public class LeaveHistoryService
         var leaveHistory = new LeaveHistory
         {
             Guid = new Guid(),
+            LeaveRequestGuid = newLeaveHistoryDto.LeaveRequestGuid,
         };
 
         var createdLeaveHistory = _leaveHistoryRepository.Create(leaveHistory);
