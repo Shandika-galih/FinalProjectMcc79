@@ -77,6 +77,10 @@ namespace API.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
+                    b.Property<int>("EligibleLeave")
+                        .HasColumnType("int")
+                        .HasColumnName("eligible_leave");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -142,10 +146,6 @@ namespace API.Migrations
                         .HasColumnType("varbinary(max)")
                         .HasColumnName("attachment");
 
-                    b.Property<int>("EligibleLeave")
-                        .HasColumnType("int")
-                        .HasColumnName("eligible_leave");
-
                     b.Property<Guid>("EmployeesGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("employees_guid");
@@ -175,10 +175,6 @@ namespace API.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("submit_date");
 
-                    b.Property<int>("TotalLeave")
-                        .HasColumnType("int")
-                        .HasColumnName("total_leave");
-
                     b.HasKey("Guid");
 
                     b.HasIndex("EmployeesGuid");
@@ -195,6 +191,10 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
+
+                    b.Property<int>("LeaveDay")
+                        .HasColumnType("int")
+                        .HasColumnName("leave_day");
 
                     b.Property<string>("LeaveDescription")
                         .IsRequired()

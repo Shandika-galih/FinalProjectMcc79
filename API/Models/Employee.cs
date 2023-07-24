@@ -21,6 +21,9 @@ namespace API.Models
         [Column("phone_number", TypeName = "nvarchar(20)")]
         public string PhoneNumber { get; set; }
 
+        [Column("eligible_leave")]
+        public int EligibleLeave { get; set; }
+
         [Column("manager_id")]
         public int? ManagerId { get; set; }
 

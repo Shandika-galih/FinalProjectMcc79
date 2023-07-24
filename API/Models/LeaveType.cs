@@ -8,6 +8,9 @@ namespace API.Models
         [Column("leave_name", TypeName = "nvarchar(50)")]
         public string LeaveName { get; set; }
 
+        [Column("leave_day")]
+        public int LeaveDay { get; set; }
+
         [Column("leave_description", TypeName = "varchar(max)")]
         public string LeaveDescription { get; set;}
 
