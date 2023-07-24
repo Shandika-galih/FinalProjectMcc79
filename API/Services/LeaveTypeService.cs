@@ -1,6 +1,5 @@
 ﻿using API.Contracts;
 using API.DTOs.LeaveType;
-using API.DTOs.LeaveType;
 using API.Models;
 
 
@@ -56,6 +55,8 @@ public class LeaveTypeService
         var leaveType = new LeaveType
         {
             Guid = new Guid(),
+            LeaveName = newLeaveTypeDto.LeaveName,
+            LeaveDescription= newLeaveTypeDto.LeaveDescription,
         };
 
         var createdLeaveType = _leaveTypeRepository.Create(leaveType);
@@ -67,6 +68,9 @@ public class LeaveTypeService
         var toDto = new GetLeaveTypeDto
         {
             Guid = leaveType.Guid,
+            LeaveName = leaveType.LeaveName,
+            LeaveDescription = newLeaveTypeDto.LeaveDescription,
+
         };
 
         return toDto; // employee created
