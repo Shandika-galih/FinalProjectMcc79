@@ -24,7 +24,7 @@ namespace API.Models
         public string Remarks { get; set; }
 
         [Column("attachment")]
-        public byte[]? Attachment { get; set; }
+        public string? Attachment { get; set; }
 
         [Column("leave_types_guid")]
         public Guid LeaveTypesGuid { get; set; }

@@ -34,6 +34,7 @@ public class LeaveRequestService
                                                   EndDate = leaveRequest.EndDate,
                                                   Remarks = leaveRequest.Remarks,
                                                   Attachment = leaveRequest.Attachment,
+                                                  SubmitDate = leaveRequest.SubmitDate,
                                                   LeaveTypesGuid = leaveRequest.LeaveTypesGuid,
                                                   EmployeesGuid = leaveRequest.EmployeesGuid,
                                               }).ToList();
@@ -55,6 +56,7 @@ public class LeaveRequestService
             EndDate = leaveRequest.EndDate,
             Remarks = leaveRequest.Remarks,
             Attachment = leaveRequest.Attachment,
+            SubmitDate = leaveRequest.SubmitDate,
             LeaveTypesGuid = leaveRequest.LeaveTypesGuid,
             EmployeesGuid = leaveRequest.EmployeesGuid,
         };
@@ -67,10 +69,11 @@ public class LeaveRequestService
         {
             Guid = new Guid(),
             Status = newLeaveRequestDto.Status,
+            SubmitDate = DateTime.Now,
             StartDate = newLeaveRequestDto.StartDate,
             EndDate = newLeaveRequestDto.EndDate,
             Remarks = newLeaveRequestDto.Remarks,
-            Attachment = newLeaveRequestDto.Attachment,
+            Attachment = newLeaveRequestDto.Attachment ?? null,
             LeaveTypesGuid = newLeaveRequestDto.LeaveTypesGuid,
             EmployeesGuid = newLeaveRequestDto.EmployeesGuid,
         };
@@ -80,14 +83,16 @@ public class LeaveRequestService
         {
             return null;
         }
+
         var toDto = new GetLeaveRequestDto
         {
             Guid = leaveRequest.Guid,
             Status = leaveRequest.Status,
+            SubmitDate = leaveRequest.SubmitDate,
             StartDate = leaveRequest.StartDate,
             EndDate = leaveRequest.EndDate,
             Remarks = leaveRequest.Remarks,
-            Attachment = leaveRequest.Attachment,
+            Attachment = leaveRequest.Attachment ?? null,
             LeaveTypesGuid = leaveRequest.LeaveTypesGuid,
             EmployeesGuid = leaveRequest.EmployeesGuid,
         };

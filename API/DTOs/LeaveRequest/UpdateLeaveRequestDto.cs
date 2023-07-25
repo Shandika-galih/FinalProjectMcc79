@@ -10,7 +10,7 @@ public class UpdateLeaveRequestDto
     public DateTime EndDate { get; set; }
     public DateTime SubmitDate { get; set; }
     public string Remarks { get; set; }
-    public byte[]? Attachment { get; set; }
+    public string? Attachment { get; set; }
     public Guid LeaveTypesGuid { get; set; }
     public Guid EmployeesGuid { get; set; }
 }
