@@ -15,6 +15,11 @@ namespace API.Repositories
         {
             return _context.Set<Account>().SingleOrDefault(e => e.Email == email);
         }
+        public bool IsDuplicateValue(string value)
+        {
+            return _context.Set<Account>()
+                           .FirstOrDefault(a => a.Email.Contains(value)) is null;
+        }
     }
 
 

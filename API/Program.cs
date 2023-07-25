@@ -2,9 +2,12 @@ using API.Contracts;
 using API.Data;
 using API.Repositories;
 using API.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,8 +38,14 @@ builder.Services.AddScoped<LeaveRequestService>();
 builder.Services.AddScoped<LeaveHistoryService>();
 builder.Services.AddScoped<LeaveTypeService>();
 
+
+// Register Fluent validation
+builder.Services.AddFluentValidationAutoValidation()
+       .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
 // Register handler
 builder.Services.AddScoped<ITokenHandler, API.Utilities.TokenHandler>();
+
 
 // Jwt Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
