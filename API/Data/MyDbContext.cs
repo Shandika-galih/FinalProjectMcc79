@@ -58,11 +58,11 @@ namespace API.Data
                         .WithOne(leavehistory => leavehistory.LeaveRequest)
                         .HasForeignKey(leavehistory => leavehistory.LeaveRequestGuid);
 
-            // LeaveRequest - LeaveType (One to One)
-            modelBuilder.Entity<LeaveRequest>()
-                        .HasOne(leaverequest => leaverequest.LeaveType)
-                        .WithOne(leavetype => leavetype.LeaveRequest)
-                        .HasForeignKey<LeaveRequest>(leaverequest => leaverequest.LeaveTypesGuid);
+            // LeaveType - LeaveRequest (One to Many)
+            modelBuilder.Entity<LeaveType>()
+                        .HasMany(leavetype => leavetype.LeaveRequests)
+                        .WithOne(leaverequest => leaverequest.LeaveType)
+                        .HasForeignKey(leaverequest => leaverequest.LeaveTypesGuid);
 
             // Employee - LeaveRequest (One to Many)
             modelBuilder.Entity<Employee>()

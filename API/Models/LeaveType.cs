@@ -15,6 +15,6 @@ namespace API.Models
         public string LeaveDescription { get; set;}
 
         //cardinality
-        public LeaveRequest? LeaveRequest { get; set;}
+        public ICollection<LeaveRequest>? LeaveRequests { get; set;}
     }
 }
