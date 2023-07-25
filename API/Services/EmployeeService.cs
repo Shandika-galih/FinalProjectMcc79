@@ -131,7 +131,7 @@ public class EmployeeService
             PhoneNumber = updateEmployeeDto.PhoneNumber,
             EligibleLeave = updateEmployeeDto.EligibleLeave,
             HiringDate = updateEmployeeDto.HiringDate,
-            ManagerGuid = updateEmployeeDto.ManagerGuid
+            ManagerGuid = updateEmployeeDto.ManagerGuid ?? null
         };
 
         var isUpdate = _employeeRepository.Update(employee);
