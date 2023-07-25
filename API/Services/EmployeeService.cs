@@ -42,6 +42,7 @@ public class EmployeeService
                                                Gender = employee.Gender,
                                                PhoneNumber = employee.PhoneNumber,
                                                EligibleLeave = employee.EligibleLeave,
+                                               HiringDate = employee.HiringDate,
                                                ManagerGuid = employee.ManagerGuid
                                            }).ToList();
         return toDto; // employee found
@@ -64,6 +65,7 @@ public class EmployeeService
             Gender = employee.Gender,
             PhoneNumber = employee.PhoneNumber,
             EligibleLeave = employee.EligibleLeave,
+            HiringDate = employee.HiringDate,
             ManagerGuid = employee.ManagerGuid
         };
 
@@ -83,6 +85,7 @@ public class EmployeeService
             Gender = newEmployeeDto.Gender,
             PhoneNumber = newEmployeeDto.PhoneNumber,
             EligibleLeave = newEmployeeDto.EligibleLeave,
+            HiringDate = newEmployeeDto.HiringDate,
             ManagerGuid = newEmployeeDto.ManagerGuid
         };
 
@@ -101,6 +104,7 @@ public class EmployeeService
             Gender = employee.Gender,
             PhoneNumber = employee.PhoneNumber,
             EligibleLeave = employee.EligibleLeave,
+            HiringDate = employee.HiringDate,
             ManagerGuid = employee.ManagerGuid
         };
 
@@ -126,6 +130,7 @@ public class EmployeeService
             Gender = updateEmployeeDto.Gender,
             PhoneNumber = updateEmployeeDto.PhoneNumber,
             EligibleLeave = updateEmployeeDto.EligibleLeave,
+            HiringDate = updateEmployeeDto.HiringDate,
             ManagerGuid = updateEmployeeDto.ManagerGuid
         };
 
@@ -181,6 +186,7 @@ public class EmployeeService
                           PhoneNumber = employee.PhoneNumber,
                           Gender = employee.Gender,
                           EligibleLeave = employee.EligibleLeave,
+                          HiringDate = employee.HiringDate,
                           ManagerGuid = employee.ManagerGuid,
                       }).ToList();
 
@@ -199,7 +205,6 @@ public class EmployeeService
 
         return master;
     }
-
 
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
     {
@@ -221,6 +226,7 @@ public class EmployeeService
                 Gender = addEmployeeDto.Gender,
                 PhoneNumber = addEmployeeDto.PhoneNumber,
                 EligibleLeave = addEmployeeDto.EligibleLeave,
+                HiringDate = addEmployeeDto.HiringDate,
                 ManagerGuid = addEmployeeDto.ManagerGuid ?? null,
 
             };
@@ -298,6 +304,7 @@ public class EmployeeService
                 Gender = createdEmployee.Gender,
                 PhoneNumber = createdEmployee.PhoneNumber,
                 EligibleLeave = createdEmployee.EligibleLeave,
+                HiringDate = createdEmployee.HiringDate,
                 ManagerGuid = createdEmployee.ManagerGuid ?? null,
                 Email = createdAccount.Email,
                 Password = createdAccount.Password

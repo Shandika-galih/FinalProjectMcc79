@@ -18,7 +18,10 @@ namespace API.DTOs.Employees
         [Required]
         [Phone]
         public string PhoneNumber { get; set; }
+        [Required]
         public int EligibleLeave { get; set; }
+        [Required]
+        public DateTime HiringDate { get; set; }
         public Guid? ManagerGuid { get; set; }
     }
 }
