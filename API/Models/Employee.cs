@@ -24,6 +24,9 @@ namespace API.Models
         [Column("eligible_leave")]
         public int EligibleLeave { get; set; }
 
+        [Column("hiring_date")]
+        public DateTime HiringDate { get; set; }
+
         [Column("manager_guid")]
         public Guid? ManagerGuid { get; set; }
 
