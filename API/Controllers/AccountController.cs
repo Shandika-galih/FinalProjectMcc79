@@ -195,4 +195,32 @@ public class AccountController : ControllerBase
         });
     }
 
+    [HttpPost("ChangePassword")]
+    public IActionResult ChangePassword(ChangePasswordDto changePasswordDto)
+    {
+        var isUpdated = _service.ChangePassword(changePasswordDto);
+        if (isUpdated == 0)
+            return NotFound(new ResponseHandler<GetAccountDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Email not found"
+            });
+
+        if (isUpdated is -4)
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<GetAccountDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error retrieving data from the database"
+            });
+
+        return Ok(new ResponseHandler<GetAccountDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Password has been changed successfully"
+        });
+    }
+
 }
