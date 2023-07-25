@@ -212,10 +212,10 @@ public class EmployeeService
 
         try
         {
-            /*if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
+            if (addEmployeeDto.Password != addEmployeeDto.ConfirmPassword)
             {
                 return null;
-            }*/
+            }
 
             Employee employee = new Employee
             {
