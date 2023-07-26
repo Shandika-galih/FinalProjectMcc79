@@ -1,10 +1,7 @@
 ﻿using API.Contracts;
 using API.DTOs.Accounts;
 using API.Models;
-using API.Repositories;
 using API.Utilities;
-using API.Utilities.Handler;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace API.Services;

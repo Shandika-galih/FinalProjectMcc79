@@ -1,6 +1,4 @@
 ﻿using API.Utilities.Enums;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.DTOs.LeaveRequest;
 

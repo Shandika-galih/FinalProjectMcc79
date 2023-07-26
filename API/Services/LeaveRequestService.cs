@@ -1,8 +1,6 @@
 ﻿using API.Contracts;
-using API.DTOs.Employees;
 using API.DTOs.LeaveRequest;
 using API.Models;
-using API.Repositories;
 
 namespace API.Services;
 
