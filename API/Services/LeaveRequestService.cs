@@ -65,6 +65,30 @@ public class LeaveRequestService
 
     public GetLeaveRequestDto? CreateLeaveRequest(NewLeaveRequestDto newLeaveRequestDto)
     {
+        var employee = _employeeRepository.GetByGuid(newLeaveRequestDto.EmployeesGuid); 
+
+        if (employee == null)
+        {
+            return null;
+        }
+
+        if (employee.EligibleLeave == 0)
+        {
+            return null;
+        }
+
+        /* var totalLeaveDays = Convert.ToInt32((newLeaveRequestDto.EndDate - newLeaveRequestDto.StartDate).TotalDays) + 1; ;
+
+         if (employee.EligibleLeave - totalLeaveDays < 0)
+         {
+             // Employee cannot create a leave request due to insufficient remaining leave days.
+             return null;
+         }
+
+         // Update the employee's EligibleLeave based on the leave request
+         employee.EligibleLeave -= totalLeaveDays;
+         _employeeRepository.Update(employee);*/
+
         var leaveRequest = new LeaveRequest
         {
             Guid = new Guid(),
@@ -153,7 +177,7 @@ public class LeaveRequestService
                       join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
                       select new GetEmployeeRequestDto
                       {
-                          Guid = employee.Guid,
+                          Guid = leaveRequest.Guid,
                           NIK = employee.NIK,
                           FullName = employee.FirstName + " " + employee.LastName,
                           LeaveName = leaveType.LeaveName,
