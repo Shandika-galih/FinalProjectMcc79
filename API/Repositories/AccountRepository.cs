@@ -20,6 +20,10 @@ namespace API.Repositories
             return _context.Set<Account>()
                            .FirstOrDefault(a => a.Email.Contains(value)) is null;
         }
+        public Account? GetByEmailOtp(string email, int otp)
+        {
+            return _context.Set<Account>().FirstOrDefault(ac => ac.Email == email && ac.OTP == otp);
+        }
     }
 
 

@@ -11,6 +11,9 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordDto>
            .NotEmpty()
            .EmailAddress();
 
+        RuleFor(p => p.Otp)
+           .NotEmpty();
+
         RuleFor(p => p.NewPassword)
           .NotEmpty().WithMessage("Password is required.")
           .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
@@ -19,7 +22,7 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordDto>
           .Matches("[0-9]").WithMessage("Password must contain at least one digit.")
           .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
 
-        RuleFor(p => p.ConfirmNewPassword)
+        RuleFor(p => p.ConfirmPassword)
            .NotEmpty()
            .Equal(p => p.NewPassword);
     }
