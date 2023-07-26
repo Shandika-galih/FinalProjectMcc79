@@ -46,6 +46,7 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<LeaveRequestService>();
 builder.Services.AddScoped<LeaveHistoryService>();
 builder.Services.AddScoped<LeaveTypeService>();
+builder.Services.AddScoped<ManagerService>();
 
 
 // Register Fluent validation

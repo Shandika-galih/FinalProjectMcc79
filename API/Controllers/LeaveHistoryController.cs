@@ -175,8 +175,9 @@ public class LeaveHistoryController : ControllerBase
     [HttpGet("history/{guid_employee}")]
     public IActionResult GetByGuidEmployee(Guid guid_employee)
     {
-        var employees = _service.GetLeaveHistroyEmployee(guid_employee); // Ubah variabel 'employee' menjadi 'employees'
-        if (employees == null || !employees.Any()) // Periksa apakah data ada atau tidak
+        var employees = _service.GetLeaveHistroyEmployee(guid_employee); 
+
+        if (employees == null || !employees.Any()) 
         {
             return NotFound(new ResponseHandler<GetLeaveHistroyEmployeeDto>
             {
@@ -186,12 +187,12 @@ public class LeaveHistoryController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<IEnumerable<GetLeaveHistroyEmployeeDto>> // Ubah tipe respons menjadi IEnumerable<GetLeaveHistroyEmployeeDto>
+        return Ok(new ResponseHandler<IEnumerable<GetLeaveHistroyEmployeeDto>> 
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "Data found",
-            Data = employees // Ubah variabel 'employee' menjadi 'employees'
+            Data = employees 
         });
     }
 
