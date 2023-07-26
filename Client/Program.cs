@@ -1,4 +1,5 @@
 using Client.Contract;
+using Client.Repositories;
 using Client.Repository;
 
 var builder = WebApplication.CreateBuilder(args);

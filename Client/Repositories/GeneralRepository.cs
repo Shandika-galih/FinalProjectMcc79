@@ -18,7 +18,7 @@ namespace Client.Repository
             contextAccessor = new HttpContextAccessor();
             _httpClient = new HttpClient()
             {
-                BaseAddress = new Uri("https://localhost:44362/api/")
+                BaseAddress = new Uri("https://localhost:7114/api/")
             };
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
         }

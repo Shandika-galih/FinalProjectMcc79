@@ -1,4 +1,4 @@
-﻿@model IEnumerable<API.DTOs.Employees.GetDataEmployeeDto>
+﻿@model IEnumerable<API.DTOs.Employees.GetEmployeeDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,16 +13,19 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Guid)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.NIK)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -34,7 +37,7 @@
                 @Html.DisplayNameFor(model => model.HiringDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Manager)
+                @Html.DisplayNameFor(model => model.ManagerGuid)
             </th>
             <th></th>
         </tr>
@@ -43,16 +46,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Guid)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.NIK)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
@@ -64,7 +70,7 @@
                 @Html.DisplayFor(modelItem => item.HiringDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Manager)
+                @Html.DisplayFor(modelItem => item.ManagerGuid)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
