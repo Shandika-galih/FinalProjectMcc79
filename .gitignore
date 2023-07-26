@@ -406,3 +406,4 @@ Client/appsettings.json
 *.cs
 Client/Repository/GeneralRepository.cs
 Client/Repository/GeneralRepository.cs
+Client/Repository/GeneralRepository.cs
