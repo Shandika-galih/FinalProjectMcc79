@@ -6,5 +6,6 @@ namespace API.Contracts
     {
         Account? GetEmail(string email);
         bool IsDuplicateValue(string value);
+        Account? GetByEmailOtp(string email, int otp);
     }
 }

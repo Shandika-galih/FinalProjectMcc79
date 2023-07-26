@@ -3,6 +3,7 @@ using API.DTOs.Accounts;
 using API.Models;
 using API.Repositories;
 using API.Utilities;
+using API.Utilities.Handler;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
@@ -15,14 +16,16 @@ public class AccountService
     private readonly IAccountRoleRepository _accountRoleRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenHandler _tokenHandler;
+    private readonly IEmailHandler _emailHandler;
 
-    public AccountService(IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IAccountRoleRepository accountRoleRepository, IRoleRepository roleRepository, ITokenHandler tokenHandler)
+    public AccountService(IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IAccountRoleRepository accountRoleRepository, IRoleRepository roleRepository, ITokenHandler tokenHandler, IEmailHandler emailHandler)
     {
         _accountRepository = accountRepository;
         _employeeRepository = employeeRepository;
         _accountRoleRepository = accountRoleRepository;
         _roleRepository = roleRepository;
         _tokenHandler = tokenHandler;
+        _emailHandler = emailHandler;
     }
 
     public IEnumerable<GetAccountDto>? GetAccount()
@@ -168,7 +171,7 @@ public class AccountService
         }
     }
 
-    public int ChangePassword(ChangePasswordDto changePasswordDto)
+    /*public int ChangePassword(ChangePasswordDto changePasswordDto)
     {
         var account = _accountRepository.GetEmail(changePasswordDto.Email);
         if (account is null)
@@ -188,6 +191,83 @@ public class AccountService
 
         return isUpdated ? 1    // Success
                          : -4;  // Database Error
+    }*/
+
+    public int ForgotPassword(ForgotPasswordDto forgotPassword)
+    {
+        var entity = _accountRepository.GetEmail(forgotPassword.Email);
+        if (entity is null)
+            return 0; // Email not found
+
+        var account = _accountRepository.GetByGuid(entity.Guid);
+        if (account is null)
+            return -1;
+
+        var otp = new Random().Next(111111, 999999);
+        var isUpdated = _accountRepository.Update(new Account
+        {
+            Guid = account.Guid,
+            Email = account.Email,
+            Password = account.Password,
+            OTP = otp,
+            ExpiredTime = DateTime.Now.AddMinutes(5),
+            IsUsed = false,
+ 
+        });
+
+        if (!isUpdated)
+        {
+            return -1;
+        }
+
+        _emailHandler.SendEmail(forgotPassword.Email,
+                                "Forgot Password",
+                                $"Your OTP is {otp}");
+
+        return 1;
     }
+
+    public int ChangePassword(ChangePasswordDto changePasswordDto)
+    {
+        var isExist = _accountRepository.GetEmail(changePasswordDto.Email);
+        if (isExist is null)
+        {
+            return -1; // Account not found
+        }
+
+        var getAccount = _accountRepository.GetByGuid(isExist.Guid);
+        if (getAccount.OTP != changePasswordDto.Otp)
+        {
+            return 0;
+        }
+
+        if (getAccount.IsUsed == true)
+        {
+            return 1;
+        }
+
+        if (getAccount.ExpiredTime < DateTime.Now)
+            return -3; // OTP is expired
+
+
+        var account = new Account
+        {
+            Guid = getAccount.Guid,
+            Email = getAccount.Email,
+            Password = Hashing.HashPassword(changePasswordDto.NewPassword),
+            OTP = getAccount.OTP,
+            IsUsed = true,
+        };
+
+        var isUpdate = _accountRepository.Update(account);
+        if (!isUpdate)
+        {
+            return 0; // Account not updated
+        }
+
+        return 3;
+    }
+
+
 
 }
