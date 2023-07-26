@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.DTOs.Accounts
+﻿namespace API.DTOs.Accounts
 {
     public class NewAccountDto
     {

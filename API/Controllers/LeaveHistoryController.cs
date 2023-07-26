@@ -1,7 +1,4 @@
-﻿using API.DTOs.Employees;
-using API.DTOs.LeaveHistory;
-using API.DTOs.LeaveRequest;
-using API.DTOs.LeaveType;
+﻿using API.DTOs.LeaveHistory;
 using API.Services;
 using API.Utilities;
 using Microsoft.AspNetCore.Mvc;

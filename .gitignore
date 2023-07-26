@@ -403,3 +403,4 @@ FodyWeavers.xsd
 # appsettings.json
 API/appsettings.json
 Client/appsettings.json
+Client/Repository/GeneralRepository.cs

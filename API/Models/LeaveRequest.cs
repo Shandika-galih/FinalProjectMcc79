@@ -1,7 +1,5 @@
 ﻿using API.Utilities.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
-using System.Reflection.Metadata;
 
 namespace API.Models
 {
