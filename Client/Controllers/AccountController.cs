@@ -82,7 +82,7 @@ namespace Client.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Login", "Account");
         }
     }
 }
