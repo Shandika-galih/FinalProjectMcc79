@@ -1,35 +1,53 @@
 ﻿using API.DTOs.Employees;
 using API.Models;
 using Client.Contract;
+using Client.ViewModels.Account;
 using Client.ViewModels.Employee;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Client.Controllers;
 
 public class EmployeeController : Controller
 {
     private readonly IEmployeeRepository repository;
+    private readonly IRoleRepository _roleRepository;
+    private readonly IManagerRepository _managerRepository;
 
-    public EmployeeController(IEmployeeRepository repository)
+
+    public EmployeeController(IEmployeeRepository repository, IRoleRepository roleRepository, IManagerRepository managerRepository)
     {
         this.repository = repository;
+        _roleRepository = roleRepository;
+        _managerRepository = managerRepository;
     }
 
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
-        var ListEmployee = new List<EmployeeVM>();
+        var result = await repository.GetEmployees();
+        var listEmployee = new List<EmployeeVM>();
 
         if (result.Data != null)
         {
-            ListEmployee = result.Data.ToList();
+            listEmployee = result.Data.ToList();
         }
-        return View(ListEmployee);
+
+        return View(listEmployee);
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
+        var result = await _managerRepository.Get();
+        var listManagers = new List<ManagerVM>();
+
+        if (result.Data != null)
+        {
+            listManagers = result.Data.ToList();
+        }
+
+        // add to view data
+        ViewData["Managers"] = listManagers;
         return View();
     }
 
@@ -38,7 +56,7 @@ public class EmployeeController : Controller
     {
 
         var result = await repository.Post(newEmploye);
-        if (result.Status == "200")
+        if (result.Code == 201)
         {
             TempData["Success"] = "Data berhasil masuk";
             return RedirectToAction(nameof(Index));

@@ -9,8 +9,8 @@ namespace Client.Repository
     public class GeneralRepository<Entity, TId> : IGeneralRepository<Entity, TId>
      where Entity : class
     {
-        private readonly string _request;
-        private readonly HttpClient _httpClient;
+        protected readonly string _request;
+        protected readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor contextAccessor;
         public GeneralRepository(string request)
         {

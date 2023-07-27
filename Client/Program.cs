@@ -1,12 +1,18 @@
 using Client.Contract;
 using Client.Repositories;
 using Client.Repository;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
+
+
 
 var app = builder.Build();
 

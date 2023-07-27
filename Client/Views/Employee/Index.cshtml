@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Client.ViewModels.Employee.EmployeeVM>
+﻿@using Client.ViewModels.Account;
+@model IEnumerable<Client.ViewModels.Employee.EmployeeVM>
 
 ﻿@{
     Layout = "_LayoutEmployee";
@@ -17,16 +18,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Guid)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.NIK)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.LastName)
+                            @Html.DisplayNameFor(model => model.FullName)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Gender)
@@ -35,13 +30,19 @@
                             @Html.DisplayNameFor(model => model.PhoneNumber)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.EligibleLeave)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.HiringDate)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ManagerGuid)
+                            @Html.DisplayName("Manager Name")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Role")
                         </th>
                         <th></th>
                     </tr>
@@ -50,17 +51,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Guid)
-                            </td>
+                          
                             <td>
                                 @Html.DisplayFor(modelItem => item.NIK)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastName)
+                                @Html.DisplayFor(modelItem => item.FullName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Gender)
@@ -69,13 +65,19 @@
                                 @Html.DisplayFor(modelItem => item.PhoneNumber)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.EligibleLeave)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.HiringDate)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ManagerGuid)
+                                @Html.DisplayFor(modelItem => item.Manager)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RoleName)
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

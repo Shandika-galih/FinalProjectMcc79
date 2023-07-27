@@ -14,12 +14,14 @@ public class ManagerService
     private readonly IEmployeeRepository _employeeRepository;
     private readonly ILeaveRequestRepository _leaveRequestRepository;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
+    private readonly IRoleRepository _roleRepository;
 
-    public ManagerService(IEmployeeRepository employeeRepository, ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository)
+    public ManagerService(IEmployeeRepository employeeRepository, ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository, IRoleRepository roleRepository)
     {
         _employeeRepository = employeeRepository;
         _leaveRequestRepository = leaveRequestRepository;
         _leaveTypeRepository = leaveTypeRepository;
+        _roleRepository = roleRepository;
     }
 
     public IEnumerable<GetEmployeeRequestDto> GetLeaveRequestsByManagerGuid(Guid managerGuid)

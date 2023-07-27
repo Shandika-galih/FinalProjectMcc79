@@ -14,5 +14,6 @@ namespace API.DTOs.Employees
         public DateTime HiringDate { get; set; }
         public Guid? ManagerGuid { get; set; }
         public string Manager { get; set; }
+        public string RoleName { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.Data;
 using API.DTOs.Employees;
+using API.DTOs.Manager;
 using API.Models;
 using API.Utilities;
 
@@ -175,6 +176,7 @@ public class EmployeeService
     {
         var master = (from employee in _employeeRepository.GetAll()
                       join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
+                      join accountRole in _accountRoleRepository.GetAll() on account.Guid equals accountRole.AccountGuid join role in _roleRepository.GetAll() on accountRole.RoleGuid equals role.Guid
                       select new GetDataEmployeeDto
                       {
                           Guid = employee.Guid,
@@ -186,6 +188,7 @@ public class EmployeeService
                           EligibleLeave = employee.EligibleLeave,
                           HiringDate = employee.HiringDate,
                           ManagerGuid = employee.ManagerGuid,
+                          RoleName = role.Name
                       }).ToList();
 
         foreach (var getDataEmployee in master)
@@ -202,6 +205,15 @@ public class EmployeeService
         }
 
         return master;
+    }
+
+    public IEnumerable<GetDataEmployeeDto> GetManagers()
+    {
+        var allEmployees = GetDataEmployee();
+
+        var managerEmployees = allEmployees.Where(employee => employee.RoleName == "Manager");
+
+        return managerEmployees;
     }
 
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)
