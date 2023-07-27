@@ -2,7 +2,7 @@
 
 namespace Client.Contract;
 
-    public interface IRepository<T, X>
+    public interface IGeneralRepository<T, X>
          where T : class
 {
     Task<ResponseHandler<IEnumerable<T>>> Get();

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Client.Repository
 {
-    public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
+    public class GeneralRepository<Entity, TId> : IGeneralRepository<Entity, TId>
      where Entity : class
     {
         private readonly string _request;
