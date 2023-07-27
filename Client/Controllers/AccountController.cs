@@ -1,7 +1,6 @@
-﻿using API.DTOs.Accounts;
-using Microsoft.AspNetCore.Mvc;
-using Client.Contract;
+﻿using Microsoft.AspNetCore.Mvc;
 using Client.ViewModels.Account;
+using Client.Contract;
 
 namespace Client.Controllers
 {
@@ -20,37 +19,6 @@ namespace Client.Controllers
             return View();
         }
 
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(LoginVM register)
-        {
-
-            var result = await _accountRepository.Register(register);
-            if (result is null)
-            {
-                return RedirectToAction("Error", "Home");
-            }
-            else if (result.Status == "BadRequest")
-            {
-                ModelState.AddModelError(string.Empty, result.Message);
-                TempData["Error"] = $"Something Went Wrong! - {result.Message}!";
-                return View();
-            }
-            else if (result.Status == "OK")
-            {
-                TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
-                return RedirectToAction("Index", "Home");
-            }
-            return View();
-        }
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -66,15 +34,15 @@ namespace Client.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-            else if (result.Status == "BadRequest")
+            else if (result.Code == 400)
             {
                 ModelState.AddModelError(string.Empty, result.Message);
                 return View();
             }
-            else if (result.Status == "OK")
+            else if (result.Code == 200)
             {
-                HttpContext.Session.SetString("JWToken", result.Data);
-                return RedirectToAction("Index", "Employee");
+                HttpContext.Session.SetString("JWTToken", result.Data);
+                return RedirectToAction("Index", "Dashboard");
             }
             return View();
         }

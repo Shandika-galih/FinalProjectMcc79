@@ -49,6 +49,7 @@ builder.Services.AddScoped<LeaveTypeService>();
 builder.Services.AddScoped<ManagerService>();
 
 
+
 // Register Fluent validation
 builder.Services.AddFluentValidationAutoValidation()
        .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
