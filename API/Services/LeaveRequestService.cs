@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.DTOs.LeaveRequest;
 using API.Models;
+using API.Repositories;
 
 namespace API.Services;
 
@@ -9,11 +10,15 @@ public class LeaveRequestService
     private readonly ILeaveRequestRepository _leaveRequestRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
-    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveTypeRepository)
-    { 
+    private readonly IAccountRepository _accountRepository;
+    private readonly IEmailHandler _emailHandler;
+    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveTypeRepository, IAccountRepository accountRepository, IEmailHandler emailHandler)
+    {
         _leaveRequestRepository = leaveRequestRepository;
         _employeeRepository = employeeRepository;
         _leaveTypeRepository = leaveTypeRepository;
+        _accountRepository = accountRepository;
+        _emailHandler = emailHandler;
     }
     public IEnumerable<GetLeaveRequestDto>? GetLeaveRequest()
     {
@@ -105,6 +110,15 @@ public class LeaveRequestService
         {
             return null;
         }
+
+        /*// Kirim email notifikasi ke manager jika ditemukan
+        var manager = _accountRepository.GetByGuid((Guid)employee.ManagerGuid);
+        if (manager != null)
+        {
+            _emailHandler.SendEmail(manager.Email,
+                "Leave Request Notification",
+                $"Dear Manager,\n\nA new leave request has been submitted by {employee.FirstName} {employee.LastName} on {leaveRequest.SubmitDate}. The leave request starts on {leaveRequest.StartDate.ToShortDateString()} and ends on {leaveRequest.EndDate.ToShortDateString()}. Please review and take appropriate action.\n\nBest regards,\nYour Company");
+        }*/
 
         var toDto = new GetLeaveRequestDto
         {
