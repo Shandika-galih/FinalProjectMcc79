@@ -151,9 +151,9 @@ public class AccountController : ControllerBase
     }
 
     // to do: login 
-    [AllowAnonymous]
+
     [HttpPost("login")]
-    public IActionResult Login(LoginDto login)
+    public IActionResult LoginRequest(LoginDto login)
     {
         var entities = _service.Login(login);
         if (entities is "-1")

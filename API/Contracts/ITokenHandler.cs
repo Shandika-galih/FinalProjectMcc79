@@ -1,9 +1,8 @@
 ﻿using System.Security.Claims;
 
-namespace API.Contracts
+namespace API.Contracts;
+
+public interface ITokenHandler
 {
-    public interface ITokenHandler
-    {
-        public string GenerateToken(IEnumerable<Claim> claims);
-    }
+    public string GenerateToken(IEnumerable<Claim> claims);
 }

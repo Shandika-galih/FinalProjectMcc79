@@ -1,4 +1,5 @@
 ﻿using API.DTOs.Accounts;
+using API.Models;
 using API.Utilities;
 using Client.Contract;
 using Client.Repository;
@@ -9,11 +10,12 @@ using System.Text;
 
 namespace Client.Repositories;
 
-public class AccountRepository : GeneralRepository<LoginVM, string>, IAccountRepository
+public class AccountRepository : GeneralRepository<Account, string>, IAccountRepository
 {
     private readonly string request;
     private readonly HttpClient httpClient;
-    public AccountRepository(string request = "accounts/") : base(request)
+
+    public AccountRepository(string request = "account/") : base(request)
     {
         this.request = request;
         httpClient = new HttpClient
@@ -22,17 +24,7 @@ public class AccountRepository : GeneralRepository<LoginVM, string>, IAccountRep
         };
         this.request = request;
     }
-   /* public async Task<ResponseHandler<string>> Login(LoginVM loginVM)
-    {
-        ResponseHandler<string> entityVM = null;
-        StringContent content = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
-        using (var response = await _httpClient.PostAsync(_request + "login", content))
-        {
-            string apiResponse = await response.Content.ReadAsStringAsync();
-            entityVM = JsonConvert.DeserializeObject<ResponseHandler<string>>(apiResponse);
-        }
-        return entityVM;
-    }*/
+
     public async Task<ResponseHandler<string>> Login(LoginVM loginVM)
     {
         ResponseHandler<string> responseHandler = null;
@@ -44,5 +36,4 @@ public class AccountRepository : GeneralRepository<LoginVM, string>, IAccountRep
         }
         return responseHandler;
     }
-
 }

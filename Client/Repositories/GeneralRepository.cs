@@ -64,17 +64,6 @@ namespace Client.Repository
             return entityVM;
         }
 
-        /*public async Task<ResponseHandler<Entity>> Put(TId id, Entity entity)
-        {
-            ResponseHandler<Entity> entityVM = null;
-            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            using (var response = httpClient.PutAsync(request, content).Result)
-            {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                entityVM = JsonConvert.DeserializeObject<ResponseHandler<Entity>>(apiResponse);
-            }
-            return entityVM;
-        }*/
         public async Task<ResponseHandler<Entity>> Get(TId guid)
         {
             ResponseHandler<Entity> entity = null;
