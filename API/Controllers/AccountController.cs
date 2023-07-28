@@ -152,7 +152,7 @@ public class AccountController : ControllerBase
 
     // to do: login 
     [AllowAnonymous]
-    [HttpPost("Login")]
+    [HttpPost("login")]
     public IActionResult Login(LoginDto login)
     {
         var entities = _service.Login(login);

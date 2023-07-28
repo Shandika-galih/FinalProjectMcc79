@@ -20,30 +20,35 @@ namespace Client.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult SignIn()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVM login)
+        public async Task<IActionResult> SignIn(LoginVM loginVM)
         {
-            var result = await _accountRepository.Login(login);
-            if (result is null)
+            var result = await _accountRepository.Login(loginVM);
+            if (result == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Index", "Home");
             }
-            else if (result.Code == 400)
+            else if (result.Code == 404)
             {
                 ModelState.AddModelError(string.Empty, result.Message);
                 return View();
             }
             else if (result.Code == 200)
             {
-                HttpContext.Session.SetString("JWTToken", result.Data);
-                return RedirectToAction("Index", "Dashboard");
+                HttpContext.Session.SetString("JWToken", result.Data);
+                return RedirectToAction("Index", "Home");
             }
+
             return View();
         }
 

@@ -16,7 +16,6 @@ builder.Services.AddSession();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
-
 // Add Cors
 builder.Services.AddCors(options =>
 {
@@ -28,13 +27,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-
+// Set Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false;
         options.SaveToken = true;
-        options.TokenValidationParameters = new()
+        options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JWTService:Audience"],
@@ -81,7 +80,7 @@ app.UseSession();
 //Add JWToken to all incoming HTTP Request Header
 app.Use(async (context, next) =>
 {
-    var JWToken = context.Session.GetString("JWTToken");
+    var JWToken = context.Session.GetString("JWToken");
 
     if (!string.IsNullOrEmpty(JWToken))
     {
@@ -91,7 +90,7 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.UseAuthentication();
+
 
 app.UseAuthorization();
 
