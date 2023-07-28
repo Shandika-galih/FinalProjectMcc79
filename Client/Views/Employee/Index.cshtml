@@ -6,7 +6,6 @@
 }
 <p>
     <a href="/Employee/Create">Create New</a>
-    <a href="/AllEmployee/Create">Create New</a>
 </p>
 <section class="section">
     <div class="card">
@@ -85,6 +84,10 @@
                                 <form action="/employee/delete" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                     <input type="hidden" value="@item.Guid" name="guid" />
                                     <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                <form action="/employee/edit" method="get">
+                                    <input type="hidden" value="@item.Guid" name="guid" />
+                                    <button type="submit" class="btn btn-primary">Edit</button>
                                 </form>
                             </td>
                         </tr>

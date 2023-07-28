@@ -1,4 +1,5 @@
-﻿using API.Utilities.Enums;
+﻿using API.Utilities;
+using API.Utilities.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs.Employees
@@ -23,5 +24,8 @@ namespace API.DTOs.Employees
         [Required]
         public DateTime HiringDate { get; set; }
         public Guid? ManagerGuid { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+       
     }
 }

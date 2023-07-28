@@ -55,6 +55,12 @@ public class EmployeeService
             return null; // employee not found
         }
 
+        var account = _accountRepository.GetByGuid(guid);
+        if (account is null)
+        {
+            return null; // account not found
+        }
+
         var toDto = new GetEmployeeDto
         {
             Guid = employee.Guid,
@@ -65,7 +71,8 @@ public class EmployeeService
             PhoneNumber = employee.PhoneNumber,
             EligibleLeave = employee.EligibleLeave,
             HiringDate = employee.HiringDate,
-            ManagerGuid = employee.ManagerGuid
+            ManagerGuid = employee.ManagerGuid,
+            Email = account.Email
         };
 
         return toDto; // employees found
@@ -112,13 +119,11 @@ public class EmployeeService
 
     public int UpdateEmployee(UpdateEmployeeDto updateEmployeeDto)
     {
-        var isExist = _employeeRepository.IsExist(updateEmployeeDto.Guid);
-        if (!isExist)
+        var getEmployee = _employeeRepository.GetByGuid(updateEmployeeDto.Guid);
+        if (getEmployee is null)
         {
             return -1; // employee not found
         }
-
-        var getEmployee = _employeeRepository.GetByGuid(updateEmployeeDto.Guid);
 
         var employee = new Employee
         {
@@ -130,13 +135,32 @@ public class EmployeeService
             PhoneNumber = updateEmployeeDto.PhoneNumber,
             EligibleLeave = updateEmployeeDto.EligibleLeave,
             HiringDate = updateEmployeeDto.HiringDate,
-            ManagerGuid = updateEmployeeDto.ManagerGuid ?? null
+            ManagerGuid = updateEmployeeDto.ManagerGuid ?? null,
+           
         };
 
-        var isUpdate = _employeeRepository.Update(employee);
-        if (!isUpdate)
+        var isUpdateEmployee = _employeeRepository.Update(employee);
+        if (!isUpdateEmployee)
         {
             return 0; // employee not updated
+        }
+
+        var account = _accountRepository.GetByGuid(updateEmployeeDto.Guid);
+        if (account == null)
+        {
+            // Account not found, create a new one
+            account = new Account
+            {
+                Guid = updateEmployeeDto.Guid,
+                Email = updateEmployeeDto.Email,
+            };
+            _accountRepository.Create(account);
+        }
+        else
+        {
+            // Account found, update Email and Password
+            account.Email = updateEmployeeDto.Email;
+            _accountRepository.Update(account);
         }
 
         return 1;

@@ -4,6 +4,7 @@ using Client.Repository;
 using Client.ViewModels.Employee;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Security.Cryptography;
 
 namespace Client.Repositories;
 
@@ -23,5 +24,17 @@ public class EmployeeRepository : GeneralRepository<EmployeeVM, Guid>, IEmployee
         }
         return entityDto;
     }
+
+    public async Task<ResponseHandler<EmployeeVM>> GetEmployee(Guid guid)
+    {
+        ResponseHandler<EmployeeVM> entity = null;
+        using (var response = await _httpClient.GetAsync(_request + "get-data-employee" + guid))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entity = JsonConvert.DeserializeObject<ResponseHandler<EmployeeVM>>(apiResponse);
+        }
+        return entity;
+    }
+
 
 }

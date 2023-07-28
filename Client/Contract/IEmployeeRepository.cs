@@ -7,4 +7,5 @@ namespace Client.Contract;
 public interface IEmployeeRepository : IGeneralRepository<EmployeeVM, Guid>
 {
     Task<ResponseHandler<IEnumerable<EmployeeVM>>> GetEmployees();
+    Task<ResponseHandler<EmployeeVM>> GetEmployee(Guid guid);
 }

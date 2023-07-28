@@ -5,6 +5,7 @@ using Client.ViewModels.Account;
 using Client.ViewModels.Employee;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol.Core.Types;
 
 namespace Client.Controllers;
 
@@ -79,8 +80,6 @@ public class EmployeeController : Controller
 
             if (result.Status == "200" && result.Data?.Guid != null)
             {
-                // Tangani situasi ketika penghapusan berhasil
-                // Misalnya, menyiapkan data untuk ditampilkan di tampilan terkait
                 var employee = new Employee
                 {
                     Guid = result.Data.Guid
@@ -101,7 +100,7 @@ public class EmployeeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-   /* [HttpGet]
+    [HttpGet]
     public async Task<IActionResult> Edit(Guid guid)
     {
         var result = await repository.Get(guid);
@@ -111,39 +110,52 @@ public class EmployeeController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        var employee = new GetEmployeeDto
+        var employee = new EmployeeVM
         {
             Guid = result.Data.Guid,
-            Nik = result.Data.Nik,
+            NIK = result.Data.NIK,
             FirstName = result.Data.FirstName,
             LastName = result.Data.LastName,
-            Birtdate = result.Data.Birtdate,
             Gender = result.Data.Gender,
+            PhoneNumber = result.Data.PhoneNumber,
+            EligibleLeave = result.Data.EligibleLeave,
             HiringDate = result.Data.HiringDate,
+            ManagerGuid = result.Data.ManagerGuid,
             Email = result.Data.Email,
-            PhoneNumber = result.Data.PhoneNumber
+            Password = result.Data.Password,
+            ConfirmPassword = result.Data.ConfirmPassword
         };
+
+        var resultManager = await _managerRepository.Get();
+        var listManagers = new List<ManagerVM>();
+
+        if (resultManager.Data != null)
+        {
+            listManagers = resultManager.Data.ToList();
+        }
+
+        // add to view data
+        ViewData["Managers"] = listManagers;
 
         return View(employee);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(GetEmployeeDto employee)
+    public async Task<IActionResult> Edit(EmployeeVM employee)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(employee);
+            var result = await repository.Put(employee.Guid, employee);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else if (result.Status == "409")
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
         }
-        var result = await repository.Put(employee.Guid, employee);
-
-        if (result.Status == "200")
-        {
-            TempData["Success"] = "Data berhasil diubah";
-        }
-        else
-        {
-            TempData["Error"] = "Gagal menghapus data";
-        }
-        return RedirectToAction(nameof(Index));
-    }*/
+        return View();
+    }
 }
