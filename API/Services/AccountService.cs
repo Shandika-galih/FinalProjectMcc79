@@ -144,8 +144,7 @@ public class AccountService
         }
         var employee = _employeeRepository.GetByGuid(emailEmp.Guid);
 
-        try
-        {
+       
             var claims = new List<Claim>() {
                 new Claim("NIK", employee.NIK.ToString()),
                 new Claim("FullName", $"{ employee.FirstName} {employee.LastName}"),
@@ -158,7 +157,8 @@ public class AccountService
                                            select r.Name;
 
             claims.AddRange(getRoleNameByAccountRole.Select(role => new Claim(ClaimTypes.Role, role)));
-
+        try
+        {
             var getToken = _tokenHandler.GenerateToken(claims);
             return getToken;
         }

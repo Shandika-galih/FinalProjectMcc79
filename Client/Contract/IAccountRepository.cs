@@ -1,14 +1,14 @@
-﻿using API.DTOs.Accounts;
-using Client.Repositories;
-using API.Utilities.Handler;
+﻿using Client.Repositories;
 using API.Utilities.Handler;
 using Client.ViewModels.Account;
+using API.DTOs.Accounts;
+using API.Utilities;
+using API.Models;
 
 namespace Client.Contract
 {
-    public interface IAccountRepository : IGeneralRepository<LoginVM, string>
+    public interface IAccountRepository : IGeneralRepository<Account, string>
     {
-        Task<API.Utilities.ResponseHandler<AccountRepository>> Register(LoginVM entity);
-        Task<API.Utilities.ResponseHandler<string>> Login(LoginVM entity);
+        Task<ResponseHandler<string>> Login(LoginVM entity);
     }
 }
