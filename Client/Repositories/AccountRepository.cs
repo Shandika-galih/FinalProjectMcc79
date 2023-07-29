@@ -36,4 +36,28 @@ public class AccountRepository : GeneralRepository<Account, string>, IAccountRep
         }
         return responseHandler;
     }
+
+    public async Task<ResponseHandler<string>> ForgotPassword(ForgotPasswordVM forgotPasswordVM)
+    {
+        ResponseHandler<string> responseHandler = null;
+        StringContent content = new StringContent(JsonConvert.SerializeObject(forgotPasswordVM), Encoding.UTF8, "application/json");
+        using (var response = await httpClient.PostAsync(request + "ForgotPassword", content))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            responseHandler = JsonConvert.DeserializeObject<ResponseHandler<string>>(apiResponse);
+        }
+        return responseHandler;
+    }
+
+    public async Task<ResponseHandler<string>> ChangePassword(ChangePasswordVM changePasswordVM)
+    {
+        ResponseHandler<string> responseHandler = null;
+        StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordVM), Encoding.UTF8, "application/json");
+        using (var response = await httpClient.PutAsync(request + "ChangePassword", content))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            responseHandler = JsonConvert.DeserializeObject<ResponseHandler<string>>(apiResponse);
+        }
+        return responseHandler;
+    }
 }
