@@ -9,7 +9,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
@@ -46,9 +45,6 @@ if (app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
@@ -88,6 +84,10 @@ app.Use(async (context, next) =>
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
