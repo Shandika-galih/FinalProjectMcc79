@@ -6,6 +6,7 @@ using System.Net;
 using System;
 using API.DTOs.LeaveRequest;
 using API.DTOs.Manager;
+using API.DTOs.Employees;
 
 namespace API.Controllers;
 
@@ -14,10 +15,36 @@ namespace API.Controllers;
 public class ManagerController : ControllerBase
 {
     private readonly ManagerService _service;
+    private readonly EmployeeService _employeeService;
 
-    public ManagerController(ManagerService service)
+    public ManagerController(ManagerService service, EmployeeService employeeService)
     {
         _service = service;
+        _employeeService = employeeService;
+    }
+
+    [HttpGet]
+    public IActionResult GetManagers()
+    {
+        var entities = _employeeService.GetManagers();
+
+        if (entities == null)
+        {
+            return NotFound(new ResponseHandler<GetDataEmployeeDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<GetDataEmployeeDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Data found",
+            Data = entities
+        });
     }
 
     [HttpGet("employees/{managerGuid}/leave-requests")]

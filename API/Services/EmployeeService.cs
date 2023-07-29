@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.Data;
 using API.DTOs.Employees;
+using API.DTOs.Manager;
 using API.Models;
 using API.Utilities;
 
@@ -54,6 +55,12 @@ public class EmployeeService
             return null; // employee not found
         }
 
+        var account = _accountRepository.GetByGuid(guid);
+        if (account is null)
+        {
+            return null; // account not found
+        }
+
         var toDto = new GetEmployeeDto
         {
             Guid = employee.Guid,
@@ -64,7 +71,8 @@ public class EmployeeService
             PhoneNumber = employee.PhoneNumber,
             EligibleLeave = employee.EligibleLeave,
             HiringDate = employee.HiringDate,
-            ManagerGuid = employee.ManagerGuid
+            ManagerGuid = employee.ManagerGuid,
+            Email = account.Email
         };
 
         return toDto; // employees found
@@ -111,13 +119,11 @@ public class EmployeeService
 
     public int UpdateEmployee(UpdateEmployeeDto updateEmployeeDto)
     {
-        var isExist = _employeeRepository.IsExist(updateEmployeeDto.Guid);
-        if (!isExist)
+        var getEmployee = _employeeRepository.GetByGuid(updateEmployeeDto.Guid);
+        if (getEmployee is null)
         {
             return -1; // employee not found
         }
-
-        var getEmployee = _employeeRepository.GetByGuid(updateEmployeeDto.Guid);
 
         var employee = new Employee
         {
@@ -129,13 +135,32 @@ public class EmployeeService
             PhoneNumber = updateEmployeeDto.PhoneNumber,
             EligibleLeave = updateEmployeeDto.EligibleLeave,
             HiringDate = updateEmployeeDto.HiringDate,
-            ManagerGuid = updateEmployeeDto.ManagerGuid ?? null
+            ManagerGuid = updateEmployeeDto.ManagerGuid ?? null,
+           
         };
 
-        var isUpdate = _employeeRepository.Update(employee);
-        if (!isUpdate)
+        var isUpdateEmployee = _employeeRepository.Update(employee);
+        if (!isUpdateEmployee)
         {
             return 0; // employee not updated
+        }
+
+        var account = _accountRepository.GetByGuid(updateEmployeeDto.Guid);
+        if (account == null)
+        {
+            // Account not found, create a new one
+            account = new Account
+            {
+                Guid = updateEmployeeDto.Guid,
+                Email = updateEmployeeDto.Email,
+            };
+            _accountRepository.Create(account);
+        }
+        else
+        {
+            // Account found, update Email and Password
+            account.Email = updateEmployeeDto.Email;
+            _accountRepository.Update(account);
         }
 
         return 1;
@@ -175,6 +200,7 @@ public class EmployeeService
     {
         var master = (from employee in _employeeRepository.GetAll()
                       join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
+                      join accountRole in _accountRoleRepository.GetAll() on account.Guid equals accountRole.AccountGuid join role in _roleRepository.GetAll() on accountRole.RoleGuid equals role.Guid
                       select new GetDataEmployeeDto
                       {
                           Guid = employee.Guid,
@@ -186,6 +212,7 @@ public class EmployeeService
                           EligibleLeave = employee.EligibleLeave,
                           HiringDate = employee.HiringDate,
                           ManagerGuid = employee.ManagerGuid,
+                          RoleName = role.Name
                       }).ToList();
 
         foreach (var getDataEmployee in master)
@@ -202,6 +229,15 @@ public class EmployeeService
         }
 
         return master;
+    }
+
+    public IEnumerable<GetDataEmployeeDto> GetManagers()
+    {
+        var allEmployees = GetDataEmployee();
+
+        var managerEmployees = allEmployees.Where(employee => employee.RoleName == "Manager");
+
+        return managerEmployees;
     }
 
     public AddEmployeeDto? AddEmployee(AddEmployeeDto addEmployeeDto)

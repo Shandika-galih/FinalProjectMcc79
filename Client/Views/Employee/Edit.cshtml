@@ -1,58 +1,64 @@
-@using Client.ViewModels.Employee;
-@model Client.ViewModels.Employee.AddEmployeeVM
+﻿@using Client.ViewModels.Employee;
+@model Client.ViewModels.Employee.EmployeeVM
 
 @{
+    ViewData["Title"] = "Edit";
     Layout = "_LayoutEmployee";
 }
-
-<h1>Create</h1>
+    
+<h1>Edit</h1>
 
 <h4>EmployeeVM</h4>
-<hr/>
+<hr />
 <div class="row">
     <div class="col-md-4">
-        <form action="Create" method="post">
+        <form action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Guid" class="control-label"></label>
+                <input asp-for="Guid" class="form-control"/>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="NIK" class="control-label"></label>
+                <input asp-for="NIK" class="form-control"/>
+            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control"/>
-                <span class="text-danger"></span>
+                <input asp-for="FirstName" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control"/>
-                <span class="text-danger"></span>
+                <input asp-for="LastName" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="Gender" class="control-label"></label>
                 <div class="d-flex">
                     <div class="form-check me-4">
-                        <input class="form-check-input" type="radio" asp-for="Gender" value="1"/>
-                        <label class="form-check-label" asp-for="Gender" >
+                        <input class="form-check-input" type="radio" asp-for="Gender" value="Male" />
+                        <label class="form-check-label" asp-for="Gender" value="Male">
                             Male
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" asp-for="Gender" value="0"/>
-                        <label class="form-check-label" asp-for="Gender">
+                        <input class="form-check-input" type="radio" asp-for="Gender" value="Female" />
+                        <label class="form-check-label" asp-for="Gender" value="Female">
                             Female
                         </label>
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control"/>
-                <span class="text-danger"></span>
+                <input asp-for="PhoneNumber" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="EligibleLeave" class="control-label"></label>
-                <input type="number" asp-for="EligibleLeave" class="form-control"/>
-                <span class="text-danger"></span>
+                <input asp-for="EligibleLeave" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="HiringDate" class="control-label"></label>
-                <input asp-for="HiringDate" class="form-control" type="date"/>
-                <span class="text-danger"></span>
+                <input asp-for="HiringDate" class="form-control" type="date" />
             </div>
             <div class="col-md-12">
                 <label for="ManagerGuid" class="form-label">Manager</label>
@@ -71,23 +77,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input type="email" asp-for="Email" class="form-control"/>
-                <span class="text-danger"></span>
+                <input asp-for="Email" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" type="text"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" type="text"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Submit form</button>
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 

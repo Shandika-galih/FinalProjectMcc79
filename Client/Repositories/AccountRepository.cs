@@ -1,4 +1,5 @@
-﻿using API.DTOs.Accounts;
+using Client.ViewModels.Employee;
+using API.DTOs.Accounts;
 using API.Models;
 using API.Utilities;
 using Client.Contract;
@@ -61,3 +62,4 @@ public class AccountRepository : GeneralRepository<Account, string>, IAccountRep
         return responseHandler;
     }
 }
+

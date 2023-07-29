@@ -1,4 +1,4 @@
-﻿using API.Utilities;
+using API.Utilities;
 using Client.Contract;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -10,8 +10,8 @@ namespace Client.Repository
     public class GeneralRepository<Entity, TId> : IGeneralRepository<Entity, TId>
         where Entity : class
     {
-        private readonly string request;
-        private readonly HttpClient httpClient;
+        protected readonly string _request;
+        protected readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor contextAccessor;
 
         public GeneralRepository(string request)

@@ -1,6 +1,7 @@
 using Client.Contract;
 using Client.Repositories;
 using Client.Repository;
+using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
@@ -15,6 +16,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 
 // JWT Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -33,7 +36,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                ClockSkew = TimeSpan.Zero
            };
        });
-
 
 var app = builder.Build();
 

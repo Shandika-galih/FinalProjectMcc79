@@ -13,5 +13,6 @@ namespace API.DTOs.Employees
         public int EligibleLeave { get; set; }
         public DateTime HiringDate { get; set; }
         public Guid? ManagerGuid { get; set; }
+        public string Email { get; set; }
     }
 }
