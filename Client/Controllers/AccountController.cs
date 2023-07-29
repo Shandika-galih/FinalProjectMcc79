@@ -49,6 +49,70 @@ public class AccountController : Controller
         return View();
     }
 
+    [HttpGet]
+    public IActionResult ForgotPass()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ForgotPass(ForgotPasswordVM forgotPasswordVM)
+    {
+        var result = await repository.ForgotPassword(forgotPasswordVM);
+        if (result == null)
+        {
+            return RedirectToAction("Error", "Index");
+        }
+        else if (result.Code == 404)
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View();
+        }
+        else if (result.Status == "OK")
+        {
+            TempData["ForgotPasswordEmail"] = forgotPasswordVM.Email; // Simpan email di TempData
+            return RedirectToAction("ChangePass", "Account");
+        }
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult ChangePass()
+    {
+        var email = TempData["ForgotPasswordEmail"] as string; // Ambil email dari TempData
+        if (string.IsNullOrEmpty(email))
+        {
+            return RedirectToAction(nameof(ForgotPass));
+        }
+
+        var changePass = new ChangePasswordVM
+        {
+            Email = email, // Isi nilai email dari TempData
+        };
+
+        return View(changePass);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePass(ChangePasswordVM changePasswordVM)
+    {
+        var result = await repository.ChangePassword(changePasswordVM);
+        if (result == null)
+        {
+            return RedirectToAction("Error", "Index");
+        }
+        else if (result.Code == 404)
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View();
+        }
+        else if (result.Status == "OK")
+        {
+            return RedirectToAction("Login", "Account");
+        }
+        return View();
+    }
+
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
