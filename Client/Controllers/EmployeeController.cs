@@ -143,19 +143,17 @@ public class EmployeeController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(EmployeeVM employee)
     {
-        if (ModelState.IsValid)
+        var result = await repository.Put(employee.Guid, employee);
+        if (result.Code == 200)
         {
-            var result = await repository.Put(employee.Guid, employee);
-            if (result.Code == 200)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            else if (result.Status == "409")
-            {
-                ModelState.AddModelError(string.Empty, result.Message);
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
+        else if (result.Status == "409")
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View();
+        }
+
         return View();
     }
 }
