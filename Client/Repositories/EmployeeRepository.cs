@@ -17,7 +17,7 @@ public class EmployeeRepository : GeneralRepository<EmployeeVM, Guid>, IEmployee
     public async Task<ResponseHandler<IEnumerable<EmployeeVM>>> GetEmployees()
     {
         ResponseHandler<IEnumerable<EmployeeVM>> entityDto = null;
-        using (var response = await _httpClient.GetAsync(_request + "get-data-employee"))
+        using (var response = await httpClient.GetAsync(request + "get-data-employee"))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityDto = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<EmployeeVM>>>(apiResponse);
@@ -28,7 +28,7 @@ public class EmployeeRepository : GeneralRepository<EmployeeVM, Guid>, IEmployee
     public async Task<ResponseHandler<EmployeeVM>> GetEmployee(Guid guid)
     {
         ResponseHandler<EmployeeVM> entity = null;
-        using (var response = await _httpClient.GetAsync(_request + "get-data-employee" + guid))
+        using (var response = await httpClient.GetAsync(request + "get-data-employee" + guid))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entity = JsonConvert.DeserializeObject<ResponseHandler<EmployeeVM>>(apiResponse);
