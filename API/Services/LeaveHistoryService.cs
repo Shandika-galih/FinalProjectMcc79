@@ -151,14 +151,14 @@ public class LeaveHistoryService
         return data.Any() ? data : null;
     }
 
-    public IEnumerable<GetLeaveHistroyEmployeeDto> GetLeaveHistroyEmployee(Guid employeeGuid)
+    public IEnumerable<GetLeaveHistroyEmployeeDto> GetLeaveHistroyEmployee(string email)
     {
         var data = (from leaveHistorie in _leaveHistoryRepository.GetAll()
                     join leaveRequest in _leaveRequestRepository.GetAll() on leaveHistorie.LeaveRequestGuid equals leaveRequest.Guid
                     join leaveTypes in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveTypes.Guid
                     join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid
                     join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
-                    where employee.Guid == employeeGuid
+                    where account.Email == email
                     select new GetLeaveHistroyEmployeeDto
                     {
                         // Properti lainnya

@@ -1,8 +1,8 @@
 ﻿using API.Utilities.Enums;
 
-namespace API.DTOs.LeaveHistory;
+namespace Client.ViewModels.LeaveHistory;
 
-public class GetLeaveHistroyEmployeeDto
+public class LeaveHistoryEmployeeVM
 {
     public Guid Guid { get; set; }
     public int NIK { get; set; }

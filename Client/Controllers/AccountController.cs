@@ -65,12 +65,12 @@ public class AccountController : Controller
         }
         else if (result.Code == 404)
         {
-            ModelState.AddModelError(string.Empty, result.Message);
+            ModelState.AddModelError(string.Empty, result.Message); 
             return View();
         }
         else if (result.Status == "OK")
         {
-            TempData["ForgotPasswordEmail"] = forgotPasswordVM.Email; // Simpan email di TempData
+            TempData["ForgotPasswordEmail"] = forgotPasswordVM.Email;
             return RedirectToAction("ChangePass", "Account");
         }
         return View();
