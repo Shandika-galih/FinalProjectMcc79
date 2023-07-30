@@ -152,8 +152,8 @@ public class EmployeeController : ControllerBase
         {
             return BadRequest(new ResponseHandler<UpdateEmployeeDto>
             {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
                 Message = "Check your data"
             });
         }

@@ -17,6 +17,7 @@ public class EmployeeVM
     public Guid? ManagerGuid { get; set; }
     public string Manager { get; set; }
     public string RoleName { get; set; }
-    public string Password { get; set; }
+	public Guid RoleGuid { get; set; }
+	public string Password { get; set; }
     public string ConfirmPassword { get; set; }
 }

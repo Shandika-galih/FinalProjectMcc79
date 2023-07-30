@@ -24,8 +24,11 @@ namespace API.DTOs.Employees
         [Required]
         public DateTime HiringDate { get; set; }
         public Guid? ManagerGuid { get; set; }
-        [EmailAddress]
+        [Required]
+		public Guid RoleGuid { get; set; }
+		[EmailAddress]
         public string Email { get; set; }
+
        
     }
 }

@@ -14,6 +14,14 @@ namespace API.Repositories
         {
             return _context.Set<AccountRole>().Where(ar => ar.AccountGuid == guid);
         }
-    }
+
+		public AccountRole GetAccountRoles(Guid guid)
+		{
+			var entity = _context.Set<AccountRole>().FirstOrDefault(x => x.AccountGuid == guid);
+
+			_context.ChangeTracker.Clear();
+			return entity;
+		}
+	}
 
 }

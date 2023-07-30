@@ -79,18 +79,18 @@
 			</div>
 			<div class="col-md-12">
 				<label for="RoleName" class="form-label">Role</label>
-				<select asp-for="RoleName" class="form-select" id="validationCustom02">
+				<select asp-for="RoleGuid" class="form-select" id="validationCustom02">
 					@{
 						foreach (var item in (IEnumerable<RoleVM>)ViewData["Roles"])
 						{
 							var i = (AccountRoleVM)ViewData["AccountRole"];
 							if (i.RoleGuid == item.Guid)
 							{
-								<option selected value="@item.Name">@item.Name</option>
+								<option selected value="@item.Guid">@item.Name</option>
 							}
 							else
 							{
-								<option value="@item.Name">@item.Name</option>
+								<option value="@item.Guid">@item.Name</option>
 							}
 						}
 					}
