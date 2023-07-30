@@ -134,12 +134,6 @@ public class EmployeeController : Controller
             listManagers = resultManager.Data.ToList();
         }
 
-        var accountRole = await _accountRoleRepository.Get();
-        var resultAccountRole = new List<AccountRoleVM>();
-
-        if (accountRole.Data != null) resultAccountRole = accountRole.Data.ToList();
-
-
         var resultRole = await _roleRepository.Get();
         var listRoles = new List<RoleVM>();
 
@@ -148,12 +142,17 @@ public class EmployeeController : Controller
             listRoles = resultRole.Data.ToList();
         }
 
-        var accountRoleEmployee = new AccountRoleVM();
-        foreach (var i in resultAccountRole)
+		var resultAccountRole = await _accountRoleRepository.Get();
+		var listAccountRole = new List<AccountRoleVM>();
+
+		if (resultAccountRole.Data != null) listAccountRole = resultAccountRole.Data.ToList();
+
+		var accountRoleEmployee = new AccountRoleVM();
+        foreach (var accountRole in listAccountRole)
         {
-            if (i.AccountGuid == result.Data.Guid)
+            if (accountRole.AccountGuid == result.Data.Guid)
             {
-                accountRoleEmployee = i;
+                accountRoleEmployee = accountRole;
             }
         }
         // add to view data
