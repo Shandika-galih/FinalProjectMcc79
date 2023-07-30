@@ -1,4 +1,5 @@
-﻿using API.DTOs.LeaveHistory;
+﻿using API.Contracts;
+using API.DTOs.LeaveHistory;
 using API.Services;
 using API.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ public class LeaveHistoryController : ControllerBase
 
 {
     private readonly LeaveHistoryService _service;
+    private readonly ITokenHandler _tokenHandler;
 
-    public LeaveHistoryController(LeaveHistoryService service)
+    public LeaveHistoryController(LeaveHistoryService service, ITokenHandler tokenHandler)
     {
         _service = service;
+        _tokenHandler = tokenHandler;
     }
 
     [HttpGet]
@@ -172,13 +175,49 @@ public class LeaveHistoryController : ControllerBase
         });
     }
 
-    [HttpGet("history/{guid_employee}")]
-    public IActionResult GetByGuidEmployee(Guid guid_employee)
+    [HttpGet("history")]
+    public IActionResult GetByGuidEmployee()
     {
-        var employees = _service.GetLeaveHistroyEmployee(guid_employee); 
-
-        if (employees == null || !employees.Any()) 
+        try
         {
+            string token = _tokenHandler.GetTokenFromHeader(Request);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new Exception("JWT token not found in the request.");
+            }
+
+            var jwtPayload = _tokenHandler.DecodeJwtToken(token);
+
+            if (jwtPayload == null || !jwtPayload.ContainsKey("Email"))
+            {
+                throw new Exception("Email not found in the JWT token.");
+            }
+
+            var email = jwtPayload["Email"].ToString();
+            var employees = _service.GetLeaveHistroyEmployee(email);
+
+            if (employees == null || !employees.Any())
+            {
+                return NotFound(new ResponseHandler<GetLeaveHistroyEmployeeDto>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Data not found"
+                });
+            }
+
+            return Ok(new ResponseHandler<IEnumerable<GetLeaveHistroyEmployeeDto>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Data found",
+                Data = employees
+            });
+        }
+        catch (Exception ex)
+        {
+            // Exception occurred, handle and return "Data not found" response
             return NotFound(new ResponseHandler<GetLeaveHistroyEmployeeDto>
             {
                 Code = StatusCodes.Status404NotFound,
@@ -186,14 +225,6 @@ public class LeaveHistoryController : ControllerBase
                 Message = "Data not found"
             });
         }
-
-        return Ok(new ResponseHandler<IEnumerable<GetLeaveHistroyEmployeeDto>> 
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Data found",
-            Data = employees 
-        });
     }
 
 

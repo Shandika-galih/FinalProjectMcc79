@@ -1,6 +1,8 @@
-﻿using API.DTOs.LeaveRequest;
+﻿using API.DTOs.LeaveHistory;
+using API.DTOs.LeaveRequest;
 using API.Services;
 using API.Utilities;
+using API.Utilities.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -11,10 +13,12 @@ namespace API.Controllers;
 public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _service;
+    private readonly LeaveHistoryService _leaveHistoryService;
 
-    public LeaveRequestController(LeaveRequestService service)
+    public LeaveRequestController(LeaveRequestService service, LeaveHistoryService leaveHistoryService)
     {
-    _service = service;
+        _service = service;
+        _leaveHistoryService = leaveHistoryService;
     }
 
     [HttpGet]
@@ -89,6 +93,14 @@ public class LeaveRequestController : ControllerBase
     public IActionResult Update(UpdateLeaveRequestDto updateLeaveRequestDto)
     {
         var update = _service.UpdateLeaveRequest(updateLeaveRequestDto);
+        /*if (updateLeaveRequestDto.Status == StatusEnum.Approved)
+        {
+            Guid guid = updateLeaveRequestDto.Guid;
+            NewLeaveHistoryDto leaveHistory = new NewLeaveHistoryDto();
+            leaveHistory.LeaveRequestGuid = guid;
+            var post = _leaveHistoryService.CreateLeaveHistory(leaveHistory);
+        }*/
+
         if (update is -1)
         {
             return NotFound(new ResponseHandler<UpdateLeaveRequestDto>
