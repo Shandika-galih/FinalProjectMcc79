@@ -44,7 +44,7 @@ public class AccountController : Controller
         else if (result.Status == "OK")
         {
             HttpContext.Session.SetString("JWToken", result.Data);
-            return RedirectToAction("Index", "Employee");
+            return RedirectToAction("Index", "Home");
         }
         return View();
     }
@@ -79,7 +79,7 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult ChangePass()
     {
-        var email = TempData["ForgotPasswordEmail"] as string; // Ambil email dari TempData
+        var email = TempData["ForgotPasswordEmail"] as string; 
         if (string.IsNullOrEmpty(email))
         {
             return RedirectToAction(nameof(ForgotPass));
@@ -87,7 +87,7 @@ public class AccountController : Controller
 
         var changePass = new ChangePasswordVM
         {
-            Email = email, // Isi nilai email dari TempData
+            Email = email, 
         };
 
         return View(changePass);
@@ -116,13 +116,7 @@ public class AccountController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction("Index", "Account");
-    }
-
-    [HttpGet]
-    public IActionResult Register()
-    {
-        return View();
+        return RedirectToAction("Login", "Account");
     }
 
 }
