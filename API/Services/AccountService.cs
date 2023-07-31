@@ -143,12 +143,15 @@ public class AccountService
             return "-1";
         }
         var employee = _employeeRepository.GetByGuid(emailEmp.Guid);
+        var manager = employee.ManagerGuid != null ? _employeeRepository.GetByGuid(employee.ManagerGuid.Value) : null;
 
-       
-            var claims = new List<Claim>() {
+        var claims = new List<Claim>() {
+                new Claim("Guid", employee.Guid.ToString()),
                 new Claim("NIK", employee.NIK.ToString()),
                 new Claim("FullName", $"{ employee.FirstName} {employee.LastName}"),
-                new Claim("Email", login.Email)
+                new Claim("Email", login.Email),
+                new Claim("EligibleLeave", employee.EligibleLeave.ToString()),
+                new Claim("Manager", manager != null ? $"{manager.FirstName} {manager.LastName}" : "N/A")
             };
 
             var getAccountRole = _accountRoleRepository.GetAccountRolesByAccountGuid(employee.Guid);

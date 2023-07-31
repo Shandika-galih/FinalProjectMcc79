@@ -1,6 +1,6 @@
-﻿namespace API.DTOs.LeaveType
+﻿namespace Client.ViewModels.LeaveType
 {
-    public class GetLeaveTypeDto
+    public class LeaveTypeVM
     {
         public Guid Guid { get; set; }
         public string LeaveName { get; set; }
