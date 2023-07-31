@@ -35,6 +35,4 @@ public class EmployeeRepository : GeneralRepository<EmployeeVM, Guid>, IEmployee
         }
         return entity;
     }
-
-
 }
