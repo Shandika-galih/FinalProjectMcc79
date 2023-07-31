@@ -49,6 +49,7 @@ builder.Services.AddScoped<LeaveRequestService>();
 builder.Services.AddScoped<LeaveHistoryService>();
 builder.Services.AddScoped<LeaveTypeService>();
 builder.Services.AddScoped<ManagerService>();
+builder.Services.AddScoped<HistoryLeaveRequestService>();
 
 
 

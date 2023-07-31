@@ -170,29 +170,6 @@ public class AccountService
             return "-2";
         }
     }
-
-    /*public int ChangePassword(ChangePasswordDto changePasswordDto)
-    {
-        var account = _accountRepository.GetEmail(changePasswordDto.Email);
-        if (account is null)
-            return 0; // Email not found
-
-        var accountGuid = _accountRepository.GetByGuid(account.Guid);
-        if (accountGuid is null)
-            return 0; // Email not found
-
-
-        var isUpdated = _accountRepository.Update(new Account
-        {
-            Guid = account.Guid,
-            Password = Hashing.HashPassword(changePasswordDto.NewPassword),
-      
-        });
-
-        return isUpdated ? 1    // Success
-                         : -4;  // Database Error
-    }*/
-
     public int ForgotPassword(ForgotPasswordDto forgotPassword)
     {
         var entity = _accountRepository.GetEmail(forgotPassword.Email);

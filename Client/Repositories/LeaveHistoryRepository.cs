@@ -31,7 +31,7 @@ public class LeaveHistoryRepository : GeneralRepository<LeaveHistoryEmployeeVM, 
     public async Task<ResponseHandler<IEnumerable<LeaveHistoryEmployeeVM>>> GetLeaveHistoryEmployee()
     {
         ResponseHandler<IEnumerable<LeaveHistoryEmployeeVM>> entity = null;
-        /*httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOSUsiOiIxMTExMTciLCJGdWxsTmFtZSI6ImthdGluYSBub29iIiwiRW1haWwiOiJrYXJpbmFub29iOUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNjkwNzA4Njg2LCJpc3MiOiJVcmxJc3N1ZXIiLCJhdWQiOiJVcmxBdWRpZW5jZSJ9.M6P8HFfwLz-cVfTnmMRsIW0xvpirDnhGmk1CetP5Rno");*/
+
 
         using (var response = await httpClient.GetAsync(request + "history"))
         {

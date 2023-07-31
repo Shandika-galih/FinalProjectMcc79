@@ -4,6 +4,9 @@
 ﻿@{
     Layout = "_LayoutEmployee";
 }
+<form method="post" action="@Url.Action("Logout", "Account")">
+    <button class="btn btn-primary" type="submit">Logout</button>
+</form>
 <p>
     <a href="/Employee/Create">Create New</a>
 </p>
@@ -97,3 +100,7 @@
         </div>
     </div>
 </section>
+@section Scripts {
+    <script src="/js/site.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
