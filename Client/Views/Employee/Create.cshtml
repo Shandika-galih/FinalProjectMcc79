@@ -4,92 +4,181 @@
 @{
     Layout = "_LayoutEmployee";
 }
-
-<h1>Create</h1>
-
-<h4>EmployeeVM</h4>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form action="Create" method="post">
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <div class="d-flex">
-                    <div class="form-check me-4">
-                        <input class="form-check-input" type="radio" asp-for="Gender" value="1"/>
-                        <label class="form-check-label" asp-for="Gender" >
-                            Male
-                        </label>
+<!-- Basic Horizontal form layout section start -->
+    <section id="basic-horizontal-layouts">
+    <div class="row match-height d-flex justify-content-center">
+            <div class="col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Horizontal Form with Icons</h4>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" asp-for="Gender" value="0"/>
-                        <label class="form-check-label" asp-for="Gender">
-                            Female
-                        </label>
+                    <div class="card-content">
+                        <div class="card-body">
+                        <form action="Create" method="post">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>First Name</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                <input asp-for="FirstName" class="form-control" placeholder="First Name"
+                                                       id="first-name-icon" />
+                                                    <div class="form-control-icon">
+                                                        <i class="bi bi-person"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Last Name</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                <input asp-for="LastName" class="form-control" placeholder="Last Name"
+                                                        id="first-name-icon"/>
+                                                    <div class="form-control-icon">
+                                                    <i class="bi bi-person-fill"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-4">
+                                        <label>Gender</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <div class="d-flex">
+                                                <div class="form-check me-4">
+                                                    <input class="form-check-input" type="radio" asp-for="Gender" value="1" />
+                                                    <label class="form-check-label" asp-for="Gender">
+                                                        Male
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" asp-for="Gender" value="0" />
+                                                    <label class="form-check-label" asp-for="Gender">
+                                                        Female
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-4">
+                                        <label>Eligible Leave</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                <input type="number" asp-for="EligibleLeave" class="form-control">
+                                                    <div class="form-control-icon">
+                                                    <i class="bi bi-box-seam"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-4">
+                                        <label>Mobile</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group has-icon-left">
+                                            <div class="position-relative">
+                                                <input asp-for="PhoneNumber" class="form-control" placeholder="Mobile">
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-phone"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Hiring Date</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group has-icon-left">
+                                            <div class="position-relative">
+                                                <input asp-for="HiringDate" class="form-control" type="date">
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-calendar"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Manager</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group has-icon-left">
+                                            <div class="position-relative">
+                                                <select asp-for="ManagerGuid" class="form-select" id="validationCustom02">
+                                                    <option value="">Null</option>
+                                                    @{
+                                                        foreach (var item in (IEnumerable<ManagerVM>)ViewData["Managers"])
+                                                        {
+                                                            <option value="@item.Guid">@item.NIK - @item.FullName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-4">
+                                            <label>Email</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                <input type="email" asp-for="Email" class="form-control" placeholder="Email"
+                                                        id="first-name-icon">
+                                                    <div class="form-control-icon">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Password</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                                                <div class="form-control-icon">
+                                                        <i class="bi bi-lock"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label>Confirm Password</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password">
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-lock-fill"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="reset"
+                                                class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EligibleLeave" class="control-label"></label>
-                <input type="number" asp-for="EligibleLeave" class="form-control"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HiringDate" class="control-label"></label>
-                <input asp-for="HiringDate" class="form-control" type="date"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="col-md-12">
-                <label for="ManagerGuid" class="form-label">Manager</label>
-                <select asp-for="ManagerGuid" class="form-select" id="validationCustom02">
-                    <option value="">Null</option>
-                    @{
-                        foreach (var item in (IEnumerable<ManagerVM>)ViewData["Managers"])
-                        {
-                            <option value="@item.Guid">@item.NIK - @item.FullName</option>
-                        }
-                    }
-                </select>
-                <div class="invalid-feedback">
-                    Please select a valid manager.
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input type="email" asp-for="Email" class="form-control"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" type="text"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" type="text"/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Submit form</button>
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </section>
+    <!-- // Basic Horizontal form layout section end -->
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

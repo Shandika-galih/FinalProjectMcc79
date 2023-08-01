@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTOs\LeaveHistory\**" />
+    <Content Remove="DTOs\LeaveHistory\**" />
+    <EmbeddedResource Remove="DTOs\LeaveHistory\**" />
+    <None Remove="DTOs\LeaveHistory\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="appsettings.json" />
   </ItemGroup>
 
@@ -23,10 +30,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTOs\LeaveHistory\" />
   </ItemGroup>
 
 </Project>

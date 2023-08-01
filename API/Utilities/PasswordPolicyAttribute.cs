@@ -25,7 +25,7 @@ namespace API.Utilities
                                hasUpperCase.IsMatch(password) &&
                                hasLowerCase.IsMatch(password);
 
-            ErrorMessage = "Password must contain at least 6 characters, 1 number, 1 symbol, 1 uppercase, and 1 lower case";
+            ErrorMessage = "Password not mach";
 
             return isValidated;
         }
