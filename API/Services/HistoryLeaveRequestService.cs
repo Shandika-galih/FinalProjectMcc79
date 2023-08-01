@@ -5,15 +5,13 @@ namespace API.Services;
 
 public class HistoryLeaveRequestService
 {
-    private readonly ILeaveHistoryRepository _leaveHistoryRepository;
     private readonly ILeaveRequestRepository _leaveRequestRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IAccountRepository _accountRepository;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-    public HistoryLeaveRequestService(ILeaveHistoryRepository leaveHistoryRepository, ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, IAccountRepository accountRepository, ILeaveTypeRepository leaveTypeRepository)
+    public HistoryLeaveRequestService( ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, IAccountRepository accountRepository, ILeaveTypeRepository leaveTypeRepository)
     {
-        _leaveHistoryRepository = leaveHistoryRepository;
         _leaveRequestRepository = leaveRequestRepository;
         _employeeRepository = employeeRepository;
         _accountRepository = accountRepository;
@@ -147,4 +145,30 @@ public class HistoryLeaveRequestService
         }
         return data;
     }
+
+    public IEnumerable<GetEmployeeRequestDto> GetByGuidManager(Guid managerGuid)
+    {
+        var leaveRequests =
+            from employee in _employeeRepository.GetEmployeesByManagerGuid(managerGuid)
+            join leaveRequest in _leaveRequestRepository.GetAll() on employee.Guid equals leaveRequest.EmployeesGuid
+            join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
+            where employee.ManagerGuid == managerGuid &&
+                  (leaveRequest.Status == Utilities.Enums.StatusEnum.Approved ||
+                   leaveRequest.Status == Utilities.Enums.StatusEnum.Rejected)
+            select new GetEmployeeRequestDto
+            {
+                Guid = leaveRequest.Guid,
+                NIK = employee.NIK,
+                FullName = $"{employee.FirstName} {employee.LastName}",
+                LeaveName = leaveType.LeaveName,
+                Remarks = leaveRequest.Remarks,
+                SubmitDate = leaveRequest.SubmitDate,
+                StartDate = leaveRequest.StartDate,
+                EndDate = leaveRequest.EndDate,
+                Status = leaveRequest.Status,
+            };
+
+        return leaveRequests;
+    }
+
 }

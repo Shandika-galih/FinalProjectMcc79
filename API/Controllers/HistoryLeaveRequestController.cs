@@ -1,5 +1,4 @@
 ﻿using API.Contracts;
-using API.DTOs.LeaveHistory;
 using API.DTOs.LeaveRequest;
 using API.Services;
 using API.Utilities;
@@ -24,7 +23,7 @@ public class HistoryLeaveRequestController : Controller
     [HttpGet]
     public IActionResult GetAll()
     {
-        var entities = _historyService.GetHistoryEmployeeRequest(); 
+        var entities = _historyService.GetHistoryEmployeeRequest();
 
         if (entities == null)
         {
@@ -160,7 +159,7 @@ public class HistoryLeaveRequestController : Controller
         catch (Exception ex)
         {
             // Exception occurred, handle and return "Data not found" response
-            return NotFound(new ResponseHandler<GetLeaveHistroyEmployeeDto>
+            return NotFound(new ResponseHandler<GetEmployeeRequestDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -169,4 +168,61 @@ public class HistoryLeaveRequestController : Controller
         }
     }
 
+    [HttpGet("byManager")]
+    public IActionResult GetByGuidManager()
+    {
+        try
+        {
+            string token = _tokenHandler.GetTokenFromHeader(Request);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new Exception("JWT token not found in the request.");
+            }
+
+            var jwtPayload = _tokenHandler.DecodeJwtToken(token);
+
+            if (jwtPayload == null || !jwtPayload.ContainsKey("Guid"))
+            {
+                throw new Exception("NIK not found in the JWT token.");
+            }
+
+            string guidString = jwtPayload["Guid"].ToString();
+            if (!Guid.TryParse(guidString, out Guid guid))
+            {
+                throw new Exception("Invalid Guid format.");
+            }
+
+            var history = _historyService.GetByGuidManager(guid);
+
+            if (history == null || !history.Any())
+            {
+                return NotFound(new ResponseHandler<GetEmployeeRequestDto>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Data not found"
+                });
+            }
+
+            return Ok(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Data found",
+                Data = history
+            });
+        }
+        catch (Exception ex)
+        {
+            // Exception occurred, handle and return "Data not found" response
+            return NotFound(new ResponseHandler<GetEmployeeRequestDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+
+    }
 }

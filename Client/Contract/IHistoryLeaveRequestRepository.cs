@@ -11,4 +11,5 @@ public interface IHistoryLeaveRequestRepository
     Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistoryPending();
     Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistoryReject();
     Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistorybyNik();
+    Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistorybyManager();
 }
