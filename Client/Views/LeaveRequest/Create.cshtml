@@ -1,13 +1,13 @@
-﻿@using Client.ViewModels.LeaveType;
+﻿@using Client.ViewModels.Employee;
+@using Client.ViewModels.LeaveType;
 @model Client.ViewModels.LeaveRequest.LeaveRequestVM
 
 @{
     ViewData["Title"] = "Create";
     Layout = "_LayoutLeaveRequest";
     var guid = User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
-    var fullName = User.Claims.FirstOrDefault(x => x.Type == "FullName")?.Value;
-    var manager = User.Claims.FirstOrDefault(x => x.Type == "Manager")?.Value;
-    var eligibleLeave = User.Claims.FirstOrDefault(x => x.Type == "EligibleLeave")?.Value;
+    var employee = (EmployeeVM)ViewData["Employee"];
+    var manager = (ManagerVM)ViewData["Manager"];
 }
 
 <h1>Create</h1>
@@ -22,15 +22,15 @@
             <input asp-for="EmployeesGuid" value="@guid" hidden>
             <div class="form-group">
                 <label class="control-label">FullName</label>
-                <span>: @fullName</span>
+                <span>: @employee.FirstName @employee.LastName</span>
             </div>
             <div class="form-group">
                 <label class="control-label">Manager</label>
-                <span>: @manager</span>
+                <span>: @manager.NIK - @manager.FullName</span>
             </div>
             <div class="form-group">
                 <label class="control-label">Eligible Leave</label>
-                <span>: @eligibleLeave</span>
+                <span>: @employee.EligibleLeave</span>
             </div>
             <div class="col-md-12">
                 <label for="LeaveTypesGuid" class="form-label">Leave Type</label>
