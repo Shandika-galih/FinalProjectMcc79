@@ -1,6 +1,7 @@
 ﻿using Client.Contract;
 using Client.Repositories;
 using Client.ViewModels.Employee;
+using Client.ViewModels.LeaveHistory;
 using Client.ViewModels.LeaveRequest;
 using Client.ViewModels.LeaveType;
 using Microsoft.AspNetCore.Mvc;
@@ -66,4 +67,18 @@ public class LeaveRequestController : Controller
 
 		return View();
 	}
+
+    [HttpGet]
+    public async Task<IActionResult> GetByManager()
+    {
+        var result = await _repository.GetByManager();
+        var listRequests = new List<LeaveRequestVM>();
+
+        if (result.Data != null)
+        {
+            listRequests = result.Data.ToList();
+        }
+
+        return View(listRequests);
+    }
 }

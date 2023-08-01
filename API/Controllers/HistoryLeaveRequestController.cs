@@ -184,7 +184,7 @@ public class HistoryLeaveRequestController : Controller
 
             if (jwtPayload == null || !jwtPayload.ContainsKey("Guid"))
             {
-                throw new Exception("NIK not found in the JWT token.");
+                throw new Exception("Guid not found in the JWT token.");
             }
 
             string guidString = jwtPayload["Guid"].ToString();

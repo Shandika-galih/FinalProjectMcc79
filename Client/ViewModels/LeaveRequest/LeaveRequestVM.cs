@@ -8,7 +8,7 @@ namespace Client.ViewModels.LeaveRequest
 		public string FullName { get; set; }
 		public string Manager { get; set; }
 		public int EligibleLeave { get; set; }
-		public string TypeName { get; set; }
+		public string LeaveName { get; set; }
         public string Remarks { get; set; }
         public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }

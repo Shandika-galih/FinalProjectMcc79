@@ -205,5 +205,32 @@ public class LeaveRequestService
         }
         return data;
     }
+
+
+    public IEnumerable<GetEmployeeRequestDto> GetLeaveRequestsByManagerGuid(Guid managerGuid)
+    {
+        var employeesUnderManager = _employeeRepository.GetEmployeesByManagerGuid(managerGuid);
+
+        var leaveRequests =
+            from employee in _employeeRepository.GetEmployeesByManagerGuid(managerGuid)
+            join leaveRequest in _leaveRequestRepository.GetAll() on employee.Guid equals leaveRequest.EmployeesGuid
+            join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
+            where employee.ManagerGuid == managerGuid &&
+                 (leaveRequest.Status == Utilities.Enums.StatusEnum.Pending)
+            select new GetEmployeeRequestDto
+            {
+                Guid = leaveRequest.Guid,
+                NIK = employee.NIK,
+                FullName = $"{employee.FirstName} {employee.LastName}",
+                LeaveName = leaveType.LeaveName,
+                Remarks = leaveRequest.Remarks,
+                SubmitDate = leaveRequest.SubmitDate,
+                StartDate = leaveRequest.StartDate,
+                EndDate = leaveRequest.EndDate,
+                Status = leaveRequest.Status,
+            };
+
+        return leaveRequests;
+    }
 }
 
