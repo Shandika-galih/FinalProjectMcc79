@@ -1,3 +1,4 @@
+using API.Contracts;
 using API.DTOs.LeaveRequest;
 using API.Services;
 using API.Utilities;
@@ -12,10 +13,12 @@ namespace API.Controllers;
 public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _service;
+    private readonly ITokenHandler _tokenHandler;
 
-    public LeaveRequestController(LeaveRequestService service)
+    public LeaveRequestController(LeaveRequestService service, ITokenHandler tokenHandler)
     {
         _service = service;
+        _tokenHandler = tokenHandler;
     }
 
     [HttpGet]
@@ -126,8 +129,8 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpDelete]
-    public IActionResult Delete(Guid guid) 
-    { 
+    public IActionResult Delete(Guid guid)
+    {
         var delete = _service.DeleteLeaveRequest(guid);
 
         if (delete is -1)
@@ -181,28 +184,61 @@ public class LeaveRequestController : ControllerBase
         });
     }
 
-    [HttpGet("manager/{managerGuid}")]
-    public IActionResult GetLeaveRequests(Guid managerGuid)
+    [HttpGet("manager")]
+    public IActionResult GetLeaveRequests()
     {
-        var leaveRequests = _service.GetLeaveRequestsByManagerGuid(managerGuid);
-
-        if (!leaveRequests.Any())
+        try
         {
-            return NotFound(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+            string token = _tokenHandler.GetTokenFromHeader(Request);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new Exception("JWT token not found in the request.");
+            }
+
+            var jwtPayload = _tokenHandler.DecodeJwtToken(token);
+
+            if (jwtPayload == null || !jwtPayload.ContainsKey("Guid"))
+            {
+                throw new Exception("NIK not found in the JWT token.");
+            }
+
+            string guidString = jwtPayload["Guid"].ToString();
+            if (!Guid.TryParse(guidString, out Guid guid))
+            {
+                throw new Exception("Invalid Guid format.");
+            }
+
+            var history = _service.GetLeaveRequestsByManagerGuid(guid);
+
+            if (history == null || !history.Any())
+            {
+                return NotFound(new ResponseHandler<GetEmployeeRequestDto>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Data not found"
+                });
+            }
+
+            return Ok(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Data found",
+                Data = history
+            });
+        }
+        catch (Exception ex)
+        {
+            // Exception occurred, handle and return "Data not found" response
+            return NotFound(new ResponseHandler<GetEmployeeRequestDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No leave requests found for the manager's subordinates."
+                Message = "Data not found"
             });
         }
-
-        return Ok(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Leave requests found for the manager's subordinates.",
-            Data = leaveRequests
-        });
     }
 }
 

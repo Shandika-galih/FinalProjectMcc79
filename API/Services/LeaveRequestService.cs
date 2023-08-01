@@ -215,6 +215,8 @@ public class LeaveRequestService
             from employee in _employeeRepository.GetEmployeesByManagerGuid(managerGuid)
             join leaveRequest in _leaveRequestRepository.GetAll() on employee.Guid equals leaveRequest.EmployeesGuid
             join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
+            where employee.ManagerGuid == managerGuid &&
+                 (leaveRequest.Status == Utilities.Enums.StatusEnum.Pending)
             select new GetEmployeeRequestDto
             {
                 Guid = leaveRequest.Guid,
