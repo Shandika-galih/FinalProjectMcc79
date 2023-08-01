@@ -14,12 +14,14 @@ public class LeaveRequestController : Controller
 	private readonly ILeaveRequestRepository _repository;
 	private readonly IEmployeeRepository _employeeRepository;
 	private readonly ILeaveTypeRepository _leaveTypeRepository;
+    private readonly IManagerRepository _managerRepository;
 
-    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveType)
+    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveType, IManagerRepository managerRepository)
     {
         _repository = repository;
         _employeeRepository = employeeRepository;
         _leaveTypeRepository = leaveType;
+        _managerRepository = managerRepository;
     }
 
     public async Task<IActionResult> Index()
@@ -38,6 +40,20 @@ public class LeaveRequestController : Controller
     [HttpGet]
     public async Task<IActionResult> Create()
 	{
+		var guid = User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
+        var guidTemp = Guid.Parse(guid);
+        var employee = await _employeeRepository.Get(guidTemp);
+        var manager = (await _managerRepository.Get()).Data?.ToList();
+        var isManager = manager?.FirstOrDefault(m => m.Guid == employee.Data.ManagerGuid) ?? new ManagerVM();
+
+        if (isManager.Guid != null)
+        {
+            ViewData["Manager"] = isManager;
+        }
+        else
+        {
+            ViewData["Manager"] = false;
+        }
 
         var resultLeaveType = await _leaveTypeRepository.Get();
         var listLeaveTypes = new List<LeaveTypeVM>();
@@ -45,8 +61,11 @@ public class LeaveRequestController : Controller
         if (resultLeaveType.Data != null)
         {
             listLeaveTypes = resultLeaveType.Data.ToList();
+
         }
+      
         // add to view data
+        ViewData["Employee"] = employee.Data;
         ViewData["LeaveTypes"] = listLeaveTypes;
         return View();
 	}
