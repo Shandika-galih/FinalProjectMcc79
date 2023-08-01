@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Guid)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.NIK)
             </th>
             <th>
@@ -45,9 +42,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Guid)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NIK)
             </td>

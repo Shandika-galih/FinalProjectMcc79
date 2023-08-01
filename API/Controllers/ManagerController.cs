@@ -47,7 +47,7 @@ public class ManagerController : ControllerBase
         });
     }
 
-    [HttpGet("employees/{managerGuid}/leave-requests")]
+    [HttpGet("leave-requests/{managerGuid}")]
     public IActionResult GetLeaveRequests(Guid managerGuid)
     {
         var leaveRequests = _service.GetLeaveRequestsByManagerGuid(managerGuid);

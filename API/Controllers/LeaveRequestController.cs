@@ -14,11 +14,13 @@ public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _service;
     private readonly LeaveHistoryService _leaveHistoryService;
+    private readonly ManagerService _managerService;
 
-    public LeaveRequestController(LeaveRequestService service, LeaveHistoryService leaveHistoryService)
+    public LeaveRequestController(LeaveRequestService service, LeaveHistoryService leaveHistoryService, ManagerService managerService)
     {
         _service = service;
         _leaveHistoryService = leaveHistoryService;
+        _managerService = managerService;
     }
 
     [HttpGet]
@@ -181,6 +183,30 @@ public class LeaveRequestController : ControllerBase
             Status = HttpStatusCode.OK.ToString(),
             Message = "Data found",
             Data = entities
+        });
+    }
+
+    [HttpGet("manager/{managerGuid}")]
+    public IActionResult GetLeaveRequests(Guid managerGuid)
+    {
+        var leaveRequests = _service.GetLeaveRequestsByManagerGuid(managerGuid);
+
+        if (!leaveRequests.Any())
+        {
+            return NotFound(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No leave requests found for the manager's subordinates."
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Leave requests found for the manager's subordinates.",
+            Data = leaveRequests
         });
     }
 }

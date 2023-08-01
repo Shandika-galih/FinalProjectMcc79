@@ -66,4 +66,18 @@ public class LeaveRequestController : Controller
 
 		return View();
 	}
+
+    [HttpGet]
+    public async Task<IActionResult> GetByManager(Guid managerGuid)
+    {
+        var result = await _repository.GetByManager(managerGuid);
+        var listRequests = new List<LeaveRequestVM>();
+
+        if (result.Data != null)
+        {
+            listRequests = result.Data.ToList();
+        }
+
+        return View(listRequests);
+    }
 }
