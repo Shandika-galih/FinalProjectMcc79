@@ -15,6 +15,7 @@ public class HistoryLeaveRequestController : Controller
         _history = historyLeaveRequestRepository;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         try
@@ -34,6 +35,7 @@ public class HistoryLeaveRequestController : Controller
         }
     }
 
+    [HttpGet]
     public async Task<IActionResult> Approve()
     {
         try
@@ -53,6 +55,7 @@ public class HistoryLeaveRequestController : Controller
         }
     }
 
+    [HttpGet]
     public async Task<IActionResult> Pending()
     {
         try
@@ -72,6 +75,7 @@ public class HistoryLeaveRequestController : Controller
         }
     }
 
+    [HttpGet]
     public async Task<IActionResult> Reject()
     {
         try
@@ -91,6 +95,7 @@ public class HistoryLeaveRequestController : Controller
         }
     }
 
+    [HttpGet]
     public async Task<IActionResult> byNik()
     {
         try
@@ -110,6 +115,7 @@ public class HistoryLeaveRequestController : Controller
         }
     }
 
+    [HttpGet]
     public async Task<IActionResult> byManager()
     {
         try
