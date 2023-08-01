@@ -38,17 +38,6 @@ public class HistoryLeaveRequestRepository : GeneralRepository<HistoryVM, Guid>,
         return entity;
     }
 
-    public async Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistorybyNik()
-    {
-        ResponseHandler<IEnumerable<HistoryVM>> entity = null;
-
-        using (var response = await httpClient.GetAsync(request + "byNik"))
-        {
-            string apiResponse = await response.Content.ReadAsStringAsync();
-            entity = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<HistoryVM>>>(apiResponse);
-        }
-        return entity;
-    }
 
     public async Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistoryPending()
     {
@@ -65,6 +54,28 @@ public class HistoryLeaveRequestRepository : GeneralRepository<HistoryVM, Guid>,
     {
         ResponseHandler<IEnumerable<HistoryVM>> entity = null;
         using (var response = await httpClient.GetAsync(request + "AllHistoryReject"))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entity = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<HistoryVM>>>(apiResponse);
+        }
+        return entity;
+    }
+    public async Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistorybyNik()
+    {
+        ResponseHandler<IEnumerable<HistoryVM>> entity = null;
+
+        using (var response = await httpClient.GetAsync(request + "byNik"))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entity = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<HistoryVM>>>(apiResponse);
+        }
+        return entity;
+    }
+
+    public async Task<ResponseHandler<IEnumerable<HistoryVM>>> GetLeaveHistorybyManager()
+    {
+        ResponseHandler<IEnumerable<HistoryVM>> entity = null;
+        using (var response = await httpClient.GetAsync(request + "byManager"))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entity = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<HistoryVM>>>(apiResponse);

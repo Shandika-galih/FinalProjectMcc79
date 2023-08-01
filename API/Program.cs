@@ -29,7 +29,6 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
-builder.Services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 // Add SmtpClient
@@ -46,7 +45,6 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<LeaveRequestService>();
-builder.Services.AddScoped<LeaveHistoryService>();
 builder.Services.AddScoped<LeaveTypeService>();
 builder.Services.AddScoped<ManagerService>();
 builder.Services.AddScoped<HistoryLeaveRequestService>();

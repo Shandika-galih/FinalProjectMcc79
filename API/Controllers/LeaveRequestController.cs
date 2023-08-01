@@ -1,5 +1,4 @@
-﻿using API.DTOs.LeaveHistory;
-using API.DTOs.LeaveRequest;
+﻿using API.DTOs.LeaveRequest;
 using API.Services;
 using API.Utilities;
 using API.Utilities.Enums;
@@ -13,12 +12,10 @@ namespace API.Controllers;
 public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _service;
-    private readonly LeaveHistoryService _leaveHistoryService;
 
-    public LeaveRequestController(LeaveRequestService service, LeaveHistoryService leaveHistoryService)
+    public LeaveRequestController(LeaveRequestService service)
     {
         _service = service;
-        _leaveHistoryService = leaveHistoryService;
     }
 
     [HttpGet]

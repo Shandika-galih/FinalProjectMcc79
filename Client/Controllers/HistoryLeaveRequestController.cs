@@ -109,4 +109,23 @@ public class HistoryLeaveRequestController : Controller
             return StatusCode(500, "Internal Server Error: " + ex.Message);
         }
     }
+
+    public async Task<IActionResult> byManager()
+    {
+        try
+        {
+            var result = await _history.GetLeaveHistorybyManager();
+            var nymanager = new List<HistoryVM>();
+
+            if (result.Data != null)
+            {
+                nymanager = result.Data.ToList();
+            }
+            return View(nymanager);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal Server Error: " + ex.Message);
+        }
+    }
 }
