@@ -100,4 +100,54 @@ public class LeaveRequestController : Controller
 
         return View(listRequests);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Approval(Guid guid)
+    {
+        var result = await _repository.Get(guid);
+
+        if (result.Data?.Guid is null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        var leaveRequest = new LeaveRequestVM
+        {
+            Guid = result.Data.Guid,
+            NIK = result.Data.NIK,
+            FullName = result.Data.FullName,
+            LeaveName = result.Data.LeaveName,
+            Remarks = result.Data.Remarks,
+            SubmitDate = result.Data.SubmitDate,
+            StartDate = result.Data.StartDate,
+            EndDate = result.Data.EndDate,
+            Attachment = result.Data.Attachment,
+            Status = result.Data.Status
+        };
+
+        return View(leaveRequest);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Approval(LeaveRequestVM status)
+    {
+        var statusDto = new UpdateStatusRequestVM
+        {
+            Guid = status.Guid,
+            Status = status.Status
+        };
+
+        var result = await _repository.Approval(statusDto);
+        if (result.Code == 200)
+        {
+            return RedirectToAction(nameof(GetByManager));
+        }
+        else if (result.Status == "409")
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View();
+        }
+
+        return View();
+    }
 }

@@ -5,6 +5,8 @@ namespace Client.ViewModels.LeaveRequest
 {
 	public class LeaveRequestVM
 	{
+		public Guid Guid { get; set; }
+		public int NIK { get; set; }
 		public string FullName { get; set; }
 		public string Manager { get; set; }
 		public int EligibleLeave { get; set; }

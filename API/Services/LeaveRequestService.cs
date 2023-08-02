@@ -1,7 +1,10 @@
 ﻿using API.Contracts;
+using API.DTOs.Employees;
 using API.DTOs.LeaveRequest;
+using API.DTOs.Manager;
 using API.Models;
 using API.Repositories;
+using System.Diagnostics.Metrics;
 using System.Net.Mail;
 
 namespace API.Services;
@@ -45,26 +48,11 @@ public class LeaveRequestService
         return toDto; // Leave Request Found
     }
 
-    public GetLeaveRequestDto? GetLeaveRequest(Guid guid)
+    public GetEmployeeRequestDto? GetLeaveRequest(Guid guid)
     {
-        var leaveRequest = _leaveRequestRepository.GetByGuid(guid);
-        if (leaveRequest is null)
-        {
-            return null; //Leave Request not found
-        }
-        var toDto = new GetLeaveRequestDto
-        {
-            Guid = leaveRequest.Guid,
-            Status = leaveRequest.Status,
-            StartDate = leaveRequest.StartDate,
-            EndDate = leaveRequest.EndDate,
-            Remarks = leaveRequest.Remarks,
-            Attachment = leaveRequest.Attachment,
-            SubmitDate = leaveRequest.SubmitDate,
-            LeaveTypesGuid = leaveRequest.LeaveTypesGuid,
-            EmployeesGuid = leaveRequest.EmployeesGuid,
-        };
-        return toDto;
+        var data = GetEmployeeRequest();
+        var dataByGuid = data.FirstOrDefault(data => data.Guid == guid);
+        return dataByGuid;
     }
 
     public GetLeaveRequestDto? CreateLeaveRequest(NewLeaveRequestDto newLeaveRequestDto)
@@ -233,6 +221,55 @@ public class LeaveRequestService
             };
 
         return leaveRequests;
+    }
+
+	public bool UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatus)
+	{
+		var leaveRequest = _leaveRequestRepository.GetByGuid(updateStatus.Guid);
+
+		if (leaveRequest == null)
+		{
+			return false;
+		}
+
+        // Update the status of the LeaveRequest
+        leaveRequest.Guid = updateStatus.Guid;
+		leaveRequest.Status = updateStatus.Status;
+
+        // Check if the status is Approved
+        if (updateStatus.Status == Utilities.Enums.StatusEnum.Approved)
+        {
+            int workingDays = CalculateWorkingDays(leaveRequest.StartDate, leaveRequest.EndDate);
+
+            var employee = _employeeRepository.GetByGuid(leaveRequest.EmployeesGuid);
+            if (employee != null)
+            {
+                employee.EligibleLeave -= workingDays;
+                _employeeRepository.Update(employee);
+            }
+        }
+
+        // Save the updated LeaveRequest
+        bool isUpdateSuccessful = _leaveRequestRepository.Update(leaveRequest);
+
+		return isUpdateSuccessful;
+	}
+
+    private int CalculateWorkingDays(DateTime startDate, DateTime endDate)
+    {
+        int workingDays = 0;
+        DateTime currentDate = startDate;
+
+        while (currentDate <= endDate)
+        {
+            if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
+            {
+                workingDays++;
+            }
+            currentDate = currentDate.AddDays(1);
+        }
+
+        return workingDays;
     }
 }
 

@@ -108,7 +108,7 @@ public class ManagerController : ControllerBase
 
     }
 
-    [HttpPut("leave-requests/status")]
+   /* [HttpPut("leave-requests/status")]
     public IActionResult UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatusDto)
     {
         bool isUpdateSuccessful = _service.UpdateLeaveRequestStatus(updateStatusDto);
@@ -131,6 +131,6 @@ public class ManagerController : ControllerBase
             Data = "Successfully updated"
         });
 
-    }
+    }*/
 
 }
