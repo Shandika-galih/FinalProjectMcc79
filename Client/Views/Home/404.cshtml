@@ -1,32 +1,36 @@
-﻿@{
+﻿﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>404 - Not Found</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Mazer Admin Dashboard</title>
+    <link rel="stylesheet" href="~/template//assets/css/main/app.css">
+    <link rel="stylesheet" href="~/template/assets/css/pages/error.css">
+    <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.png" type="image/png">
 </head>
 
 <body>
+    <div id="error">
+        
 
-    <div id="notfound">
-        <div class="notfound">
-            <div class="notfound-404">
-                <h1>404</h1>
-            </div>
-            <h2>Oops! Nothing Was Not Found</h2>
-            <p>it seems you're lost!</p>
-            <a id="countdown"></a>
+<div class="error-page container">
+    <div class="col-md-8 col-12 offset-md-2">
+        <div class="text-center">
+            <img class="img-error" src="~/template/assets/images/samples/error-404.svg" alt="Not Found">
+            <h1 class="error-title">NOT FOUND</h1>
+            <p class='fs-5 text-gray-600'>The page you are looking not found.</p>
+                    <a href="/Account/Login" class="btn btn-lg btn-outline-primary mt-3">Go Home</a>
         </div>
     </div>
+</div>
 
+
+    </div>
 </body>
 
 </html>
