@@ -19,25 +19,14 @@
     <div id="notfound">
         <div class="notfound">
             <div class="notfound-404">
-                <h1>401</h1>
+                <h1>404</h1>
             </div>
-            <h2>Oops! Nothing Was Not Found</h2>
+            <h2>Oops! Nothing Was Not Found lho</h2>
             <p>it seems you're lost!</p>
-            <a id="countdown">5</a>
+            <a id="countdown"></a>
         </div>
     </div>
 
 </body>
 
-<script>
-    let timer = 5
-    setInterval(() => {
-        document.getElementById('countdown').innerHTML = timer;
-        timer--;
-
-        if (timer === 0) {
-            location.href = "/Account/Login";
-        }
-    }, 1000)
-</script>
 </html>
