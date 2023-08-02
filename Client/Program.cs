@@ -18,7 +18,6 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
-builder.Services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
 builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 builder.Services.AddScoped<IHistoryLeaveRequestRepository, HistoryLeaveRequestRepository>();
