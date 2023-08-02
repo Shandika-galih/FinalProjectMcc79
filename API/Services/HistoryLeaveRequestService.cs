@@ -30,7 +30,8 @@ public class HistoryLeaveRequestService
                         FullName = employee.FirstName + " " + employee.LastName,
                         LeaveName = leaveType.LeaveName,
                         Remarks = leaveRequest.Remarks,
-                        SubmitDate = DateTime.Now,
+                        Attachment = leaveRequest.Attachment,
+                        SubmitDate = leaveRequest.SubmitDate,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Status = leaveRequest.Status
@@ -55,7 +56,8 @@ public class HistoryLeaveRequestService
                         FullName = employee.FirstName + " " + employee.LastName,
                         LeaveName = leaveType.LeaveName,
                         Remarks = leaveRequest.Remarks,
-                        SubmitDate = DateTime.Now,
+                        Attachment = leaveRequest.Attachment,
+                        SubmitDate = leaveRequest.SubmitDate,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Status = leaveRequest.Status
@@ -81,7 +83,8 @@ public class HistoryLeaveRequestService
                         FullName = employee.FirstName + " " + employee.LastName,
                         LeaveName = leaveType.LeaveName,
                         Remarks = leaveRequest.Remarks,
-                        SubmitDate = DateTime.Now,
+                        Attachment = leaveRequest.Attachment,
+                        SubmitDate = leaveRequest.SubmitDate,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Status = leaveRequest.Status
@@ -107,7 +110,8 @@ public class HistoryLeaveRequestService
                         FullName = employee.FirstName + " " + employee.LastName,
                         LeaveName = leaveType.LeaveName,
                         Remarks = leaveRequest.Remarks,
-                        SubmitDate = DateTime.Now,
+                        Attachment = leaveRequest.Attachment,
+                        SubmitDate = leaveRequest.SubmitDate,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Status = leaveRequest.Status
@@ -133,7 +137,8 @@ public class HistoryLeaveRequestService
                         FullName = employee.FirstName + " " + employee.LastName,
                         LeaveName = leaveType.LeaveName,
                         Remarks = leaveRequest.Remarks,
-                        SubmitDate = DateTime.Now,
+                        Attachment = leaveRequest.Attachment,
+                        SubmitDate = leaveRequest.SubmitDate,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Status = leaveRequest.Status
@@ -162,6 +167,7 @@ public class HistoryLeaveRequestService
                 FullName = $"{employee.FirstName} {employee.LastName}",
                 LeaveName = leaveType.LeaveName,
                 Remarks = leaveRequest.Remarks,
+                Attachment = leaveRequest.Attachment,
                 SubmitDate = leaveRequest.SubmitDate,
                 StartDate = leaveRequest.StartDate,
                 EndDate = leaveRequest.EndDate,

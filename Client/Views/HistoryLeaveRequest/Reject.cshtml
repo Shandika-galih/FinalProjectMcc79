@@ -2,15 +2,20 @@
 
 @{
     ViewData["Title"] = "Reject";
+    Layout = "_LayoutLeaveRequest";
+}
 }
 
 <h1>Reject</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            Employee Table
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Guid)
@@ -35,6 +40,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attachment)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -69,15 +77,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attachment)
+                </td>
+        
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
     </tbody>
-</table>
+            </table>
+        </div>
+    </div>
+</section>

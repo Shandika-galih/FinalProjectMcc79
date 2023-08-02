@@ -9,8 +9,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            Employee Table
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="table1">
+                    <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
@@ -104,4 +110,7 @@
         </tr>
 }
     </tbody>
-</table>
+            </table>
+        </div>
+    </div>
+</section>

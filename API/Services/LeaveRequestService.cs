@@ -2,6 +2,7 @@
 using API.DTOs.LeaveRequest;
 using API.Models;
 using API.Repositories;
+using System.Net.Mail;
 
 namespace API.Services;
 
@@ -224,6 +225,7 @@ public class LeaveRequestService
                 FullName = $"{employee.FirstName} {employee.LastName}",
                 LeaveName = leaveType.LeaveName,
                 Remarks = leaveRequest.Remarks,
+                Attachment = leaveRequest.Attachment,
                 SubmitDate = leaveRequest.SubmitDate,
                 StartDate = leaveRequest.StartDate,
                 EndDate = leaveRequest.EndDate,
