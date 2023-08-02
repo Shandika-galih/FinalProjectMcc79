@@ -1,5 +1,6 @@
 using API.Contracts;
 using API.DTOs.LeaveRequest;
+using API.DTOs.Manager;
 using API.Services;
 using API.Utilities;
 using API.Utilities.Enums;
@@ -49,7 +50,7 @@ public class LeaveRequestController : ControllerBase
         var leaveRequest = _service.GetLeaveRequest(guid);
         if (leaveRequest is null)
         {
-            return NotFound(new ResponseHandler<GetLeaveRequestDto>
+            return NotFound(new ResponseHandler<GetEmployeeRequestDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -57,7 +58,7 @@ public class LeaveRequestController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<GetLeaveRequestDto>
+        return Ok(new ResponseHandler<GetEmployeeRequestDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
@@ -240,6 +241,31 @@ public class LeaveRequestController : ControllerBase
             });
         }
     }
+
+	[HttpPut("status")]
+	public IActionResult UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatusDto)
+	{
+		bool isUpdateSuccessful = _service.UpdateLeaveRequestStatus(updateStatusDto);
+
+		if (!isUpdateSuccessful)
+		{
+			return NotFound(new ResponseHandler<UpdateStatusRequestDto>
+			{
+				Code = StatusCodes.Status404NotFound,
+				Status = HttpStatusCode.NotFound.ToString(),
+				Message = "LeaveRequest not found or failed to update status.",
+			});
+		}
+
+		return Ok(new ResponseHandler<string>
+		{
+			Code = StatusCodes.Status200OK,
+			Status = HttpStatusCode.OK.ToString(),
+			Message = "Leave request status updated successfully.",
+			Data = "Successfully updated"
+		});
+
+	}
 }
 
 

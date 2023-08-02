@@ -71,7 +71,7 @@ public class ManagerService
         return 1;
     }*/
 
-    public bool UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatus)
+  /*  public bool UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatus)
     {
         var leaveRequest = _leaveRequestRepository.GetByGuid(updateStatus.Guid);
 
@@ -87,6 +87,6 @@ public class ManagerService
         bool isUpdateSuccessful = _leaveRequestRepository.Update(leaveRequest);
 
         return isUpdateSuccessful;
-    }
+    }*/
 
 }
