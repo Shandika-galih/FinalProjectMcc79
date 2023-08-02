@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layout Default - Mazer Admin Dashboard</title>
-
     <link rel="stylesheet" href="~/template/assets/css/main/app.css">
     <link rel="stylesheet" href="~/template/assets/css/main/app-dark.css">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.svg" type="image/x-icon">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.png" type="image/png">
+
+    <link rel="stylesheet" href="~/template/assets/css/pages/fontawesome.css">
+    <link rel="stylesheet" href="~/template/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="~/template/assets/css/pages/datatables.css">
     <link rel="stylesheet" href="~/template/assets/extensions/simple-datatables/style.css">
     <link rel="stylesheet" href="~/template/assets/css/pages/simple-datatables.css">
+
 
 </head>
 
@@ -103,16 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <section class="section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Default Layout</h4>
-                        </div>
-                        <div class="card-body">
-                            @RenderBody()
-                        </div>
-                    </div>
-                </section>
+              @RenderBody()
             </div>
         </div>
     </div>
@@ -120,10 +115,14 @@
     <script src="~/template/assets/js/pages/simple-datatables.js"></script>
     <script src="~/template/assets/js/bootstrap.js"></script>
     <script src="~/template/assets/js/app.js"></script>
+    <script src="~/template/assets/js/bootstrap.js"></script>
+    <script src="~/template/assets/js/app.js"></script>
+    <script src="~/template/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/template/https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
     <script src="~/template/assets/js/pages/datatables.js"></script>
     <script src="~/template/assets/extensions/parsleyjs/parsley.min.js"></script>
     <script src="~/template/assets/js/pages/parsley.js"></script>
-
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
