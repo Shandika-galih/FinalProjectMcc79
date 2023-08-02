@@ -100,4 +100,31 @@ public class LeaveRequestController : Controller
 
         return View(listRequests);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Approval(Guid guid)
+    {
+        var result = await _repository.Get(guid);
+
+        if (result.Data?.Guid is null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        var leaveRequest = new LeaveRequestVM
+        {
+            Guid = result.Data.Guid,
+            NIK = result.Data.NIK,
+            FullName = result.Data.FullName,
+            LeaveName = result.Data.LeaveName,
+            Remarks = result.Data.Remarks,
+            SubmitDate = result.Data.SubmitDate,
+            StartDate = result.Data.StartDate,
+            EndDate = result.Data.EndDate,
+            Attachment = result.Data.Attachment,
+            Status = result.Data.Status
+        };
+
+        return View(leaveRequest);
+    }
 }
