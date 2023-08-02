@@ -25,14 +25,14 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestVM, Guid>, I
 		return entity;
 	}
 
-	public async Task<ResponseHandler<LeaveRequestVM>> Approval(Guid guid, LeaveRequestVM entity)
+	public async Task<ResponseHandler<UpdateStatusRequestVM>> Approval(UpdateStatusRequestVM entity)
 	{
-		ResponseHandler<LeaveRequestVM> entityVM = null;
+		ResponseHandler<UpdateStatusRequestVM> entityVM = null;
 		StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-		using (var response = httpClient.PutAsync(request + "status" + "?guid=" + guid, content).Result)
+		using (var response = httpClient.PutAsync(request + "status", content).Result)
 		{
 			string apiResponse = await response.Content.ReadAsStringAsync();
-			entityVM = JsonConvert.DeserializeObject<ResponseHandler<LeaveRequestVM>>(apiResponse);
+			entityVM = JsonConvert.DeserializeObject<ResponseHandler<UpdateStatusRequestVM>>(apiResponse);
 		}
 		return entityVM;
 	}

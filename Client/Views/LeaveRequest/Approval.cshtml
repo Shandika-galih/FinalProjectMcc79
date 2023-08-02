@@ -11,46 +11,46 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Approval">
+        <form action="Approval" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" hidden>
+            <div class="form-group" >
                 <label asp-for="Guid" class="control-label"></label>
-                <input asp-for="Guid" class="form-control" />
+                <input asp-for="Guid" class="form-control"disabled/>
                 <span asp-validation-for="Guid" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NIK" class="control-label"></label>
-                <input asp-for="NIK" class="form-control" />
+                <input asp-for="NIK" class="form-control" disabled/>
                 <span asp-validation-for="NIK" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
+                <input asp-for="FullName" class="form-control" disabled/>
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LeaveName" class="control-label"></label>
-                <input asp-for="LeaveName" class="form-control" />
+                <input asp-for="LeaveName" class="form-control" disabled/>
                 <span asp-validation-for="LeaveName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Remarks" class="control-label"></label>
-                <input asp-for="Remarks" class="form-control" />
+                <input asp-for="Remarks" class="form-control" disabled/>
                 <span asp-validation-for="Remarks" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SubmitDate" class="control-label"></label>
-                <input asp-for="SubmitDate" class="form-control" />
+                <input asp-for="SubmitDate" class="form-control" type="date" disabled/>
                 <span asp-validation-for="SubmitDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" class="form-control" disabled/>
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" class="form-control" disabled/>
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
           
@@ -63,7 +63,6 @@
                 <div class="form-group">
                     <label asp-for="Status" class="control-label"></label>
                     <select asp-for="Status" class="form-control">
-                        <option value="">-- Select Approval --</option>
                         <option value="0">Pending</option>
                         <option value="2">Reject</option>
                         <option value="3">Approve</option>

@@ -127,4 +127,27 @@ public class LeaveRequestController : Controller
 
         return View(leaveRequest);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Approval(LeaveRequestVM status)
+    {
+        var statusDto = new UpdateStatusRequestVM
+        {
+            Guid = status.Guid,
+            Status = status.Status
+        };
+
+        var result = await _repository.Approval(statusDto);
+        if (result.Code == 200)
+        {
+            return RedirectToAction(nameof(GetByManager));
+        }
+        else if (result.Status == "409")
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View();
+        }
+
+        return View();
+    }
 }
