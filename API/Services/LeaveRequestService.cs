@@ -232,13 +232,44 @@ public class LeaveRequestService
 			return false;
 		}
 
-		// Update the status of the LeaveRequest
+        // Update the status of the LeaveRequest
+        leaveRequest.Guid = updateStatus.Guid;
 		leaveRequest.Status = updateStatus.Status;
 
-		// Save the updated LeaveRequest
-		bool isUpdateSuccessful = _leaveRequestRepository.Update(leaveRequest);
+        // Check if the status is Approved
+        if (updateStatus.Status == Utilities.Enums.StatusEnum.Approved)
+        {
+            int workingDays = CalculateWorkingDays(leaveRequest.StartDate, leaveRequest.EndDate);
+
+            var employee = _employeeRepository.GetByGuid(leaveRequest.EmployeesGuid);
+            if (employee != null)
+            {
+                employee.EligibleLeave -= workingDays;
+                _employeeRepository.Update(employee);
+            }
+        }
+
+        // Save the updated LeaveRequest
+        bool isUpdateSuccessful = _leaveRequestRepository.Update(leaveRequest);
 
 		return isUpdateSuccessful;
 	}
+
+    private int CalculateWorkingDays(DateTime startDate, DateTime endDate)
+    {
+        int workingDays = 0;
+        DateTime currentDate = startDate;
+
+        while (currentDate <= endDate)
+        {
+            if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
+            {
+                workingDays++;
+            }
+            currentDate = currentDate.AddDays(1);
+        }
+
+        return workingDays;
+    }
 }
 
