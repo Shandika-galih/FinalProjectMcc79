@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label for="LeaveTypesGuid" class="form-label">Leave Type</label>
-                                <select asp-for="LeaveTypesGuid" class="form-select" id="validationCustom02">
+                                <select asp-for="LeaveTypesGuid" class="form-select" id="validationCustom">
                                     @{
                                         foreach (var item in (IEnumerable<LeaveTypeVM>)ViewData["LeaveTypes"])
                                         {
@@ -152,6 +152,25 @@
                 return false;
             }
 
+            var leaveTypeSelect = document.getElementById("validationCustom");
+            var selectedLeaveType = leaveTypeSelect.options[leaveTypeSelect.selectedIndex];
+
+            if (selectedLeaveType.text === "Cuti Normal") {
+                var startDate = new Date(document.getElementById("StartDate").value);
+                var today = new Date();
+                var timeDiff = startDate.getTime() - today.getTime();
+                var daysBeforeStartDate = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                var minimumDays = 7;
+
+                if (daysBeforeStartDate < minimumDays) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "You must apply for 'Cuti Normal' at least " + minimumDays + " days before the start date.",
+                    });
+                    return false;
+                }
+            }
             return true;
         }
     </script>
