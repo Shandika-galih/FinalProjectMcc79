@@ -1,6 +1,7 @@
 ﻿using API.Utilities;
 using Client.Contract;
 using Client.Repository;
+using Client.ViewModels.Account;
 using Client.ViewModels.LeaveRequest;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
@@ -24,16 +25,16 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestVM, Guid>, I
 		}
 		return entity;
 	}
-
-	public async Task<ResponseHandler<UpdateStatusRequestVM>> Approval(UpdateStatusRequestVM entity)
-	{
-		ResponseHandler<UpdateStatusRequestVM> entityVM = null;
-		StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-		using (var response = httpClient.PutAsync(request + "status", content).Result)
-		{
-			string apiResponse = await response.Content.ReadAsStringAsync();
-			entityVM = JsonConvert.DeserializeObject<ResponseHandler<UpdateStatusRequestVM>>(apiResponse);
-		}
-		return entityVM;
-	}
+    public async Task<ResponseHandler<string>> ApproveStatus(UpdateStatusRequestVM leaveRequestFix)
+    {
+        ResponseHandler<string> entity = null;
+        string url = request + "status?guid=";
+        StringContent content = new StringContent(JsonConvert.SerializeObject(leaveRequestFix), Encoding.UTF8, "application/json");
+        using (var response = await httpClient.PutAsync(url, content))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entity = JsonConvert.DeserializeObject<ResponseHandler<string>>(apiResponse);
+        }
+        return entity;
+    }
 }

@@ -75,7 +75,7 @@
 								@Html.DisplayFor(modelItem => item.Status)
 							</td>
 							<td>
-								<form action="/leaverequest/approval" method="get">
+								<form action="/leaverequest/ApproveStatuss" method="get">
 									<input type="hidden" value="@item.Guid" name="guid" />
 									<button type="submit" class="btn btn-sm btn-primary">Detail</button>
 								</form>

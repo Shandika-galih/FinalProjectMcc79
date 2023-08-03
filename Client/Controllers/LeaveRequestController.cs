@@ -1,4 +1,5 @@
-﻿using Client.Contract;
+﻿using API.Models;
+using Client.Contract;
 using Client.Repositories;
 using Client.ViewModels.Employee;
 using Client.ViewModels.LeaveHistory;
@@ -11,9 +12,9 @@ namespace Client.Controllers;
 
 public class LeaveRequestController : Controller
 {
-	private readonly ILeaveRequestRepository _repository;
-	private readonly IEmployeeRepository _employeeRepository;
-	private readonly ILeaveTypeRepository _leaveTypeRepository;
+    private readonly ILeaveRequestRepository _repository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly ILeaveTypeRepository _leaveTypeRepository;
     private readonly IManagerRepository _managerRepository;
 
     public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveType, IManagerRepository managerRepository)
@@ -39,8 +40,8 @@ public class LeaveRequestController : Controller
 
     [HttpGet]
     public async Task<IActionResult> Create()
-	{
-		var guid = User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
+    {
+        var guid = User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
         var guidTemp = Guid.Parse(guid);
         var employee = await _employeeRepository.Get(guidTemp);
         var manager = (await _managerRepository.Get()).Data?.ToList();
@@ -63,29 +64,29 @@ public class LeaveRequestController : Controller
             listLeaveTypes = resultLeaveType.Data.ToList();
 
         }
-      
+
         // add to view data
         ViewData["Employee"] = employee.Data;
         ViewData["LeaveTypes"] = listLeaveTypes;
         return View();
-	}
+    }
 
-	[HttpPost]
-	public async Task<IActionResult> Create(LeaveRequestVM leaveRequest)
-	{
-		var result = await _repository.Post(leaveRequest);
-		if (result.Code == 200)
-		{
-			return RedirectToAction("Index", "Employee");
-		}
-		else if (result.Status == "409")
-		{
-			ModelState.AddModelError(string.Empty, result.Message);
-			return View();
-		}
+    [HttpPost]
+    public async Task<IActionResult> Create(LeaveRequestVM leaveRequest)
+    {
+        var result = await _repository.Post(leaveRequest);
+        if (result.Code == 200)
+        {
+            return RedirectToAction("Index", "Employee");
+        }
+        else if (result.Status == "409")
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View();
+        }
 
-		return View();
-	}
+        return View();
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetByManager()
@@ -102,7 +103,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Approval(Guid guid)
+    public async Task<IActionResult> ApproveStatuss(Guid guid)
     {
         var result = await _repository.Get(guid);
 
@@ -110,37 +111,32 @@ public class LeaveRequestController : Controller
         {
             return RedirectToAction(nameof(Index));
         }
-
-        var leaveRequest = new LeaveRequestVM
+        var leaveRequest = new UpdateStatusRequestVM
         {
             Guid = result.Data.Guid,
-            NIK = result.Data.NIK,
             FullName = result.Data.FullName,
-            LeaveName = result.Data.LeaveName,
+            NIK = result.Data.NIK,
             Remarks = result.Data.Remarks,
             SubmitDate = result.Data.SubmitDate,
             StartDate = result.Data.StartDate,
             EndDate = result.Data.EndDate,
             Attachment = result.Data.Attachment,
-            Status = result.Data.Status
+            Status = result.Data.Status,
+            LeaveName = result.Data.LeaveName,
+
         };
+
 
         return View(leaveRequest);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Approval(LeaveRequestVM status)
+    public async Task<IActionResult> ApproveStatuss(UpdateStatusRequestVM leaveRequestFix)
     {
-        var statusDto = new UpdateStatusRequestVM
-        {
-            Guid = status.Guid,
-            Status = status.Status
-        };
-
-        var result = await _repository.Approval(statusDto);
+        var result = await _repository.ApproveStatus(leaveRequestFix);
         if (result.Code == 200)
         {
-            return RedirectToAction(nameof(GetByManager));
+            return RedirectToAction(nameof(Index));
         }
         else if (result.Status == "409")
         {
@@ -150,4 +146,6 @@ public class LeaveRequestController : Controller
 
         return View();
     }
+
 }
+
