@@ -4,11 +4,10 @@
 ﻿@{
     Layout = "_LayoutEmployee";
 }
-<form method="post" action="@Url.Action("Logout", "Account")">
-    <button class="btn btn-primary" type="submit">Logout</button>
-</form>
 <p>
-    <a href="/Employee/Create">Create New</a>
+    <a class="btn btn-primary" href="/Employee/Create">
+        <i class="bi bi-person-plus"></i>
+        Add Employee</a>
 </p>
 <section class="section">
     <div class="card">
