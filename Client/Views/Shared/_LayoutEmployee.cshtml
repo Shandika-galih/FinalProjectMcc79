@@ -58,6 +58,7 @@
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
 
+
 						<li class="sidebar-item @(Context.Request.Path == "/Home/Index" ? "active" : "")">
 							<a href="@Url.Action("Index", "Home")" class='sidebar-link'>
 								<i class="bi bi-grid-fill"></i>
@@ -89,14 +90,14 @@
 						<li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/ByNik" ? "active" : "")">
 							<a href="@Url.Action("ByNik", "HistoryLeaveRequest")" class='sidebar-link'>
 								<i class="bi bi-file-earmark-spreadsheet-fill"></i>
-								<span>Leave history(manager)</span>
+								<span>Leave history(user)</span>
 							</a>
 						</li>
 
 						<li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/byManager" ? "active" : "")">
 							<a href="@Url.Action("byManager", "HistoryLeaveRequest")" class='sidebar-link'>
 								<i class="bi bi-file-earmark-spreadsheet-fill"></i>
-								<span>Leave history(user)</span>
+								<span>Leave history(manager)</span>
 							</a>
 						</li>
 
