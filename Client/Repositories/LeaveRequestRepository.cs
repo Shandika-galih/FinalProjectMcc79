@@ -15,21 +15,21 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestVM, Guid>, I
 	{
 	}
 
-    public async Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetByManager()
+    public async Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetByManager(Guid guid)
     {
         ResponseHandler<IEnumerable<LeaveRequestVM>> entity = null;
-        using (var response = await httpClient.GetAsync(request + "manager"))
+        using (var response = await httpClient.GetAsync(request + "manager/" + guid))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entity = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<LeaveRequestVM>>>(apiResponse);
 		}
 		return entity;
 	}
-    public async Task<ResponseHandler<string>> ApproveStatus(UpdateStatusRequestVM leaveRequestFix)
+    public async Task<ResponseHandler<string>> ApproveStatus(UpdateStatusRequestVM updateStatus)
     {
         ResponseHandler<string> entity = null;
         string url = request + "status?guid=";
-        StringContent content = new StringContent(JsonConvert.SerializeObject(leaveRequestFix), Encoding.UTF8, "application/json");
+        StringContent content = new StringContent(JsonConvert.SerializeObject(updateStatus), Encoding.UTF8, "application/json");
         using (var response = await httpClient.PutAsync(url, content))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
