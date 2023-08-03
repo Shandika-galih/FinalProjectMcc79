@@ -6,8 +6,8 @@ namespace Client.Contract
 {
 	public interface ILeaveRequestRepository : IGeneralRepository<LeaveRequestVM, Guid>
 	{
-        Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetByManager();
-        Task<ResponseHandler<string>> ApproveStatus(UpdateStatusRequestVM leaveRequestFix);
+        Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetByManager(Guid guid);
+        Task<ResponseHandler<string>> ApproveStatus(UpdateStatusRequestVM updateStatus);
 
     }
 }

@@ -91,15 +91,16 @@ public class LeaveRequestController : Controller
     [HttpGet]
     public async Task<IActionResult> GetByManager()
     {
-        var result = await _repository.GetByManager();
-        var listRequests = new List<LeaveRequestVM>();
+        var guid = User.Claims.FirstOrDefault(a => a.Type == "Guid")?.Value;
+        var guidTemp = Guid.Parse(guid);
+        var result = await _repository.GetByManager(guidTemp);
+        var requests = new List<LeaveRequestVM>();
 
-        if (result.Data != null)
+        if (result.Data is not null)
         {
-            listRequests = result.Data.ToList();
+            requests = result.Data.ToList();
         }
-
-        return View(listRequests);
+        return View(requests);
     }
 
     [HttpGet]
@@ -131,9 +132,9 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ApproveStatuss(UpdateStatusRequestVM leaveRequestFix)
+    public async Task<IActionResult> ApproveStatuss(UpdateStatusRequestVM updateStatus)
     {
-        var result = await _repository.ApproveStatus(leaveRequestFix);
+        var result = await _repository.ApproveStatus(updateStatus);
         if (result.Code == 200)
         {
             return RedirectToAction(nameof(Index));
