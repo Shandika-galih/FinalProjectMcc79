@@ -20,7 +20,7 @@
                 <div class="card-content">
                     <div class="card-body">
 
-                        <form action="create" method="post" data-parsley-validate onsubmit="return validateForm()">
+                        <form action="create" method="post" id="approveForm" data-parsley-validate onsubmit="return validateForm()">
                             <!-- ... -->
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input asp-for="Status" value="0" hidden>
@@ -99,6 +99,8 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+
     <script>
         function validateWeekend(input, warningElementId) {
             var selectedDate = new Date(input.value);
@@ -112,11 +114,10 @@
             }
         }
     </script>
-
     <script>
         function isWeekend(date) {
             var day = date.getDay();
-            return day === 0 || day === 6; 
+            return day === 0 || day === 6;
         }
 
         function validateForm() {
@@ -124,10 +125,13 @@
             var startDate = new Date(document.getElementById("StartDate").value);
             var endDate = new Date(document.getElementById("EndDate").value);
 
-
             if (startDate > endDate) {
-                alert("Start Date must be earlier than End Date");
-                return false; 
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Start Date must be earlier than End Date",
+                });
+                return false;
             }
 
             var leaveDays = 0;
@@ -140,11 +144,15 @@
             }
 
             if (leaveDays > eligibleLeave) {
-                alert("Eligible Leave is not enough. you just have " + eligibleLeave + " remaining days off.");
-                return false; 
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Eligible Leave is not enough. You just have " + eligibleLeave + " remaining days off.",
+                });
+                return false;
             }
 
-            return true; 
+            return true;
         }
     </script>
 }
