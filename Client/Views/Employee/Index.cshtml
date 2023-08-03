@@ -81,8 +81,6 @@
                                 @Html.DisplayFor(modelItem => item.RoleName)
                             </td>
                             <td>
-                                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
                                 <form action="/employee/delete" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                     <input type="hidden" value="@item.Guid" name="guid" />
                                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>

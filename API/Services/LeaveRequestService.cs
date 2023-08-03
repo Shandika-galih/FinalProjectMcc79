@@ -260,5 +260,33 @@ public class LeaveRequestService
 
         return workingDays;
     }
+
+    public IEnumerable<GetEmployeeRequestDto> GetHistorybyNikPending(int nik)
+    {
+        var data = (from leaveRequest in _leaveRequestRepository.GetAll()
+                    join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid
+                    join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
+                    where employee.NIK == nik &&
+                  (leaveRequest.Status == Utilities.Enums.StatusEnum.Pending)
+                    select new GetEmployeeRequestDto
+                    {
+                        Guid = leaveRequest.Guid,
+                        NIK = employee.NIK,
+                        FullName = employee.FirstName + " " + employee.LastName,
+                        LeaveName = leaveType.LeaveName,
+                        Remarks = leaveRequest.Remarks,
+                        Attachment = leaveRequest.Attachment,
+                        SubmitDate = leaveRequest.SubmitDate,
+                        StartDate = leaveRequest.StartDate,
+                        EndDate = leaveRequest.EndDate,
+                        Status = leaveRequest.Status
+                    }).ToList();
+
+        if (!data.Any())
+        {
+            return null;
+        }
+        return data;
+    }
 }
 

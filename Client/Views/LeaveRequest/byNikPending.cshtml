@@ -1,10 +1,15 @@
-﻿@model IEnumerable<Client.ViewModels.LeaveHistory.HistoryVM>
+﻿@model IEnumerable<Client.ViewModels.LeaveRequest.LeaveRequestVM>
 
 @{
-    ViewData["Title"] = "byNik";
+    ViewData["Title"] = "byNikPending";
     Layout = "_LayoutLeaveRequest";
 }
 
+<h1>byNikPending</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <section class="section">
     <div class="card">
         <div class="card-header">
@@ -75,6 +80,12 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Status)
                             </td>
+                            <td>
+                                <form action="/leaverequest/delete" method="post" onsubmit="return confirm('Are you sure you want to cancel this?')">
+                                <input type="hidden" value="@item.Guid" name="guid" />
+                                <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                            </form>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -82,8 +93,3 @@
         </div>
     </div>
 </section>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

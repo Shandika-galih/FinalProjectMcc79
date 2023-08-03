@@ -1,7 +1,9 @@
-﻿using Client.Contract;
+﻿using API.Models;
+using Client.Contract;
 using Client.ViewModels.LeaveHistory;
 using Client.ViewModels.LeaveRequest;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 
 namespace Client.Controllers;
 
