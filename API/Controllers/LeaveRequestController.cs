@@ -231,6 +231,58 @@ public class LeaveRequestController : ControllerBase
 		});
 
 	}
+
+    [HttpGet("byNikPending")]
+    public IActionResult GetHistorybyNikPending()
+    {
+        try
+        {
+            string token = _tokenHandler.GetTokenFromHeader(Request);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new Exception("JWT token not found in the request.");
+            }
+
+            var jwtPayload = _tokenHandler.DecodeJwtToken(token);
+
+            if (jwtPayload == null || !jwtPayload.ContainsKey("NIK"))
+            {
+                throw new Exception("NIK not found in the JWT token.");
+            }
+
+            var nik = Convert.ToInt32(jwtPayload["NIK"]);
+            var history = _service.GetHistorybyNikPending(nik);
+
+            if (history == null || !history.Any())
+            {
+                return NotFound(new ResponseHandler<GetEmployeeRequestDto>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Data not found"
+                });
+            }
+
+            return Ok(new ResponseHandler<IEnumerable<GetEmployeeRequestDto>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Data found",
+                Data = history
+            });
+        }
+        catch (Exception ex)
+        {
+            // Exception occurred, handle and return "Data not found" response
+            return NotFound(new ResponseHandler<GetEmployeeRequestDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+    }
 }
 
 

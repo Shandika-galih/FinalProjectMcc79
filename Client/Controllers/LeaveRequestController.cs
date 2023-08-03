@@ -148,5 +148,54 @@ public class LeaveRequestController : Controller
         return View();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> byNikPending()
+    {
+        try
+        {
+            var result = await _repository.GetLeaveHistorybyNikPending();
+            var istoryReject = new List<LeaveRequestVM>();
+
+            if (result.Data != null)
+            {
+                istoryReject = result.Data.ToList();
+            }
+            return View(istoryReject);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal Server Error: " + ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid guid)
+    {
+        try
+        {
+            var result = await _repository.Delete(guid);
+
+            if (result.Status == "200" && result.Data?.Guid != null)
+            {
+                var employee = new Employee
+                {
+                    Guid = result.Data.Guid
+                };
+
+                TempData["Success"] = "Data berhasil dihapus";
+            }
+            else
+            {
+                TempData["Error"] = "Gagal menghapus data";
+            }
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = "Terjadi kesalahan saat menghapus data: " + ex.Message;
+        }
+
+        return RedirectToAction(nameof(byNikPending));
+    }
+
 }
 
