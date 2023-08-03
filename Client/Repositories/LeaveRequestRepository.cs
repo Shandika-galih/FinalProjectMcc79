@@ -37,4 +37,15 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestVM, Guid>, I
         }
         return entity;
     }
+    public async Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetLeaveHistorybyNikPending()
+    {
+        ResponseHandler<IEnumerable<LeaveRequestVM>> entity = null;
+
+        using (var response = await httpClient.GetAsync(request + "byNikPending"))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entity = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<LeaveRequestVM>>>(apiResponse);
+        }
+        return entity;
+    }
 }
