@@ -21,9 +21,6 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Guid)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.LeaveName)
                         </th>
                         <th>
@@ -38,10 +35,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Guid)
-                            </td>
+                        <tr> 
                             <td>
                                 @Html.DisplayFor(modelItem => item.LeaveName)
                             </td>

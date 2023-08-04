@@ -87,7 +87,7 @@
                             </div>
                         </form>
                         <div>
-                            <a asp-action="Index">Back to List</a>
+                            <a asp-action="GetByEmployee">Back to List</a>
                         </div>
                     </div>
                 </div>
@@ -164,6 +164,20 @@
                         icon: "error",
                         title: "Error!",
                         text: "Eligible Leave is not enough. You just have " + eligibleLeave + " remaining days off.",
+                    });
+                    return false;
+                }
+                var startDate = new Date(document.getElementById("StartDate").value);
+                var today = new Date();
+                var timeDiff = startDate.getTime() - today.getTime();
+                var daysBeforeStartDate = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                var minimumDays = 7;
+
+                if (daysBeforeStartDate < minimumDays) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "You must apply for 'Cuti Normal' at least " + minimumDays + " days before the start date.",
                     });
                     return false;
                 }
