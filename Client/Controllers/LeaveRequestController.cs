@@ -149,11 +149,11 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> byNikPending()
+    public async Task<IActionResult> GetByEmployee()
     {
         try
         {
-            var result = await _repository.GetLeaveHistorybyNikPending();
+            var result = await _repository.GetByEmployee();
             var istoryReject = new List<LeaveRequestVM>();
 
             if (result.Data != null)
@@ -194,7 +194,7 @@ public class LeaveRequestController : Controller
             TempData["Error"] = "Terjadi kesalahan saat menghapus data: " + ex.Message;
         }
 
-        return RedirectToAction(nameof(byNikPending));
+        return RedirectToAction(nameof(GetByEmployee));
     }
 
 }

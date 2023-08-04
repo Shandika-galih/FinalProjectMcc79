@@ -8,7 +8,7 @@ namespace Client.Contract
 	{
         Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetByManager(Guid guid);
         Task<ResponseHandler<string>> ApproveStatus(UpdateStatusRequestVM updateStatus);
-        Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetLeaveHistorybyNikPending();
+        Task<ResponseHandler<IEnumerable<LeaveRequestVM>>> GetByEmployee();
 
     }
 }

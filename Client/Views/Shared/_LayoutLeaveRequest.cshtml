@@ -87,7 +87,12 @@
                                 <span>Leave history(manager)</span>
                             </a>
                         </li>
-
+                        <li class="sidebar-item @(Context.Request.Path == "/Account/GetByEmployee" ? "active" : "")">
+                            <a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                <span>Pending (User)</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item @(Context.Request.Path == "/Account/Logout" ? "active" : "")">
                             <a href="@Url.Action("Logout", "Account")" class='sidebar-link'>
                                 <i class="bi bi-box-arrow-right"></i>

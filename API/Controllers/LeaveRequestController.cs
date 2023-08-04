@@ -232,7 +232,7 @@ public class LeaveRequestController : ControllerBase
 
 	}
 
-    [HttpGet("byNikPending")]
+    [HttpGet("byEmployee")]
     public IActionResult GetHistorybyNikPending()
     {
         try
