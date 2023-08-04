@@ -3,6 +3,7 @@ using Client.Contract;
 using Client.ViewModels.AccountRole;
 using Client.ViewModels.Employee;
 using Client.ViewModels.Role;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -62,13 +63,21 @@ public class EmployeeController : Controller
             TempData["Success"] = "Data berhasil masuk";
             return RedirectToAction(nameof(Index));
         }
-        else if (result.Status == "409")
+        else
         {
-            ModelState.AddModelError(string.Empty, result.Message);
-            return View();
-        }
-        return RedirectToAction(nameof(Index));
+            if (result.Errors?.Email?.Length > 0)
+            {
+                TempData["EmailError"] = $"Email: {result.Errors.Email[0]}";
+            }
 
+            // Check for PhoneNumber errors
+            if (result.Errors?.PhoneNumber?.Length > 0)
+            {
+                TempData["PhoneError"] = $"Phone Number: {result.Errors.PhoneNumber[0]}";
+            }
+
+            return Redirect("~/employee/create");
+        }
     }
 
     [HttpPost]
@@ -179,4 +188,5 @@ public class EmployeeController : Controller
 
         return View();
     }
+
 }
