@@ -81,10 +81,10 @@
                                 @Html.DisplayFor(modelItem => item.Status)
                             </td>
                             <td>
-                                <form action="/leaverequest/delete" method="post" onsubmit="return confirm('Are you sure you want to cancel this?')">
-                                <input type="hidden" value="@item.Guid" name="guid" />
-                                <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
-                            </form>
+                                <form action="/leaverequest/delete" method="post">
+                                    <input type="hidden" value="@item.Guid" name="guid" />
+                                    <button type="submit" class="btn btn-sm btn-danger cancel-button">Cancel</button>
+                                </form>
                             </td>
                         </tr>
                     }
@@ -93,3 +93,41 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tableBody = document.querySelector('tbody');
+            tableBody.addEventListener('click', function (event) {
+                const deleteButton = event.target.closest('.cancel-button');
+                if (deleteButton) {
+                    event.preventDefault();
+                    const form = deleteButton.closest('form');
+                    const guid = form.querySelector('input[name="guid"]').value;
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You won\'t be able to recover this data!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, cancel request!',
+                        cancelButtonText: 'No, keep request',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // If the user confirms, submit the form
+                            Swal.fire(
+                                'Cancelled!',
+                                'Your request has been cancelled.',
+                                'success'
+                            ).then(() => {
+                            form.submit();
+                            });
+                        } 
+                    });
+                }
+            });
+        });</script>
+   
+}
