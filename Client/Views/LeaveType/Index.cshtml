@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Client.ViewModels.LeaveType.LeaveTypeVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutEmployee";
+}
+
+<p>
+    <a class="btn btn-primary" href="/LeaveType/Create">
+        <i class="bi bi-person-plus"></i>
+        Leave Type
+    </a>
+</p>
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+           Leave Type Table
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="tablel">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Guid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LeaveName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LeaveDay)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LeaveDescription)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Guid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LeaveName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LeaveDay)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LeaveDescription)
+                            </td>
+                            <td>
+                                <form action="/leavetype/delete" method="post">
+                                    <input type="hidden" value="@item.Guid" name="guid" />
+                                    <button type="submit" class="btn btn-sm btn-danger delete-button"><i class="bi bi-trash-fill"></i></button>
+                                </form>
+                                <form action="/leavetype/EditType" method="get">
+                                    <input type="hidden" value="@item.Guid" name="guid" />
+                                    <button type="submit" class="btn btn-sm btn-primary mt-1"><i class="bi bi-pencil-square"></i></button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="/js/site.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+
