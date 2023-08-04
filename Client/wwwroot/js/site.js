@@ -23,3 +23,37 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
+document.addEventListener('DOMContentLoaded', function () {
+    const tableBody = document.querySelector('tbody');
+    tableBody.addEventListener('click', function (event) {
+        const deleteButton = event.target.closest('.delete-button');
+        if (deleteButton) {
+            event.preventDefault();
+            const form = deleteButton.closest('form');
+            const guid = form.querySelector('input[name="guid"]').value;
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to recover this data!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user confirms, submit the form
+                    Swal.fire(
+                        'Deleted!',
+                        'Your data has been Deleted.',
+                        'success'
+                    ).then(() => {
+                        form.submit();
+                    });
+                }
+            });
+        }
+    });
+});
+

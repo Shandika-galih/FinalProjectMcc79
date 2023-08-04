@@ -81,13 +81,13 @@
                                 @Html.DisplayFor(modelItem => item.RoleName)
                             </td>
                             <td>
-                                <form action="/employee/delete" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                <form action="/employee/delete" method="post">
                                     <input type="hidden" value="@item.Guid" name="guid" />
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-danger delete-button"><i class="bi bi-trash-fill"></i></button>
                                 </form>
                                 <form action="/employee/edit" method="get">
                                     <input type="hidden" value="@item.Guid" name="guid" />
-                                    <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                                    <button type="submit" class="btn btn-sm btn-primary mt-1"><i class="bi bi-pencil-square"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -100,4 +100,5 @@
 @section Scripts {
     <script src="/js/site.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }
