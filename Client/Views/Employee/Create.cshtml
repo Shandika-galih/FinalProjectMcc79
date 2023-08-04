@@ -143,7 +143,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group has-icon-left">
                                                 <div class="position-relative">
-                                                <input asp-for="Password" type="password" class="form-control" placeholder="Password" data-parsley-required="true" data-parsley-pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,20}$" data-parsley-error-message="Password must be 6-20 characters long and contain at least one uppercase letter, one number, and one special character.">
+                                                <input asp-for="Password" class="form-control" placeholder="Password" data-parsley-required="true" data-parsley-pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,20}$" data-parsley-error-message="Password must be 6-20 characters long and contain at least one uppercase letter, one number, and one special character.">
                                                 <div class="form-control-icon">
                                                         <i class="bi bi-lock"></i>
                                                     </div>
@@ -156,7 +156,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group has-icon-left">
                                                 <div class="position-relative">
-                                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" data-parsley-required="true" data-parsley-equalto="#Password">
+                                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" data-parsley-required="true" data-parsley-equalto="#Password">
                                                 <div class="form-control-icon">
                                                     <i class="bi bi-lock-fill"></i>
                                                     </div>
