@@ -212,18 +212,18 @@ public class LeaveRequestService
         return leaveRequests;
     }
 
-	public bool UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatus)
-	{
-		var leaveRequest = _leaveRequestRepository.GetByGuid(updateStatus.Guid);
+    public bool UpdateLeaveRequestStatus(UpdateStatusRequestDto updateStatus)
+    {
+        var leaveRequest = _leaveRequestRepository.GetByGuid(updateStatus.Guid);
 
-		if (leaveRequest == null)
-		{
-			return false;
-		}
+        if (leaveRequest == null)
+        {
+            return false;
+        }
 
         // Update the status of the LeaveRequest
         leaveRequest.Guid = updateStatus.Guid;
-		leaveRequest.Status = updateStatus.Status;
+        leaveRequest.Status = updateStatus.Status;
 
         // Check if the status is Approved
         if (updateStatus.Status == Utilities.Enums.StatusEnum.Approved)
@@ -233,7 +233,13 @@ public class LeaveRequestService
             var employee = _employeeRepository.GetByGuid(leaveRequest.EmployeesGuid);
             if (employee != null)
             {
-                employee.EligibleLeave -= workingDays;
+                // Check if the LeaveType is "Cuti Normal"
+                var leaveType = _leaveTypeRepository.GetByGuid(leaveRequest.LeaveTypesGuid);
+                if (leaveType != null && leaveType.LeaveName == "Cuti Normal")
+                {
+                    employee.EligibleLeave -= workingDays;
+                }
+
                 _employeeRepository.Update(employee);
             }
         }
@@ -241,8 +247,9 @@ public class LeaveRequestService
         // Save the updated LeaveRequest
         bool isUpdateSuccessful = _leaveRequestRepository.Update(leaveRequest);
 
-		return isUpdateSuccessful;
-	}
+        return isUpdateSuccessful;
+    }
+
 
     private int CalculateWorkingDays(DateTime startDate, DateTime endDate)
     {

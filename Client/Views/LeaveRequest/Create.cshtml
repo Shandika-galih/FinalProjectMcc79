@@ -47,7 +47,7 @@
                                     @{
                                         foreach (var item in (IEnumerable<LeaveTypeVM>)ViewData["LeaveTypes"])
                                         {
-                                            <option value="@item.Guid">@item.LeaveName</option>
+                                            <option value="@item.Guid" data-leave-day="@item.LeaveDay">@item.LeaveName</option>
                                         }
                                     }
                                 </select>
@@ -57,14 +57,14 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="StartDate" class="control-label"></label>
-                                <input asp-for="StartDate" class="form-control" type="date" onchange="validateWeekend(this, 'start-date-warning')" data-parsley-required="true" />
+                                <input asp-for="StartDate" id="StartDate" class="form-control" type="date" onchange="validateWeekend(this, 'start-date-warning')" data-parsley-required="true" />
                                 <span asp-validation-for="StartDate" class="text-danger"></span>
                                 <div id="start-date-warning" class="text-danger d-none">Please avoid selecting weekends (Saturday or Sunday).</div>
                             </div>
                             <div class="form-group">
                                 <label asp-for="EndDate" class="control-label"></label>
                                 <input asp-for="EndDate" class="form-control" type="date" onchange="validateWeekend(this, 'end-date-warning') " data-parsley-required="true" />
-                                <span asp-validation-for="EndDate" class="text-danger"></span>
+                                <span asp-validation-for="EndDate" id="EndDate" class="text-danger"></span>
                                 <div id="end-date-warning" class="text-danger d-none">Please avoid selecting weekends (Saturday or Sunday).</div>
                             </div>
                             <div class="form-group" hidden>
@@ -87,7 +87,7 @@
                             </div>
                         </form>
                         <div>
-                            <a asp-action="Index">Back to List</a>
+                            <a asp-action="GetByEmployee">Back to List</a>
                         </div>
                     </div>
                 </div>
@@ -98,23 +98,23 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
-
     <script>
         function validateWeekend(input, warningElementId) {
             var selectedDate = new Date(input.value);
             var dayOfWeek = selectedDate.getDay();
             var warningElement = document.getElementById(warningElementId);
 
-            if (dayOfWeek === 0 || dayOfWeek === 6) { 
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
                 warningElement.classList.remove('d-none');
             } else {
                 warningElement.classList.add('d-none');
             }
         }
-    </script>
-    <script>
+
         function isWeekend(date) {
             var day = date.getDay();
             return day === 0 || day === 6;
@@ -143,19 +143,30 @@
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            if (leaveDays > eligibleLeave) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error!",
-                    text: "Eligible Leave is not enough. You just have " + eligibleLeave + " remaining days off.",
-                });
-                return false;
-            }
-
             var leaveTypeSelect = document.getElementById("validationCustom");
             var selectedLeaveType = leaveTypeSelect.options[leaveTypeSelect.selectedIndex];
+            var leaveDay = selectedLeaveType.getAttribute("data-leave-day");
 
-            if (selectedLeaveType.text === "Cuti Normal") {
+            if (selectedLeaveType.text !== "Cuti Normal" && leaveDay) {
+                var leaveQuota = parseInt(leaveDay, 10); // Parse leaveDay ke dalam angka
+                if (leaveQuota < leaveDays) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Mohon maaf, cuti '" + selectedLeaveType.text + "' hanya memiliki kuota sebesar " + leaveQuota + " hari.",
+                    });
+                    return false;
+                }
+            } else if (selectedLeaveType.text === "Cuti Normal") {
+                // Jika jenis cuti adalah "Cuti Normal", gunakan nilai eligibleLeave untuk validasi kuota
+                if (leaveDays > eligibleLeave) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Eligible Leave is not enough. You just have " + eligibleLeave + " remaining days off.",
+                    });
+                    return false;
+                }
                 var startDate = new Date(document.getElementById("StartDate").value);
                 var today = new Date();
                 var timeDiff = startDate.getTime() - today.getTime();
@@ -171,7 +182,10 @@
                     return false;
                 }
             }
+
             return true;
         }
     </script>
 }
+
+  
