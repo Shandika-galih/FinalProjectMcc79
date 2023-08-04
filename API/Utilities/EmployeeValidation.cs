@@ -27,12 +27,12 @@ namespace API.Utilities
 
             RuleFor(p => p.Email)
                .NotEmpty()
-               .Must(BeUniqueAccount).WithMessage(p => $"{p.Email} already registered")
+               .Must(BeUniqueAccount).WithMessage(p => $"{p.Email} already in use")
                .EmailAddress();
 
             RuleFor(p => p.PhoneNumber)
                .NotEmpty()
-               .Must(BeUniqueProperty).WithMessage(p => $"{p.PhoneNumber} already registered")
+               .Must(BeUniqueProperty).WithMessage(p => $"{p.PhoneNumber} already in use")
                .Matches(@"^\+[1-9]\d{1,20}$").WithMessage("Invalid phone number format.");
 
             RuleFor(p => p.Password)

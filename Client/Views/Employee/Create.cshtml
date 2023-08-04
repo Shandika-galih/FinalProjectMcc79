@@ -4,6 +4,17 @@
 @{
     Layout = "_LayoutEmployee";
 }
+@if (TempData["EmailError"] != null)
+{
+    <div id="EmailError" class="alert alert-danger">@TempData["EmailError"]</div>
+}
+
+@if (TempData["PhoneError"] != null)
+{
+    <div id="PhoneError" class="alert alert-danger">@TempData["PhoneError"]</div>
+}
+
+
 <!-- Basic Horizontal form layout section start -->
     <section id="basic-horizontal-layouts">
     <div class="row match-height d-flex justify-content-center">
@@ -80,12 +91,12 @@
                                             </div>
                                         </div>
                                     <div class="col-md-4">
-                                        <label>Mobile</label>
+                                        <label>Phone</label>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group has-icon-left">
                                             <div class="position-relative">
-                                                <input asp-for="PhoneNumber" class="form-control" placeholder="Mobile" data-parsley-required="true" data-parsley-error-message="Must be a number in +62 format" data-parsley-pattern="^\+\d+$">
+                                                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" data-parsley-required="true" data-parsley-error-message="Must be a number in + format" data-parsley-pattern="^\+\d+$">
                                                 <div class="form-control-icon">
                                                     <i class="bi bi-phone"></i>
                                                 </div>
@@ -182,6 +193,24 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            // Fungsi untuk menyembunyikan pesan kesuksesan setelah 5 detik
+            function hideSuccessMessage() {
+                setTimeout(function () {
+                    $(".alert-danger").fadeOut(1000, function () {
+                        $(this).remove();
+                    });
+                }, 3000); // 5000 milidetik = 5 detik
+            }
+
+            // Panggil fungsi untuk menyembunyikan pesan kesuksesan jika ada
+            $(document).ready(function () {
+                hideSuccessMessage();
+            });
+        </script>
+
     }
 }
 
