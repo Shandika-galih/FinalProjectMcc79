@@ -107,6 +107,12 @@
 								<span>Pending (User)</span>
 							</a>
 						</li>
+						<li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
+							<a href="@Url.Action("Index", "LeaveType")" class='sidebar-link'>
+								<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+								<span>LeaveType (User)</span>
+							</a>
+						</li>
 						<li class="sidebar-item @(Context.Request.Path == "/Account/Logout" ? "active" : "")">
 							<a href="@Url.Action("Logout", "Account")" class='sidebar-link'>
 								<i class="bi bi-box-arrow-right"></i>
