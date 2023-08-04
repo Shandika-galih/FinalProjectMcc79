@@ -5,44 +5,50 @@
     Layout = "_LayoutEmployee";
 }
 
-<h1>AddType</h1>
-
-<h4>LeaveTypeVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddType">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Guid" class="control-label"></label>
-                <input asp-for="Guid" class="form-control" />
-                <span asp-validation-for="Guid" class="text-danger"></span>
+<section id="basic-horizontal-layouts">
+    <div class="row match-height d-flex justify-content-center">
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Create Form Leave Type</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="AddType">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group" hidden>
+                                <label asp-for="Guid" class="control-label"></label>
+                                <input asp-for="Guid" class="form-control" />
+                                <span asp-validation-for="Guid" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LeaveName" class="control-label"></label>
+                                <input asp-for="LeaveName" class="form-control" />
+                                <span asp-validation-for="LeaveName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LeaveDay" class="control-label"></label>
+                                <input asp-for="LeaveDay" class="form-control" />
+                                <span asp-validation-for="LeaveDay" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LeaveDescription" class="control-label"></label>
+                                <input asp-for="LeaveDescription" class="form-control" />
+                                <span asp-validation-for="LeaveDescription" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                        <div>
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LeaveName" class="control-label"></label>
-                <input asp-for="LeaveName" class="form-control" />
-                <span asp-validation-for="LeaveName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveDay" class="control-label"></label>
-                <input asp-for="LeaveDay" class="form-control" />
-                <span asp-validation-for="LeaveDay" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveDescription" class="control-label"></label>
-                <input asp-for="LeaveDescription" class="form-control" />
-                <span asp-validation-for="LeaveDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
