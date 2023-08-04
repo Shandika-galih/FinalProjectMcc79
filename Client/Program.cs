@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
+using API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +20,9 @@ builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
-builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 builder.Services.AddScoped<IHistoryLeaveRequestRepository, HistoryLeaveRequestRepository>();
+builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
+
 
 // JWT Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
