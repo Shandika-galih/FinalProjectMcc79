@@ -252,7 +252,7 @@ public class LeaveRequestController : ControllerBase
             }
 
             var nik = Convert.ToInt32(jwtPayload["NIK"]);
-            var history = _service.GetHistorybyNikPending(nik);
+            var history = _service.GetbyEmployeePending(nik);
 
             if (history == null || !history.Any())
             {

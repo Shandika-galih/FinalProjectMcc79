@@ -261,7 +261,7 @@ public class LeaveRequestService
         return workingDays;
     }
 
-    public IEnumerable<GetEmployeeRequestDto> GetHistorybyNikPending(int nik)
+    public IEnumerable<GetEmployeeRequestDto> GetbyEmployeePending(int nik)
     {
         var data = (from leaveRequest in _leaveRequestRepository.GetAll()
                     join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid
