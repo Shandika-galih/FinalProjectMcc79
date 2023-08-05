@@ -38,7 +38,7 @@
                                 <span>: @employee.EligibleLeave</span>
                                 @if (employee.EligibleLeave == 0)
                                 {
-                                    <div class="text-danger">You have no eligible leave days remaining. Cannot apply for leave.</div>
+                                    <div class="text-danger">You have no eligible leave days remaining. Cannot apply for leave request normal</div>
                                 }
                             </div>
                             <div class="col-md-12">
@@ -49,7 +49,7 @@
                                         {
                                             <option value="@item.Guid" data-leave-day="@item.LeaveDay">@item.LeaveName</option>
                                         }
-                                    }
+                                    }z
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a leave type.

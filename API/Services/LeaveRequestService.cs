@@ -63,12 +63,6 @@ public class LeaveRequestService
         {
             return null;
         }
-
-        if (employee.EligibleLeave == 0)
-        {
-            return null;
-        }
-
         
         var leaveRequest = new LeaveRequest
         {
