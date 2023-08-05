@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
 using API.Services;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,11 @@ builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 builder.Services.AddScoped<IHistoryLeaveRequestRepository, HistoryLeaveRequestRepository>();
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
+// Cloudinary Configuration
+var cloudName = "druvskvei";
+var apiKey = "127624235855744";
+var apiSecret = "E7BINmRzCRb519JnQu6guBIh5vU";
+builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
 
 // JWT Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

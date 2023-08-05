@@ -1,11 +1,12 @@
 ﻿using API.Models;
 using Client.Contract;
 using Client.Repositories;
-using Client.Utilities;
 using Client.ViewModels.Employee;
 using Client.ViewModels.LeaveHistory;
 using Client.ViewModels.LeaveRequest;
 using Client.ViewModels.LeaveType;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
@@ -17,14 +18,15 @@ public class LeaveRequestController : Controller
     private readonly IEmployeeRepository _employeeRepository;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
     private readonly IManagerRepository _managerRepository;
+    private readonly Cloudinary _cloudinary;
 
-    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveType, IManagerRepository managerRepository)
+    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveType, IManagerRepository managerRepository, Cloudinary cloudinary)
     {
         _repository = repository;
         _employeeRepository = employeeRepository;
         _leaveTypeRepository = leaveType;
         _managerRepository = managerRepository;
-
+        _cloudinary = cloudinary;
     }
 
     public async Task<IActionResult> Index()
@@ -76,8 +78,26 @@ public class LeaveRequestController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(LeaveRequestVM leaveRequest)
     {
-        string tmpAttachment = leaveRequest.attachmentBase64;
-        leaveRequest.Attachment = tmpAttachment;
+        string attachment = "";
+
+        if (HttpContext.Request.Form.Files.Count != 0)
+        {
+            var file = HttpContext.Request.Form.Files[0];
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(file.FileName, file.OpenReadStream())
+            };
+            var uploadResult = _cloudinary.Upload(uploadParams);
+
+            attachment = uploadResult.Url.ToString();
+        }
+        else
+        {
+            attachment = string.Empty;
+        }
+
+        leaveRequest.Attachment = attachment;
+
         var result = await _repository.Post(leaveRequest);
         if (result.Code == 200)
         {
