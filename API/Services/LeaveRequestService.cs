@@ -4,8 +4,6 @@ using API.DTOs.LeaveRequest;
 using API.DTOs.Manager;
 using API.Models;
 using API.Repositories;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 using System.Diagnostics.Metrics;
 using System.Net.Mail;
 
@@ -18,15 +16,13 @@ public class LeaveRequestService
     private readonly ILeaveTypeRepository _leaveTypeRepository;
     private readonly IAccountRepository _accountRepository;
     private readonly IEmailHandler _emailHandler;
-    private readonly Cloudinary _cloudinary;
-    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveTypeRepository, IAccountRepository accountRepository, IEmailHandler emailHandler, Cloudinary cloudinary)
+    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository, ILeaveTypeRepository leaveTypeRepository, IAccountRepository accountRepository, IEmailHandler emailHandler)
     {
         _leaveRequestRepository = leaveRequestRepository;
         _employeeRepository = employeeRepository;
         _leaveTypeRepository = leaveTypeRepository;
         _accountRepository = accountRepository;
         _emailHandler = emailHandler;
-        _cloudinary = cloudinary ?? throw new ArgumentNullException(nameof(cloudinary));
     }
     public IEnumerable<GetLeaveRequestDto>? GetLeaveRequest()
     {
@@ -59,17 +55,6 @@ public class LeaveRequestService
         return dataByGuid;
     }
 
-    public string UploadImageBase64Async(string base64Image)
-    {
-        var uploadParams = new ImageUploadParams
-        {
-            File = new FileDescription("base64image", base64Image),
-        };
-
-        var uploadResult = _cloudinary.Upload(uploadParams);
-
-        return uploadResult.SecureUrl.ToString();
-    }
 
     public GetLeaveRequestDto? CreateLeaveRequest(NewLeaveRequestDto newLeaveRequestDto)
     {
@@ -80,15 +65,9 @@ public class LeaveRequestService
         {
             return null;
         }
-        string attachmentUrl = null;
-        if (newLeaveRequestDto.Attachment != null) 
-        {
-            attachmentUrl = UploadImageBase64Async(newLeaveRequestDto.Attachment);
-        }
+	
 
-
-        
-        var leaveRequest = new LeaveRequest
+		var leaveRequest = new LeaveRequest
         {
             Guid = new Guid(),
             Status = newLeaveRequestDto.Status,
@@ -96,7 +75,7 @@ public class LeaveRequestService
             StartDate = newLeaveRequestDto.StartDate,
             EndDate = newLeaveRequestDto.EndDate,
             Remarks = newLeaveRequestDto.Remarks,
-            Attachment = attachmentUrl ?? null,
+            Attachment = newLeaveRequestDto.Attachment ?? null,
             LeaveTypesGuid = newLeaveRequestDto.LeaveTypesGuid,
             EmployeesGuid = newLeaveRequestDto.EmployeesGuid,
         };
@@ -140,7 +119,6 @@ public class LeaveRequestService
         }
 
         var getLeaveRequest = _leaveRequestRepository.GetByGuid(updateLeaveRequestDto.Guid);
-        string attachmentUrl = UploadImageBase64Async(updateLeaveRequestDto.Attachment);
 
         var leaveRequest = new LeaveRequest
         {
@@ -149,7 +127,7 @@ public class LeaveRequestService
             StartDate = updateLeaveRequestDto.StartDate,
             EndDate = updateLeaveRequestDto.EndDate,
             Remarks = updateLeaveRequestDto.Remarks,
-            Attachment = attachmentUrl,
+            Attachment = updateLeaveRequestDto.Attachment,
             LeaveTypesGuid = updateLeaveRequestDto.LeaveTypesGuid,
             EmployeesGuid = updateLeaveRequestDto.EmployeesGuid,
         };

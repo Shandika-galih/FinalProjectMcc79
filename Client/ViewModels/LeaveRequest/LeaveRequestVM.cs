@@ -20,6 +20,5 @@ namespace Client.ViewModels.LeaveRequest
 		public Guid LeaveTypesGuid { get; set; }
 		public Guid EmployeesGuid { get; set; }
         public Guid ManagerGuid { get; set; }
-		public string? attachmentBase64 { get; set; }
     }
 }
