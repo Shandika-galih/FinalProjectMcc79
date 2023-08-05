@@ -3,17 +3,9 @@
 
 @{
     Layout = "_LayoutEmployee";
+    var emailMessage = TempData["EmailError"] as string;
+    var phoneMessage = TempData["PhoneError"] as string;
 }
-@if (TempData["EmailError"] != null)
-{
-    <div id="EmailError" class="alert alert-danger">@TempData["EmailError"]</div>
-}
-
-@if (TempData["PhoneError"] != null)
-{
-    <div id="PhoneError" class="alert alert-danger">@TempData["PhoneError"]</div>
-}
-
 
 <!-- Basic Horizontal form layout section start -->
     <section id="basic-horizontal-layouts">
@@ -193,24 +185,37 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            // Fungsi untuk menyembunyikan pesan kesuksesan setelah 5 detik
-            function hideSuccessMessage() {
-                setTimeout(function () {
-                    $(".alert-danger").fadeOut(1000, function () {
-                        $(this).remove();
-                    });
-                }, 3000); // 5000 milidetik = 5 detik
-            }
-
-            // Panggil fungsi untuk menyembunyikan pesan kesuksesan jika ada
-            $(document).ready(function () {
-                hideSuccessMessage();
+    @if (!string.IsNullOrEmpty(emailMessage))
+    {
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                toastr.options = {
+                    "positionClass": "toast-top-right",
+                    "closeButton": true,
+                    "progressBar": true,
+                    "timeOut": 3000
+                };
+                toastr.error('@emailMessage');
             });
         </script>
+    }
 
+    @if (!string.IsNullOrEmpty(phoneMessage))
+    {
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                toastr.options = {
+                    "positionClass": "toast-top-right",
+                    "closeButton": true,
+                    "progressBar": true,
+                    "timeOut": 3000
+                };
+                toastr.error('@phoneMessage');
+            });
+        </script>
     }
 }
 
+    
