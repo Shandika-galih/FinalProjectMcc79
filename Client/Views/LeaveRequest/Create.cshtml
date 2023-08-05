@@ -47,7 +47,7 @@
                                     @{
                                         foreach (var item in (IEnumerable<LeaveTypeVM>)ViewData["LeaveTypes"])
                                         {
-                                            <option value="@item.Guid" data-leave-day="@item.LeaveDay">@item.LeaveName</option>
+                                                <option value="@item.Guid" data-leave-day="@item.LeaveDay">@item.LeaveName</option>
                                         }
                                     }z
                                 </select>
@@ -82,6 +82,7 @@
                                 <input asp-for="Attachment" class="form-control" id="attachmentInput" type="file" accept="image/*" />
                                 <span asp-validation-for="Attachment" class="text-danger"></span>
                             </div>
+
                             <div class="form-group">
                                 <input type="submit" value="Create" class="btn btn-primary" id="submitBtn" />
                             </div>
@@ -101,36 +102,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        document.getElementById("approveForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent the default form submission
 
-            // Get the selected file from the input element
-            const attachmentInput = document.getElementById("attachmentInput");
-            const file = attachmentInput.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    // Convert the file to Base64 and set it as a hidden form field
-                    const base64Data = event.target.result;
-                    const hiddenInput = document.createElement("input");
-                    hiddenInput.setAttribute("type", "hidden");
-                    hiddenInput.setAttribute("name", "attachmentBase64");
-                    hiddenInput.setAttribute("value", base64Data);
-                    document.getElementById("approveForm").appendChild(hiddenInput);
-
-                    // Now submit the form with the Base64 data
-                    document.getElementById("approveForm").submit();
-                console.log({ file, base64Data });
-                };
-                reader.readAsDataURL(file);
-            } else {
-                // If no file is selected, submit the form as is
-                document.getElementById("approveForm").submit();
-            }
-        });
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <script>
@@ -213,7 +185,43 @@
                     return false;
                 }
             }
+            const form = document.getElementById("approveForm");
+            if (form.parsley.validate()) {
+                const attachmentInput = document.getElementById("attachmentInput");
+                const file = attachmentInput.files[0];
+                console.log(file)
+                console.log(file.size)
+                if (file) {
+                    const maxFileSizeMB = 2; // Maximum file size in MB
+                    const maxFileSizeBytes = maxFileSizeMB * 1024 * 1024; // Convert MB to bytes
 
+                    if (file.size > maxFileSizeBytes) {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "warning!",
+                            text: "The attached file exceeds the maximum allowed size of 2MB.",
+                        });
+                        return false;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        // Convert the file to Base64 and set it as a hidden form field
+                        const base64Data = event.target.result;
+                        const hiddenInput = document.createElement("input");
+                        hiddenInput.setAttribute("type", "hidden");
+                        hiddenInput.setAttribute("name", "attachmentBase64");
+                        hiddenInput.setAttribute("value", base64Data);
+                        document.getElementById("approveForm").appendChild(hiddenInput);
+
+                        // Now submit the form with the Base64 data
+                        document.getElementById("approveForm").submit();
+                        console.dir({ file, base64Data });
+
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+            }
             return true;
         }
     </script>

@@ -80,7 +80,13 @@ public class LeaveRequestService
         {
             return null;
         }
-        string attachmentUrl = UploadImageBase64Async(newLeaveRequestDto.Attachment);
+        string attachmentUrl = null;
+        if (newLeaveRequestDto.Attachment != null) 
+        {
+            attachmentUrl = UploadImageBase64Async(newLeaveRequestDto.Attachment);
+        }
+
+
         
         var leaveRequest = new LeaveRequest
         {
