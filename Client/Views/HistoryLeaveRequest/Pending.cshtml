@@ -1,93 +1,103 @@
 ﻿@model IEnumerable<Client.ViewModels.LeaveHistory.HistoryVM>
 
 @{
-    ViewData["Title"] = "Pending";
-    Layout = "_LayoutLeaveRequest";
+	ViewData["Title"] = "Pending";
+	Layout = "_LayoutLeaveRequest";
 }
 }
 
 <h1>Pending</h1>
 
 <section class="section">
-    <div class="card">
-        <div class="card-header">
-            Employee Table
-        </div>
-        <div class="card-body">
-            <table class="table table-striped" id="table1">
-                <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Guid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NIK)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LeaveName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubmitDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attachment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Guid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIK)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubmitDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Attachment)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+	<div class="card">
+		<div class="card-header">
+			Employee Table
+		</div>
+		<div class="card-body">
+			<table class="table table-striped" id="table1">
+				<thead>
+					<tr>
+						<th>
+							@Html.DisplayNameFor(model => model.Guid)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.NIK)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.FullName)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.LeaveName)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Remarks)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.SubmitDate)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.StartDate)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.EndDate)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Attachment)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Status)
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.Guid)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.NIK)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.FullName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.LeaveName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Remarks)
+							</td>
+							<td>
+								@{
+									var formatSubmitDate = item.SubmitDate.ToString("dd MMMM yyyy");
+								}
+								@Html.DisplayFor(modelItem => formatSubmitDate)
+							</td>
+							<td>
+								@{
+									var formatStartDate = item.StartDate.ToString("dd MMMM yyyy");
+								}
+								@Html.DisplayFor(modelItem => formatStartDate)
+							</td>
+							<td>
+								@{
+									var formatEndDate = item.EndDate.ToString("dd MMMM yyyy");
+								}
+								@Html.DisplayFor(modelItem => formatEndDate)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Attachment)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Status)
+							</td>
 
-        </tr>
-}
-    </tbody>
-            </table>
-        </div>
-    </div>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </section>
