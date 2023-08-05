@@ -141,7 +141,7 @@ public class LeaveRequestController : Controller
         var result = await _repository.ApproveStatus(updateStatus);
         if (result.Code == 200)
         {
-            return RedirectToAction(nameof(Index));
+            return Redirect(nameof(GetByManager));
         }
         else if (result.Status == "409")
         {

@@ -72,7 +72,10 @@
                                 @Html.DisplayFor(modelItem => item.EligibleLeave)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.HiringDate)
+                                @{
+                                    var formatHiringDate = item.HiringDate.ToString("dd MMMM yyyy");
+                                }
+                                @Html.DisplayFor(modelItem => formatHiringDate)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Manager)

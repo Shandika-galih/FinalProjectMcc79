@@ -60,13 +60,22 @@
 								@Html.DisplayFor(modelItem => item.Remarks)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.SubmitDate)
+								@{
+									var formatSubmitDate = item.SubmitDate.ToString("dd MMMM yyyy");
+								}
+								@Html.DisplayFor(modelItem => formatSubmitDate)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.StartDate)
+								@{
+									var formatStartDate = item.StartDate.ToString("dd MMMM yyyy");
+								}
+								@Html.DisplayFor(modelItem => formatStartDate)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.EndDate)
+								@{
+									var formatEndDate = item.EndDate.ToString("dd MMMM yyyy");
+								}
+								@Html.DisplayFor(modelItem => formatEndDate)
 							</td>
 							<td>
 								@Html.DisplayFor(modelItem => item.Attachment)
