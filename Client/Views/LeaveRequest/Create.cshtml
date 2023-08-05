@@ -79,7 +79,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="Attachment" class="control-label">Attachment</label>
-                                <input asp-for="Attachment" class="form-control" type="file" accept="image/*" />
+                                <input asp-for="Attachment" class="form-control" id="attachmentInput" type="file" accept="image/*" />
                                 <span asp-validation-for="Attachment" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -101,6 +101,37 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        document.getElementById("approveForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the selected file from the input element
+            const attachmentInput = document.getElementById("attachmentInput");
+            const file = attachmentInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    // Convert the file to Base64 and set it as a hidden form field
+                    const base64Data = event.target.result;
+                    const hiddenInput = document.createElement("input");
+                    hiddenInput.setAttribute("type", "hidden");
+                    hiddenInput.setAttribute("name", "attachmentBase64");
+                    hiddenInput.setAttribute("value", base64Data);
+                    document.getElementById("approveForm").appendChild(hiddenInput);
+
+                    // Now submit the form with the Base64 data
+                    document.getElementById("approveForm").submit();
+                console.log({ file, base64Data });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // If no file is selected, submit the form as is
+                document.getElementById("approveForm").submit();
+            }
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <script>
         function validateWeekend(input, warningElementId) {

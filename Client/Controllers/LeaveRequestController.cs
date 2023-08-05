@@ -1,6 +1,7 @@
 ﻿using API.Models;
 using Client.Contract;
 using Client.Repositories;
+using Client.Utilities;
 using Client.ViewModels.Employee;
 using Client.ViewModels.LeaveHistory;
 using Client.ViewModels.LeaveRequest;
@@ -23,6 +24,7 @@ public class LeaveRequestController : Controller
         _employeeRepository = employeeRepository;
         _leaveTypeRepository = leaveType;
         _managerRepository = managerRepository;
+
     }
 
     public async Task<IActionResult> Index()
@@ -74,6 +76,8 @@ public class LeaveRequestController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(LeaveRequestVM leaveRequest)
     {
+        string tmpAttachment = leaveRequest.attachmentBase64;
+        leaveRequest.Attachment = tmpAttachment;
         var result = await _repository.Post(leaveRequest);
         if (result.Code == 200)
         {

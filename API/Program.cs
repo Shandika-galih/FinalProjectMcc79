@@ -3,6 +3,7 @@ using API.Data;
 using API.Repositories;
 using API.Services;
 using API.Utilities.Handler;
+using CloudinaryDotNet;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,12 @@ builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler
     builder.Configuration["EmailService:FromEmailAddress"],
     builder.Configuration["EmailService:SmtpPassword"]
 ));
+
+var cloudName = builder.Configuration["CloudinarySettings:CloudName"];
+var apiKey = builder.Configuration["CloudinarySettings:ApiKey"];
+var apiSecret = builder.Configuration["CloudinarySettings:ApiSecret"];
+builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
+
 
 // Add Service to the container
 builder.Services.AddScoped<EmployeeService>();
