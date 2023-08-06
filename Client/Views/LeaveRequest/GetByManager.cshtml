@@ -2,7 +2,7 @@
 
 @{
 	ViewData["Title"] = "GetByManager";
-	Layout = "_LayoutEmployee";
+	Layout = "_LayoutLeaveRequest";
 }
 
 <h1>GetByManager</h1>
@@ -29,6 +29,9 @@
 							@Html.DisplayNameFor(model => model.SubmitDate)
 						</th>		
 						<th>
+							@Html.DisplayNameFor(model => model.Attachment)
+						</th>
+						<th>
 							@Html.DisplayNameFor(model => model.Status)
 						</th>
 					</tr>
@@ -49,6 +52,10 @@
 								}
 								@Html.DisplayFor(modelItem => formatSubmitDate)
 							</td>
+								<td>
+									<!-- Icon untuk memicu modal -->
+									<i class="bi bi-card-image fa-2x text-primary" data-toggle="modal" data-target="#imageModal" data-full-image="@Html.DisplayFor(modelItem => item.Attachment)"></i>
+								</td>
 							<td>
 								<span class="badge " style="background-color: #7d93a6">
 									@Html.DisplayFor(modelItem => item.Status)
