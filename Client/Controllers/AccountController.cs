@@ -37,7 +37,7 @@ public class AccountController : Controller
         {
             case 200:
                 HttpContext.Session.SetString("JWTToken", result.Data);
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Index", "Home");
             case 400:
                 TempData["Error"] = result.Message;
                 return Redirect("~/Account/Login");
