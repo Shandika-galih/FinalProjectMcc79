@@ -7,8 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Mazer Admin Dashboard</title>
-    <link rel="stylesheet" href="~/template//assets/css/main/app.css">
+    <title>401</title>
+    <link rel="stylesheet" href="~/template/assets/css/main/app.css">
     <link rel="stylesheet" href="~/template/assets/css/pages/error.css">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.svg" type="image/x-icon">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.png" type="image/png">
@@ -21,22 +21,16 @@
 <div class="error-page container">
     <div class="col-md-8 col-12 offset-md-2">
         <div class="text-center">
-            <img class="img-error" src="~/template/assets/images/samples/error-404.svg" alt="Not Found" style="margin-top: -70px">
-                    <h1 class="error-title" style="margin-top: -20px">NOT FOUND</h1>
-            <p class='fs-5 text-gray-600'>The page you are looking not found.</p>
-            <a onclick="goBack()" class="btn btn-lg btn-outline-primary mt-3">Go Back</a>
+            <img class="img-error" src="~/img/401.svg" alt="Not Found" style="margin-top: -150px">
+                    <h1 class="error-title" style="margin-top: -80px">Unauthorized</h1>
+            <p class="fs-5 text-gray-600">You need to login first for continue access!</p>
+           <a href="/Account/Login" class="btn btn-lg btn-outline-primary mt-3">Go Home</a>
         </div>
     </div>
 </div>
 
 
     </div>
-
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
 </body>
 
 </html>

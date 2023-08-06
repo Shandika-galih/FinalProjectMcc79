@@ -13,6 +13,7 @@ namespace Client.Controllers
         {
             _logger = logger;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -27,7 +28,7 @@ namespace Client.Controllers
         [HttpGet("/Unauthorized")]
         public IActionResult Unauthorized()
         {
-            return View("403");
+            return View("401");
         }
 
         [AllowAnonymous]

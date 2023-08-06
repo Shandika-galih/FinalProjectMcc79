@@ -16,7 +16,6 @@ public class EmployeeController : Controller
     private readonly IRoleRepository _roleRepository;
     private readonly IManagerRepository _managerRepository;
 
-
     public EmployeeController(IEmployeeRepository repository, IRoleRepository roleRepository, IManagerRepository managerRepository, IAccountRoleRepository accountRoleRepository)
     {
         this.repository = repository;
@@ -24,7 +23,7 @@ public class EmployeeController : Controller
         _managerRepository = managerRepository;
         _accountRoleRepository = accountRoleRepository;
     }
-
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
         var result = await repository.GetEmployees();
@@ -37,7 +36,7 @@ public class EmployeeController : Controller
 
         return View(listEmployee);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -52,7 +51,7 @@ public class EmployeeController : Controller
         ViewData["Managers"] = listManagers;
         return View();
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(EmployeeVM newEmploye)
     {
@@ -79,7 +78,7 @@ public class EmployeeController : Controller
             return Redirect("~/employee/create");
         }
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
@@ -108,7 +107,7 @@ public class EmployeeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> Edit(Guid guid)
     {
@@ -171,7 +170,7 @@ public class EmployeeController : Controller
 
         return View(employee);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Edit(EmployeeVM employee)
     {

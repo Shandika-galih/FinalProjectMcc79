@@ -2,6 +2,7 @@
 using API.Models;
 using Client.Contract;
 using Client.ViewModels.LeaveType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Client.Controllers;
@@ -14,7 +15,7 @@ public class LeaveTypeController : Controller
     {
         this.repository = repository;
     }
-
+    [Authorize]
     public async Task<IActionResult> Index()
     {
         var result = await repository.Get();
@@ -26,7 +27,7 @@ public class LeaveTypeController : Controller
         }
         return View(ListLeaveType);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult AddType()
     {
@@ -79,7 +80,7 @@ public class LeaveTypeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> EditType(Guid guid)
     {

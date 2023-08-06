@@ -2,11 +2,13 @@
 using Client.Contract;
 using Client.ViewModels.LeaveHistory;
 using Client.ViewModels.LeaveRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
 namespace Client.Controllers;
 
+[Authorize]
 public class HistoryLeaveRequestController : Controller
 
 {
@@ -96,7 +98,7 @@ public class HistoryLeaveRequestController : Controller
             return StatusCode(500, "Internal Server Error: " + ex.Message);
         }
     }
-
+    [Authorize(Roles = "User")]
     [HttpGet]
     public async Task<IActionResult> byNik()
     {
@@ -116,7 +118,7 @@ public class HistoryLeaveRequestController : Controller
             return StatusCode(500, "Internal Server Error: " + ex.Message);
         }
     }
-
+    [Authorize(Roles = "Manager")]
     [HttpGet]
     public async Task<IActionResult> byManager()
     {
