@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool isAdmin = User.IsInRole("Admin");
+    bool isUser = User.IsInRole("User");
+    bool isManager = User.IsInRole("Manager");
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -64,52 +69,73 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-item @(Context.Request.Path == "/Employee/Index" ? "active" : "")">
-                            <a href="@Url.Action("Index", "Employee")" class='sidebar-link'>
-                                <i class="bi bi-people-fill"></i>
-                                <span>Employee Management(admin)</span>
-                            </a>
-                        </li>
+                        @if (isAdmin)
+                        {
+                            <li class="sidebar-item @(Context.Request.Path == "/Employee/Index" ? "active" : "")">
+                                <a href="@Url.Action("Index", "Employee")" class='sidebar-link'>
+                                    <i class="bi bi-people-fill"></i>
+                                    <span>Employee Management(admin)</span>
+                                </a>
+                            </li>
+                        }
 
-                        <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/Create" ? "active" : "")">
-                            <a href="/LeaveRequest/Create" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Leave Request(user)</span>
-                            </a>
-                        </li>
+                        @if (isUser)
+                        {
+                            <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/Create" ? "active" : "")">
+                                <a href="/LeaveRequest/Create" class='sidebar-link'>
+                                    <i class="bi bi-file-earmark-medical-fill"></i>
+                                    <span>Leave Request(user)</span>
+                                </a>
+                            </li>
+                        }
 
-                        <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByManager" ? "active" : "")">
-                            <a href="@Url.Action("GetByManager", "LeaveRequest")" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Leave Request for Manager</span>
-                            </a>
-                        </li>
+                        @if (isManager)
+                        {
+                            <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByManager" ? "active" : "")">
+                                <a href="@Url.Action("GetByManager", "LeaveRequest")" class='sidebar-link'>
+                                    <i class="bi bi-file-earmark-medical-fill"></i>
+                                    <span>Leave Request for Manager</span>
+                                </a>
+                            </li>
+                        }
 
-                        <li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/ByNik" ? "active" : "")">
-                            <a href="@Url.Action("ByNik", "HistoryLeaveRequest")" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Leave history(user)</span>
-                            </a>
-                        </li>
+                        @if (isUser)
+                        {
+                            <li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/ByNik" ? "active" : "")">
+                                <a href="@Url.Action("ByNik", "HistoryLeaveRequest")" class='sidebar-link'>
+                                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                    <span>Leave history(user)</span>
+                                </a>
+                            </li>
+                        }
 
-                        <li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/byManager" ? "active" : "")">
-                            <a href="@Url.Action("byManager", "HistoryLeaveRequest")" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Leave history(manager)</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByEmployee" ? "active" : "")">
-                            <a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Pending (User)</span>
-                            </a>
-                        </li>
-                         <li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
+                        @if (isManager)
+                        {
+                            <li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/byManager" ? "active" : "")">
+                                <a href="@Url.Action("byManager", "HistoryLeaveRequest")" class='sidebar-link'>
+                                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                    <span>Leave history(manager)</span>
+                                </a>
+                            </li>
+                        }
+
+                        @if (isUser)
+                        {
+                            <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByEmployee" ? "active" : "")">
+                                <a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
+                                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                                    <span>Pending (User)</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
                             <a href="@Url.Action("Index", "LeaveType")" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                                 <span>LeaveType (User)</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item @(Context.Request.Path == "/Account/Logout" ? "active" : "")">
                             <a href="@Url.Action("Logout", "Account")" class='sidebar-link'>
                                 <i class="bi bi-box-arrow-right"></i>

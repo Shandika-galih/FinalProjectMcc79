@@ -7,6 +7,7 @@ using Client.ViewModels.LeaveRequest;
 using Client.ViewModels.LeaveType;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
@@ -42,6 +43,7 @@ public class LeaveRequestController : Controller
         return View(listRequest);
     }
 
+    [Authorize(Roles = "User")]
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -74,7 +76,7 @@ public class LeaveRequestController : Controller
         ViewData["LeaveTypes"] = listLeaveTypes;
         return View();
     }
-
+    [Authorize(Roles = "User")]
     [HttpPost]
     public async Task<IActionResult> Create(LeaveRequestVM leaveRequest)
     {
@@ -111,7 +113,7 @@ public class LeaveRequestController : Controller
 
         return View();
     }
-
+    [Authorize(Roles = "Manager")]
     [HttpGet]
     public async Task<IActionResult> GetByManager()
     {
@@ -126,7 +128,7 @@ public class LeaveRequestController : Controller
         }
         return View(requests);
     }
-
+    [Authorize(Roles = "Manager")]
     [HttpGet]
     public async Task<IActionResult> ApproveStatuss(Guid guid)
     {
@@ -155,6 +157,7 @@ public class LeaveRequestController : Controller
         return View(leaveRequest);
     }
 
+    [Authorize(Roles = "Manager")]
     [HttpPost]
     public async Task<IActionResult> ApproveStatuss(UpdateStatusRequestVM updateStatus)
     {
@@ -171,7 +174,7 @@ public class LeaveRequestController : Controller
 
         return View();
     }
-
+    [Authorize(Roles = "User")]
     [HttpGet]
     public async Task<IActionResult> GetByEmployee()
     {

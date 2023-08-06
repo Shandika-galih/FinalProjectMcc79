@@ -3,14 +3,18 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "_LayoutEmployee";
+    bool isAdmin = User.IsInRole("Admin");
+}
+@if (isAdmin)
+{
+    <p>
+        <a class="btn btn-primary" href="/LeaveType/AddType">
+            <i class="bi bi-person-plus"></i>
+            Leave Type
+        </a>
+    </p>
 }
 
-<p>
-    <a class="btn btn-primary" href="/LeaveType/AddType">
-        <i class="bi bi-person-plus"></i>
-        Leave Type
-    </a>
-</p>
 <section class="section">
     <div class="card">
         <div class="card-header">
@@ -46,15 +50,22 @@
                                 @Html.DisplayFor(modelItem => item.LeaveDescription)
                             </td>
                             <td>
-                                <form action="/leavetype/delete" method="post">
-                                    <input type="hidden" value="@item.Guid" name="guid" />
-                                    <button type="submit" class="btn btn-sm btn-danger delete-button"><i class="bi bi-trash-fill"></i></button>
-                                </form>
-                                <form action="/leavetype/EditType" method="get">
-                                    <input type="hidden" value="@item.Guid" name="guid" />
-                                    <button type="submit" class="btn btn-sm btn-primary mt-1"><i class="bi bi-pencil-square"></i></button>
-                                </form>
+                                @if (isAdmin)
+                                {
+                                    <form action="/leavetype/delete" method="post">
+                                        <input type="hidden" value="@item.Guid" name="guid" />
+                                        <button type="submit" class="btn btn-sm btn-danger delete-button"><i class="bi bi-trash-fill"></i></button>
+                                    </form>
 
+                                }
+                              
+                                @if (isAdmin)
+                                {
+                                    <form action="/leavetype/EditType" method="get">
+                                        <input type="hidden" value="@item.Guid" name="guid" />
+                                        <button type="submit" class="btn btn-sm btn-primary mt-1"><i class="bi bi-pencil-square"></i></button>
+                                    </form>
+                                }
                             </td>
                         </tr>
                     }

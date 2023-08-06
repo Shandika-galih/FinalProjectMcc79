@@ -3,6 +3,7 @@ using Client.ViewModels.Account;
 using Client.Contract;
 using API.DTOs.Accounts;
 using NuGet.Protocol.Core.Types;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Client.Controllers;
 
@@ -113,6 +114,7 @@ public class AccountController : Controller
         return View();
     }
 
+    [Authorize]
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();

@@ -71,14 +71,14 @@
                                 <span asp-validation-for="EndDate" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group">
+                          @*  <div class="form-group">
                                 <label asp-for="Attachment" class="control-label">Attachment</label>
                                 <div class="input-group">
-                                    <input asp-for="Attachment" class="form-control" type="file" disabled>
+                                    <i class="bi bi-card-image fa-2x text-primary" data-toggle="modal" data-target="#imageModal" data-full-image="@Model.Attachment"></i>
                                     <span asp-validation-for="Attachment" class="text-danger"></span>
                                 </div>
                                 <span asp-validation-for="Attachment" class="text-danger"></span>
-                            </div>
+                            </div>*@
                             <div class="form-group" hidden>
                                 <label asp-for="Guid" class="control-label"></label>
                                 <input asp-for="Guid" class="form-control" />
