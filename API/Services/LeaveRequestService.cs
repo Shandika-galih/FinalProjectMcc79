@@ -86,14 +86,14 @@ public class LeaveRequestService
             return null;
         }
 
-        /*// Kirim email notifikasi ke manager jika ditemukan
+        // Kirim email notifikasi ke manager jika ditemukan
         var manager = _accountRepository.GetByGuid((Guid)employee.ManagerGuid);
         if (manager != null)
         {
             _emailHandler.SendEmail(manager.Email,
                 "Leave Request Notification",
                 $"Dear Manager,\n\nA new leave request has been submitted by {employee.FirstName} {employee.LastName} on {leaveRequest.SubmitDate}. The leave request starts on {leaveRequest.StartDate.ToShortDateString()} and ends on {leaveRequest.EndDate.ToShortDateString()}. Please review and take appropriate action.\n\nBest regards,\nYour Company");
-        }*/
+        }
 
         var toDto = new GetLeaveRequestDto
         {
@@ -140,6 +140,8 @@ public class LeaveRequestService
 
         return 1;
     }
+
+    
 
     public int DeleteLeaveRequest(Guid guid)
     {
@@ -241,8 +243,14 @@ public class LeaveRequestService
             }
         }
 
-        // Save the updated LeaveRequest
         bool isUpdateSuccessful = _leaveRequestRepository.Update(leaveRequest);
+        if (isUpdateSuccessful)
+        {
+            var employee = _accountRepository.GetByGuid(leaveRequest.EmployeesGuid);
+            string userEmail = employee.Email;
+            string status = updateStatus.Status.ToString();
+            SendResponseEmailToUser(userEmail, status);
+        }
 
         return isUpdateSuccessful;
     }
@@ -263,6 +271,28 @@ public class LeaveRequestService
         }
 
         return workingDays;
+    }
+
+    private void SendResponseEmailToUser(string userEmail, string status)
+    {
+        string subject;
+        string message;
+
+        if (status == "Approved")
+        {
+            subject = "Leave Request Approved";
+            message = $"Dear User,\n\nYour leave request has been approved by the manager. Enjoy your leave!\n\nBest regards,\nYour Company";
+        }
+        else if (status == "Rejected")
+        {
+            subject = "Leave Request Rejected";
+            message = $"Dear User,\n\nUnfortunately, your leave request has been rejected by the manager. Please contact Manager for further information.\n\nBest regards,\nYour Company";
+        }
+        else
+        {
+            return;
+        }
+        _emailHandler.SendEmail(userEmail, subject, message);
     }
 
     public IEnumerable<GetEmployeeRequestDto> GetbyEmployeePending(int nik)
