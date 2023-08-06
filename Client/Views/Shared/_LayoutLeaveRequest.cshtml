@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout Default - Mazer Admin Dashboard</title>
+    <title>Leave Request</title>
     <link rel="stylesheet" href="~/template/assets/css/main/app.css">
     <link rel="stylesheet" href="~/template/assets/css/main/app-dark.css">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.svg" type="image/x-icon">
@@ -72,7 +72,7 @@
                             <li class="sidebar-item @(Context.Request.Path == "/Employee/Index" ? "active" : "")">
                                 <a href="@Url.Action("Index", "Employee")" class='sidebar-link'>
                                     <i class="bi bi-people-fill"></i>
-                                    <span>Employee Management(admin)</span>
+                                    <span>Employee Management</span>
                                 </a>
                             </li>
                         }
@@ -82,7 +82,7 @@
                             <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/Create" ? "active" : "")">
                                 <a href="/LeaveRequest/Create" class='sidebar-link'>
                                     <i class="bi bi-file-earmark-medical-fill"></i>
-                                    <span>Leave Request(user)</span>
+                                    <span>Leave Request</span>
                                 </a>
                             </li>
                         }
@@ -92,7 +92,7 @@
                             <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByManager" ? "active" : "")">
                                 <a href="@Url.Action("GetByManager", "LeaveRequest")" class='sidebar-link'>
                                     <i class="bi bi-file-earmark-medical-fill"></i>
-                                    <span>Leave Request for Manager</span>
+                                    <span>Employee Leave Requests</span>
                                 </a>
                             </li>
                         }
@@ -102,7 +102,7 @@
                             <li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/ByNik" ? "active" : "")">
                                 <a href="@Url.Action("ByNik", "HistoryLeaveRequest")" class='sidebar-link'>
                                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                    <span>Leave history(user)</span>
+                                    <span>Leave Request History</span>
                                 </a>
                             </li>
                         }
@@ -112,7 +112,7 @@
                             <li class="sidebar-item @(Context.Request.Path == "/HistoryLeaveRequest/byManager" ? "active" : "")">
                                 <a href="@Url.Action("byManager", "HistoryLeaveRequest")" class='sidebar-link'>
                                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                    <span>Leave history(manager)</span>
+                                    <span>Employee Leave Request histories</span>
                                 </a>
                             </li>
                         }
@@ -122,7 +122,7 @@
                             <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByEmployee" ? "active" : "")">
                                 <a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
                                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                    <span>Pending (User)</span>
+                                    <span>Pending Request</span>
                                 </a>
                             </li>
                         }
@@ -130,7 +130,7 @@
                         <li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
                             <a href="@Url.Action("Index", "LeaveType")" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>LeaveType (User)</span>
+                                <span>Leave Type Management</span>
                             </a>
                         </li>
 
@@ -155,8 +155,6 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Layout Default</h3>
-                            <p class="text-subtitle text-muted">The default layout </p>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
