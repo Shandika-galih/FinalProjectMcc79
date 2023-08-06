@@ -33,21 +33,18 @@ public class AccountController : Controller
     public async Task<IActionResult> Login(LoginVM loginVM)
     {
         var result = await repository.Login(loginVM);
-        if (result is null)
+        switch (result.Code)
         {
-            return RedirectToAction("Error", "Home");
+            case 200:
+                HttpContext.Session.SetString("JWTToken", result.Data);
+                return RedirectToAction("Index", "Dashboard");
+            case 400:
+                TempData["Error"] = result.Message;
+                return Redirect("~/Account/Login");
+            default:
+                TempData["Error"] = result.Message;
+                return Redirect("~/Account/Login");
         }
-        else if (result.Status == "BadRequest")
-        {
-            ModelState.AddModelError(string.Empty, result.Message);
-            return View();
-        }
-        else if (result.Status == "OK")
-        {
-            HttpContext.Session.SetString("JWToken", result.Data);
-            return RedirectToAction("Index", "Home");
-        }
-        return View();
     }
 
     [HttpGet]

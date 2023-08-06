@@ -9,7 +9,6 @@ namespace API.DTOs.Accounts
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [PasswordPolicy]
         public string Password { get; set; }
     }
 }

@@ -162,7 +162,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Password not match"
+                Message = "Incorrect Email / Password"
             });
         }
 
@@ -172,7 +172,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Email not found"
+                Message = "Incorrect Email / Password"
             });
         }
 

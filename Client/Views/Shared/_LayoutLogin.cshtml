@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var failMessage = TempData["Error"] as string;
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,6 +12,7 @@
     <link rel="stylesheet" href="~/template/assets/css/pages/auth.css">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.svg" type="image/x-icon">
     <link rel="shortcut icon" href="~/template/assets/images/logo/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 </head>
 
 <body>
@@ -31,5 +35,22 @@
 
     </div>
     @await RenderSectionAsync("Scripts", required: false)
+    @if (!string.IsNullOrEmpty(failMessage))
+    {
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                toastr.options = {
+                    "positionClass": "toast-top-left",
+                    "closeButton": true,
+                    "progressBar": true,
+                    "timeOut": 3000
+                };
+                toastr.error('@failMessage');
+            });
+        </script>
+    }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 </html>
