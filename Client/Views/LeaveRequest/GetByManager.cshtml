@@ -26,27 +26,15 @@
 							@Html.DisplayNameFor(model => model.LeaveName)
 						</th>
 						<th>
-							@Html.DisplayNameFor(model => model.Remarks)
-						</th>
-						<th>
 							@Html.DisplayNameFor(model => model.SubmitDate)
-						</th>
-						<th>
-							@Html.DisplayNameFor(model => model.StartDate)
-						</th>
-						<th>
-							@Html.DisplayNameFor(model => model.EndDate)
-						</th>
-						<th>
-							@Html.DisplayNameFor(model => model.Attachment)
-						</th>
+						</th>		
 						<th>
 							@Html.DisplayNameFor(model => model.Status)
 						</th>
 						<th></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody align>
 					@foreach (var item in Model)
 					{
 						<tr>
@@ -57,28 +45,10 @@
 								@Html.DisplayFor(modelItem => item.LeaveName)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Remarks)
-							</td>
-							<td>
 								@{
 									var formatSubmitDate = item.SubmitDate.ToString("dd MMMM yyyy");
 								}
 								@Html.DisplayFor(modelItem => formatSubmitDate)
-							</td>
-							<td>
-								@{
-									var formatStartDate = item.StartDate.ToString("dd MMMM yyyy");
-								}
-								@Html.DisplayFor(modelItem => formatStartDate)
-							</td>
-							<td>
-								@{
-									var formatEndDate = item.EndDate.ToString("dd MMMM yyyy");
-								}
-								@Html.DisplayFor(modelItem => formatEndDate)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.Attachment)
 							</td>
 							<td>
 								@Html.DisplayFor(modelItem => item.Status)

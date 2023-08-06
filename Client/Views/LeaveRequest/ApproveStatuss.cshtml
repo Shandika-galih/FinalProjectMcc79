@@ -58,7 +58,7 @@
                                 <label asp-for="StartDate" class="control-label">Start Date</label>
                                 <div class="input-group">
 
-                                    <input asp-for="StartDate" class="form-control" disabled />
+                                    <input asp-for="StartDate" class="form-control" type="date" disabled />
                                 </div>
                                 <span asp-validation-for="StartDate" class="text-danger"></span>
                             </div>
@@ -66,7 +66,7 @@
                             <div class="form-group">
                                 <label asp-for="EndDate" class="control-label">End Date</label>
                                 <div class="input-group">
-                                    <input asp-for="EndDate" class="form-control" disabled />
+                                    <input asp-for="EndDate" class="form-control" type="date" disabled />
                                 </div>
                                 <span asp-validation-for="EndDate" class="text-danger"></span>
                             </div>
@@ -74,7 +74,8 @@
                             <div class="form-group">
                                 <label asp-for="Attachment" class="control-label">Attachment</label>
                                 <div class="input-group">
-                                    <input asp-for="Attachment" class="form-control" disabled />
+                                    <input asp-for="Attachment" class="form-control" type="file" disabled>
+                                    <span asp-validation-for="Attachment" class="text-danger"></span>
                                 </div>
                                 <span asp-validation-for="Attachment" class="text-danger"></span>
                             </div>

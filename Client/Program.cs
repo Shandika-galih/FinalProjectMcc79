@@ -25,9 +25,9 @@ builder.Services.AddScoped<IHistoryLeaveRequestRepository, HistoryLeaveRequestRe
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 // Cloudinary Configuration
-var cloudName = "druvskvei";
-var apiKey = "127624235855744";
-var apiSecret = "E7BINmRzCRb519JnQu6guBIh5vU";
+var cloudName = builder.Configuration["CloudinarySettings:CloudName"];
+var apiKey = builder.Configuration["CloudinarySettings:ApiKey"];
+var apiSecret = builder.Configuration["CloudinarySettings:ApiSecret"];
 builder.Services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
 
 // JWT Configuration

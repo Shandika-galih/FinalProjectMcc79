@@ -14,9 +14,7 @@
 			<table class="table table-striped" id="table1">
 				<thead>
 					<tr>
-						<th>
-							@Html.DisplayNameFor(model => model.Guid)
-						</th>
+						
 						<th>
 							@Html.DisplayNameFor(model => model.NIK)
 						</th>
@@ -44,16 +42,13 @@
 						<th>
 							@Html.DisplayNameFor(model => model.Status)
 						</th>
-						<th></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody align="center">
 					@foreach (var item in Model)
 					{
 						<tr>
-							<td>
-								@Html.DisplayFor(modelItem => item.Guid)
-							</td>
+							
 							<td>
 								@Html.DisplayFor(modelItem => item.NIK)
 							</td>
@@ -85,7 +80,8 @@
 								@Html.DisplayFor(modelItem => formatEndDate)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Attachment)
+								<!-- Icon untuk memicu modal -->
+								<i class="bi bi-card-image fa-2x text-primary" data-toggle="modal" data-target="#imageModal" data-full-image="@Html.DisplayFor(modelItem => item.Attachment)"></i>
 							</td>
 							<td>
 								@Html.DisplayFor(modelItem => item.Status)
@@ -96,4 +92,8 @@
 			</table>
 		</div>
 	</div>
+	
 </section>
+@section Scripts {
+	
+}

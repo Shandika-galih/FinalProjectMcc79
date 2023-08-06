@@ -22,6 +22,16 @@
 </head>
 
 <body>
+ @*    modal *@
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="" id="modalImage" class="img-fluid" alt="Full-size Image">
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
@@ -88,7 +98,7 @@
                                 <span>Leave history(manager)</span>
                             </a>
                         </li>
-                        <li class="sidebar-item @(Context.Request.Path == "/Account/GetByEmployee" ? "active" : "")">
+                        <li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByEmployee" ? "active" : "")">
                             <a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                                 <span>Pending (User)</span>
@@ -140,10 +150,8 @@
     </div>
     <script src="~/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
     <script src="~/template/assets/js/pages/simple-datatables.js"></script>
-    <script src="~/template/assets/js/bootstrap.js"></script>
     <script src="~/template/assets/js/app.js"></script>
     <script src="~/template/assets/js/bootstrap.js"></script>
-    <script src="~/template/assets/js/app.js"></script>
     <script src="~/template/assets/extensions/jquery/jquery.min.js"></script>
     <script src="~/template/https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -152,6 +160,9 @@
     <script src="~/template/assets/js/pages/parsley.js"></script>
     <script src="~/template/assets/extensions/sweetalert2/sweetalert2.min.js"></script>>
     <script src="~/template/assets/js/pages/sweetalert2.js"></script>>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/modal.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
