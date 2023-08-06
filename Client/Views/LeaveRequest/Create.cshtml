@@ -148,6 +148,20 @@
             var selectedLeaveType = leaveTypeSelect.options[leaveTypeSelect.selectedIndex];
             var leaveDay = selectedLeaveType.getAttribute("data-leave-day");
 
+            if (selectedLeaveType.text !== "Cuti Sakit") {
+                var today = new Date();
+                var startDate = new Date(document.getElementById("StartDate").value);
+
+                // Cek jika tanggal mulai lebih kecil dari tanggal hari ini
+                if (startDate < today) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "You cannot select a date before today for this type of " + selectedLeaveType.text,
+                    });
+                    return false;
+                }
+            }
             if (selectedLeaveType.text !== "Cuti Normal" && leaveDay) {
                 var leaveQuota = parseInt(leaveDay, 10); // Parse leaveDay ke dalam angka
                 if (leaveQuota < leaveDays) {
