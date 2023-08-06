@@ -103,7 +103,7 @@ public class LeaveRequestController : Controller
         var result = await _repository.Post(leaveRequest);
         if (result.Code == 200)
         {
-            return RedirectToAction("Index", "Employee");
+            return RedirectToAction("GetByEmployee", "LeaveRequest");
         }
         else if (result.Status == "409")
         {
