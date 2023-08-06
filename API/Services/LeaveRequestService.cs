@@ -174,6 +174,7 @@ public class LeaveRequestService
                           SubmitDate = DateTime.Now,
                           StartDate = leaveRequest.StartDate,
                           EndDate = leaveRequest.EndDate,
+                          Attachment = leaveRequest.Attachment,
                           Status = leaveRequest.Status
                       }).ToList();
         if (!data.Any())

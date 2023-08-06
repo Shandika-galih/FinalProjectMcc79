@@ -71,14 +71,20 @@
                                 <span asp-validation-for="EndDate" class="text-danger"></span>
                             </div>
 
-                          @*  <div class="form-group">
+                            <div class="form-group">
                                 <label asp-for="Attachment" class="control-label">Attachment</label>
                                 <div class="input-group">
-                                    <i class="bi bi-card-image fa-2x text-primary" data-toggle="modal" data-target="#imageModal" data-full-image="@Model.Attachment"></i>
-                                    <span asp-validation-for="Attachment" class="text-danger"></span>
+                                    @if (!string.IsNullOrEmpty(Model.Attachment))
+                                    {
+                                        <a href="@Model.Attachment" target="_blank" class="btn btn-primary" id="openImageBtn">View Attachment</a>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">No attachment inserted</p>
+                                    }
                                 </div>
-                                <span asp-validation-for="Attachment" class="text-danger"></span>
-                            </div>*@
+                            </div>
+
                             <div class="form-group" hidden>
                                 <label asp-for="Guid" class="control-label"></label>
                                 <input asp-for="Guid" class="form-control" />
@@ -87,7 +93,7 @@
                                 <label asp-for="Status" class="control-label">Status</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text text-primary"><i class="bi bi-person-check-fill"></i></span>
+                                        <span class="input-group-text text-primary"><i class="bi bi-person-check-fill" style="height: 25px;"></i></span>
                                     </div>
                                     <select asp-for="Status" class="form-control custom-select">
                                         <option value="0" class="text-warning">Pending</option>
