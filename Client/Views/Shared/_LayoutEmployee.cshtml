@@ -91,6 +91,16 @@
 							</li>
 						}
 
+						@if (isUser)
+						{
+							<li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByEmployee" ? "active" : "")">
+								<a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
+									<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+									<span>Pending Request</span>
+								</a>
+							</li>
+						}
+
 						@if (isManager)
 						{
 							<li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByManager" ? "active" : "")">
@@ -121,16 +131,6 @@
 							</li>
 						}
 
-						@if (isUser)
-						{
-							<li class="sidebar-item @(Context.Request.Path == "/LeaveRequest/GetByEmployee" ? "active" : "")">
-								<a href="@Url.Action("GetByEmployee", "LeaveRequest")" class='sidebar-link'>
-									<i class="bi bi-file-earmark-spreadsheet-fill"></i>
-									<span>Pending Request</span>
-								</a>
-							</li>
-						}
-
 						<li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
 							<a href="@Url.Action("Index", "LeaveType")" class='sidebar-link'>
 								<i class="bi bi-file-earmark-spreadsheet-fill"></i>
@@ -155,29 +155,7 @@
 					<i class="bi bi-justify fs-3"></i>
 				</a>
 			</header>
-
-			<div class="page-heading">
-				<div class="page-title">
-					<div class="row">
-						<div class="col-12 col-md-6 order-md-1 order-last">
-							<h3>Data Employee</h3>
-							<p class="text-subtitle text-muted">Powerful interactive tables with datatables</p>
-						</div>
-						<div class="col-12 col-md-6 order-md-2 order-first">
-							<nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item">
-										<a href="index.html">Dashboard</a>
-									</li>
-									<li class="breadcrumb-item active" aria-current="page">DataTable Jquery</li>
-								</ol>
-							</nav>
-						</div>
-					</div>
-				</div>
-
 				@RenderBody()
-			</div>
 		</div>
 	</div>
 	<script src="~/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
