@@ -39,12 +39,12 @@ public class AccountController : Controller
         }
         else if (result.Status == "BadRequest")
         {
-            TempData["Error"] = result.Message;
+            TempData["LoginError"] = result.Message;
             return Redirect("~/Account/Login");
         }
         else if (result.Status == "NotFound")
         {
-            TempData["Error"] = result.Message;
+            TempData["LoginError"] = result.Message;
             return Redirect("~/Account/Login");
         }
         else if (result.Status == "OK")
