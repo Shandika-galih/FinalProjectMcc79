@@ -51,7 +51,9 @@
 								@Html.DisplayFor(modelItem => formatSubmitDate)
 							</td>
 							<td>
-								@Html.DisplayFor(modelItem => item.Status)
+								<span class="badge bg-warning">
+									@Html.DisplayFor(modelItem => item.Status)
+								</span>
 							</td>
 							<td>
 								<form action="/leaverequest/ApproveStatuss" method="get">

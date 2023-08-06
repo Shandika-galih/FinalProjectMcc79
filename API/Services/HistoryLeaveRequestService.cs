@@ -129,7 +129,9 @@ public class HistoryLeaveRequestService
         var data = (from leaveRequest in _leaveRequestRepository.GetAll()
                     join employee in _employeeRepository.GetAll() on leaveRequest.EmployeesGuid equals employee.Guid
                     join leaveType in _leaveTypeRepository.GetAll() on leaveRequest.LeaveTypesGuid equals leaveType.Guid
-                    where employee.NIK == nik
+                    where employee.NIK == nik &&
+                  (leaveRequest.Status == Utilities.Enums.StatusEnum.Approved ||
+                   leaveRequest.Status == Utilities.Enums.StatusEnum.Rejected)
                     select new GetEmployeeRequestDto
                     {
                         Guid = leaveRequest.Guid,

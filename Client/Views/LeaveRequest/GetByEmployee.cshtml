@@ -88,8 +88,11 @@
                                 <i class="bi bi-card-image fa-2x text-primary" data-toggle="modal" data-target="#imageModal" data-full-image="@Html.DisplayFor(modelItem => item.Attachment)"></i>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Status)
+                                <span class="badge bg-warning">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </span>
                             </td>
+
                             <td>
                                 <form action="/leaverequest/delete" method="post">
                                     <input type="hidden" value="@item.Guid" name="guid" />
