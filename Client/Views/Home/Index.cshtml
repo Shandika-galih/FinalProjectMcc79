@@ -1,8 +1,12 @@
+@model IEnumerable<Client.ViewModels.LeaveType.LeaveTypeVM>
+
 @{
     ViewData["Title"] = "Home Page";
     var fullname = User.Claims.FirstOrDefault(x => x.Type == "FullName")?.Value;
     var email = User.Claims.FirstOrDefault(x => x.Type == "Email")?.Value;
+    ViewData["Title"] = "Index";
 }
+
 <div class="page-heading">
     <h3>Profile Statistics</h3>
 </div>
@@ -78,6 +82,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.LeaveName)</h5>
+                                <p class="card-text">Days: @Html.DisplayFor(modelItem => item.LeaveDay)</p>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.LeaveDescription)</p>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
             <div class="row">
                 <div class="col-12">
@@ -227,6 +245,7 @@
                         </div>
                         <div class="name ms-4">
                             <h5 class="mb-1">Hank Schrader</h5>
+                            <h6 class="text-muted mb-0">johnducky</h6>
                         </div>
                     </div>
                     <div class="recent-message d-flex px-4 py-3">
@@ -235,6 +254,7 @@
                         </div>
                         <div class="name ms-4">
                             <h5 class="mb-1">Dean Winchester</h5>
+                            <h6 class="text-muted mb-0">imdean</h6>
                         </div>
                     </div>
                     <div class="recent-message d-flex px-4 py-3">
@@ -243,6 +263,7 @@
                         </div>
                         <div class="name ms-4">
                             <h5 class="mb-1">John Dodol</h5>
+                            <h6 class="text-muted mb-0">dodoljohn</h6>
                         </div>
                     </div>
                     <div class="px-4">

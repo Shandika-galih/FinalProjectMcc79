@@ -1,6 +1,9 @@
-﻿using Client.Models;
+﻿using Client.Contract;
+using Client.Models;
+using Client.ViewModels.LeaveType;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 using System.Diagnostics;
 
 namespace Client.Controllers
@@ -8,15 +11,30 @@ namespace Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ILeaveTypeRepository repository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ILeaveTypeRepository repository)
         {
             _logger = logger;
+            this.repository = repository;
         }
         [Authorize]
-        public IActionResult Index()
+  /*      public IActionResult Index()
         {
             return View();
+        }*/
+
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            var result = await repository.Get();
+            var ListLeaveType = new List<LeaveTypeVM>();
+
+            if (result.Data != null)
+            {
+                ListLeaveType = result.Data.ToList();
+            }
+            return View(ListLeaveType);
         }
 
         public IActionResult Privacy()
