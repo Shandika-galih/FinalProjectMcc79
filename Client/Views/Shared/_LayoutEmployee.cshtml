@@ -131,12 +131,16 @@
 							</li>
 						}
 
-						<li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
-							<a href="@Url.Action("Index", "LeaveType")" class='sidebar-link'>
-								<i class="bi bi-file-earmark-spreadsheet-fill"></i>
-								<span>Leave Type Management</span>
-							</a>
-						</li>
+						@if (isAdmin)
+						{
+
+							<li class="sidebar-item @(Context.Request.Path == "/LeaveType/Index" ? "active" : "")">
+								<a href="@Url.Action("Index", "LeaveType")" class='sidebar-link'>
+									<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+									<span>Leave Type Management</span>
+								</a>
+							</li>
+						}
 
 						<li class="sidebar-item @(Context.Request.Path == "/Account/Logout" ? "active" : "")">
 							<a href="@Url.Action("Logout", "Account")" class='sidebar-link'>
